@@ -1,29 +1,34 @@
 package de.tum.cit.ase.bomberquest.map;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
+import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
+import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
 
 /**
  * Represents the player character in the game.
  * The player has a hitbox, so it can collide with other objects in the game.
  */
 public class Player implements Drawable {
-    
+
     /** Total time elapsed since the game started. We use this for calculating the player movement and animating it. */
     private float elapsedTime;
-    
+
     /** The Box2D hitbox of the player, used for position and collision detection. */
     private final Body hitbox;
-    
+
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
     }
-    
+
     /**
      * Creates a Box2D body for the player.
      * This is what the physics engine uses to move the player around and detect collisions with other bodies.
@@ -55,7 +60,7 @@ public class Player implements Drawable {
         body.setUserData(this);
         return body;
     }
-    
+
     /**
      * Move the player around in a circle by updating the linear velocity of its hitbox every frame.
      * This doesn't actually move the player, but it tells the physics engine how the player should move next frame.
@@ -63,26 +68,60 @@ public class Player implements Drawable {
      */
     public void tick(float frameTime) {
         this.elapsedTime += frameTime;
-        // Make the player move in a circle with radius 2 tiles
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
-        float xVelocity = (float) Math.sin(this.elapsedTime) * 2;
-        float yVelocity = (float) Math.cos(this.elapsedTime) * 2;
+        float xVelocity = 0;
+        float yVelocity = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            xVelocity = -5 ;
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            yVelocity = 5;
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            yVelocity = -5;
+        }
+
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            xVelocity = 5 ;
+        }
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
-    
+
+    // Initially the Character is facing Right.
+    TextureRegion facing = SpriteSheet.CHARACTER.at(2,2);
     @Override
     public TextureRegion getCurrentAppearance() {
-        // Get the frame of the walk down animation that corresponds to the current time.
-        return Animations.CHARACTER_WALK_DOWN.getKeyFrame(this.elapsedTime, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            MusicTrack.PLAYER_MOVE.play();
+            facing = SpriteSheet.CHARACTER.at(1,2);
+            return Animations.CHARACTER_WALK_LEFT.getKeyFrame(this.elapsedTime, true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            MusicTrack.PLAYER_MOVE.play();
+            facing = SpriteSheet.CHARACTER.at(2,5);
+            return Animations.CHARACTER_WALK_UP.getKeyFrame(this.elapsedTime, true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            MusicTrack.PLAYER_MOVE.play();
+            facing = SpriteSheet.CHARACTER.at(1,5);
+            return Animations.CHARACTER_WALK_DOWN.getKeyFrame(this.elapsedTime, true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            MusicTrack.PLAYER_MOVE.play();
+            facing = SpriteSheet.CHARACTER.at(2,2);
+            return Animations.CHARACTER_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
+        }
+        MusicTrack.PLAYER_MOVE.stop();
+        return facing;
     }
-    
+
     @Override
     public float getX() {
         // The x-coordinate of the player is the x-coordinate of the hitbox (this can change every frame).
         return hitbox.getPosition().x;
     }
-    
+
     @Override
     public float getY() {
         // The y-coordinate of the player is the y-coordinate of the hitbox (this can change every frame).

@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Game (MacOS)" type="Application" factoryName="Application">
+  <configuration default="false" name="Run Game (MacOS)" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
     <option name="ALTERNATIVE_JRE_PATH" value="17" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="de.tum.cit.ase.bomberquest.DesktopLauncher" />
-    <module name="itp2425itp2425projectwork-exercise.desktop.main" />
+    <module name="0-itpProject.desktop.main" />
     <option name="VM_PARAMETERS" value="-XstartOnFirstThread" />
     <method v="2">
       <option name="Make" enabled="true" />

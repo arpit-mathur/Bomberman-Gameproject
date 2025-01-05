@@ -14,16 +14,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @see TextureRegion a part of an image
  */
 public enum SpriteSheet {
-    
-    /** The character spritesheet, which has a grid size of 16x32. */
-    CHARACTER("character.png", 16, 32),
+
+    /** The character spritesheet, which has a grid size of 16x16. */
+    CHARACTER("original-bomberman.png", 16, 16),
     /** The basic tiles spritesheet, which has a grid size of 16x16. */
-    BASIC_TILES("basictiles.png", 16, 16);
-    
+    BASIC_TILES("basictiles.png", 16, 16),
+    /** The Objects spritesheet, which has a grid size of 16x16. */
+    OBJECTS("original-bomberman.png", 16, 16);
+
     private final Texture spritesheet;
     private final int width;
     private final int height;
-    
+
     /**
      * Constructor for each variant of this enum.
      * Every SpriteSheet has a corresponding file, width, and height.
@@ -36,7 +38,7 @@ public enum SpriteSheet {
         this.width = width;
         this.height = height;
     }
-    
+
     /**
      * Returns the TextureRegion at the specified row and column (1-based coordinates)
      * according to the grid specified by {@code this.width} and {@code this.height}.
@@ -51,11 +53,10 @@ public enum SpriteSheet {
     public TextureRegion at(int row, int column) {
         return new TextureRegion(
                 spritesheet,
-                (column - 1) * this.width,
-                (row - 1) * this.height,
+                (column -1) * this.width,
+                (row -1) * this.height,
                 this.width,
                 this.height
         );
     }
-    
 }

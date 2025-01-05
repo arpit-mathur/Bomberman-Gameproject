@@ -12,23 +12,27 @@ import com.badlogic.gdx.audio.Music;
  * Feel free to add your own music tracks and use them in the game!
  */
 public enum MusicTrack {
-    
-    BACKGROUND("background.mp3", 0.2f);
-    
+
+    BACKGROUND("background.mp3", 0.02f),
+    PLAYER_MOVE("running-in-grass-sound.mp3", 0.3f),
+    BACKGROUND2("background2.mp3", 0.05f);
     /** The music file owned by this variant. */
     private final Music music;
-    
+
     MusicTrack(String fileName, float volume) {
         this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/" + fileName));
         this.music.setLooping(true);
         this.music.setVolume(volume);
     }
-    
+
     /**
      * Play this music track.
      * This will not stop other music from playing - if you add more tracks, you will have to handle that yourself.
      */
     public void play() {
         this.music.play();
+    }
+    public void stop() {
+        this.music.stop();
     }
 }

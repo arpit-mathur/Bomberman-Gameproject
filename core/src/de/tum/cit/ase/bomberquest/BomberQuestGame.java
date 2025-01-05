@@ -25,14 +25,14 @@ public class BomberQuestGame extends Game {
 
     /** The game's UI skin. This is used to style the game's UI elements. */
     private Skin skin;
-    
+
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
      * which you can use to read the contents of the map file as a String, and then parse it into a {@link GameMap}.
      */
     private final NativeFileChooser fileChooser;
-    
+
     /**
      * The map. This is where all the game objects are stored.
      * This is owned by {@link BomberQuestGame} and not by {@link GameScreen}
@@ -60,7 +60,7 @@ public class BomberQuestGame extends Game {
         this.spriteBatch = new SpriteBatch(); // Create SpriteBatch for rendering
         this.skin = new Skin(Gdx.files.internal("skin/craftacular/craftacular-ui.json")); // Load UI skin
         this.map = new GameMap(this); // Create a new game map (you should change this to load the map from a file instead)
-        MusicTrack.BACKGROUND.play(); // Play some background music
+        //MusicTrack.BACKGROUND.play(); // Play some background music
         goToMenu(); // Navigate to the menu screen
     }
 
@@ -68,6 +68,8 @@ public class BomberQuestGame extends Game {
      * Switches to the menu screen.
      */
     public void goToMenu() {
+        MusicTrack.BACKGROUND2.stop();
+        MusicTrack.BACKGROUND.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen
     }
 
@@ -75,6 +77,8 @@ public class BomberQuestGame extends Game {
      * Switches to the game screen.
      */
     public void goToGame() {
+        MusicTrack.BACKGROUND.stop();
+        MusicTrack.BACKGROUND2.play();
         this.setScreen(new GameScreen(this)); // Set the current screen to GameScreen
     }
 
@@ -87,12 +91,12 @@ public class BomberQuestGame extends Game {
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
     }
-    
+
     /** Returns the current map, if there is one. */
     public GameMap getMap() {
         return map;
     }
-    
+
     /**
      * Switches to the given screen and disposes of the previous screen.
      * @param screen the new screen
