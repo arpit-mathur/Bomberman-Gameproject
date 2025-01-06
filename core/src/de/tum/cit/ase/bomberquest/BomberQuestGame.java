@@ -118,4 +118,5 @@ public class BomberQuestGame extends Game {
         spriteBatch.dispose(); // Dispose the spriteBatch
         skin.dispose(); // Dispose the skin
     }
+
 }

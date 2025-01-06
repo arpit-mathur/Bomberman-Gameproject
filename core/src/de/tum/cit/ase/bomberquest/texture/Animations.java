@@ -68,4 +68,16 @@ public class Animations {
             SpriteSheet.CHARACTER.at(4, 3),
             SpriteSheet.CHARACTER.at(4, 2)
     );
+
+    /// Added animation of breaking the wall (Aryan)
+    public static final Animation<TextureRegion> BREAK_WALL = new Animation<>(0.1f,
+            SpriteSheet.OBJECTS.at(4, 6),
+            SpriteSheet.OBJECTS.at(4, 7),
+            SpriteSheet.OBJECTS.at(4, 8),
+            SpriteSheet.OBJECTS.at(4, 9),
+            SpriteSheet.OBJECTS.at(4, 10),
+            SpriteSheet.OBJECTS.at(4, 11),
+            SpriteSheet.OBJECTS.at(3, 8)
+    );
+
 }

@@ -108,13 +108,18 @@ public class GameScreen implements Screen {
         }
         draw(spriteBatch, map.getChest());
 
+        for (BreakableWall breakableWall : map.getBreakableWalls()) {
+            if(breakableWall != null) {
+                draw(spriteBatch, breakableWall);
+            }
+        }
+
         for (Wall wall : map.getWalls()) {
             if(wall != null) {
                 draw(spriteBatch, wall);
             }
         }
 
-        draw(spriteBatch, map.getWall2());
         draw(spriteBatch, map.getPlayer());
 
         // Finish drawing, i.e. send the drawn items to the graphics card

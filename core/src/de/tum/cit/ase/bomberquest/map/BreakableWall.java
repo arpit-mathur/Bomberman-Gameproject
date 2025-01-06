@@ -19,5 +19,4 @@ public class BreakableWall extends Wall  {
     public TextureRegion getCurrentAppearance() {
         return Textures.WALL2;
     }
-
 }

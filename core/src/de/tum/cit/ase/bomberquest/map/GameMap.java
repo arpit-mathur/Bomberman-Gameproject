@@ -51,7 +51,7 @@ public class GameMap {
 
     private final Wall[][] walls;
 
-    private final BreakableWall wall2;
+    private final BreakableWall[][] breakableWalls;
 
     private final Flowers[][] flowers;
 
@@ -72,7 +72,16 @@ public class GameMap {
                 }
             }
         }
-        this.wall2 = new BreakableWall(this.world,9,9);
+
+        this.breakableWalls = new BreakableWall[29][17];
+        for (int i = 1; i < breakableWalls.length; i++) {
+            for (int j = 1; j < breakableWalls[i].length; j++) {
+                // Place walls only on the boundary cells (edges)
+                if ((i % 2 == 1 && j % 2 == 1)&& i > 8 && j > 8) {
+                    this.breakableWalls[i][j] = new BreakableWall(this.world, i, j);
+                }
+            }
+        }
 
         this.flowers = new Flowers[28][16];
         for (int i = 0; i < flowers.length; i++) {
@@ -117,12 +126,12 @@ public class GameMap {
 
     /** Returns the walls on the map. */
     public List<Wall> getWalls() {
-        return Arrays.stream(walls).filter(Objects::nonNull).flatMap(Arrays::stream).toList();
+        return Arrays.stream(walls).flatMap(Arrays::stream).toList();
     }
 
     /** Returns the Breakable_walls on the map. */
-    public Wall getWall2() {
-        return wall2;
+    public List<BreakableWall> getBreakableWalls() {
+        return Arrays.stream(breakableWalls).flatMap(Arrays::stream).toList();
     }
 
     /** Returns the flowers on the map. */
