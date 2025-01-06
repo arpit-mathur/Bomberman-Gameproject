@@ -59,9 +59,9 @@ public class GameMap {
         this.game = game;
         this.world = new World(Vector2.Zero, true);
         // Create a player with initial position (1, 3)
-        this.player = new Player(this.world, 1, 15);
+        this.player = new Player(this.world, 7, 15);
         // Create a chest in the middle of the map
-        this.chest = new Chest(world, 7, 7);
+        this.chest = new Chest(world, 8, 15);
         // Create flowers in a 7x7 grid
         this.walls = new Wall[29][17];
         for (int i = 0; i < walls.length; i++) {
