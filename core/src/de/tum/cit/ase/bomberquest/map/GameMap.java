@@ -7,6 +7,7 @@ import de.tum.cit.ase.bomberquest.BomberQuestGame;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents the game map.
@@ -48,7 +49,7 @@ public class GameMap {
 
     private final Chest chest;
 
-    private final Wall wall;
+    private final Wall[][] walls;
 
     private final BreakableWall wall2;
 
@@ -58,14 +59,22 @@ public class GameMap {
         this.game = game;
         this.world = new World(Vector2.Zero, true);
         // Create a player with initial position (1, 3)
-        this.player = new Player(this.world, 12, 12);
+        this.player = new Player(this.world, 1, 15);
         // Create a chest in the middle of the map
         this.chest = new Chest(world, 7, 7);
         // Create flowers in a 7x7 grid
-        this.wall = new Wall(this.world,8,8);
-
+        this.walls = new Wall[29][17];
+        for (int i = 0; i < walls.length; i++) {
+            for (int j = 0; j < walls[i].length; j++) {
+                // Place walls only on the boundary cells (edges)
+                if (i==0 || i==28 || j==0 || j==16 ||(i % 2 == 0 && j % 2 == 0)) {
+                    this.walls[i][j] = new Wall(this.world, i, j);
+                }
+            }
+        }
         this.wall2 = new BreakableWall(this.world,9,9);
-        this.flowers = new Flowers[30][18];
+
+        this.flowers = new Flowers[28][16];
         for (int i = 0; i < flowers.length; i++) {
             for (int j = 0; j < flowers[i].length; j++) {
                 this.flowers[i][j] = new Flowers(i, j);
@@ -107,8 +116,8 @@ public class GameMap {
     }
 
     /** Returns the walls on the map. */
-    public Wall getWall() {
-        return wall;
+    public List<Wall> getWalls() {
+        return Arrays.stream(walls).filter(Objects::nonNull).flatMap(Arrays::stream).toList();
     }
 
     /** Returns the Breakable_walls on the map. */

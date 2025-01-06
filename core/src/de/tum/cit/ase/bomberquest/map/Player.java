@@ -73,17 +73,17 @@ public class Player implements Drawable {
         float xVelocity = 0;
         float yVelocity = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            xVelocity = -5 ;
+            xVelocity = -3.5f ;
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            yVelocity = 5;
+            yVelocity = 3.5f;
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            yVelocity = -5;
+            yVelocity = -3.5f;
         }
 
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            xVelocity = 5 ;
+            xVelocity = 3.5f ;
         }
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
