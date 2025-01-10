@@ -50,7 +50,7 @@ public class Player implements Drawable {
         // We'll use a circle shape for the player.
         CircleShape circle = new CircleShape();
         // Give the circle a radius of 0.3 tiles (the player is 0.6 tiles wide).
-        circle.setRadius(0.3f);
+        circle.setRadius(0.47f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
         body.createFixture(circle, 1.0f);

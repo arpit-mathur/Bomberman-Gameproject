@@ -31,7 +31,10 @@ public class GameScreen implements Screen {
      * The scale of the game.
      * This is used to make everything in the game look bigger or smaller.
      */
-    public static final float SCALE = 3.6f;
+    public static final int SCALE = 4;
+
+    /// for the width and height of the game window.
+    public static int viewWidth, viewHeight;
 
     private final BomberQuestGame game;
     private final SpriteBatch spriteBatch;
@@ -47,10 +50,13 @@ public class GameScreen implements Screen {
         this.game = game;
         this.spriteBatch = game.getSpriteBatch();
         this.map = game.getMap();
-        this.hud = new Hud(spriteBatch, game.getSkin().getFont("font"));
+        this.hud = new Hud(spriteBatch, game.getSkin().getFont("font"),game);
         // Create and configure the camera for the game view
         this.mapCamera = new OrthographicCamera();
         this.mapCamera.setToOrtho(false);
+        /// Initialising
+        viewWidth = Gdx.graphics.getWidth();
+        viewHeight = Gdx.graphics.getHeight();
     }
 
     /**
@@ -80,7 +86,7 @@ public class GameScreen implements Screen {
         renderMap();
 
         // Render the HUD on the screen
-        hud.render();
+        hud.render(frameTime);
     }
 
     /**
@@ -89,8 +95,13 @@ public class GameScreen implements Screen {
      */
     private void updateCamera() {
         mapCamera.setToOrtho(false);
-        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX(), 10.2f,19.5f) * TILE_SIZE_PX * SCALE;
-        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY(), 6.5f,11.5f)* TILE_SIZE_PX * SCALE;
+        /// Clamp is used --- why this min and why this max? (to make it Responsive)
+        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
+                (float) viewWidth/(2),
+                map.mapWidth * TILE_SIZE_PX * SCALE- (float)viewWidth/2) ;
+        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
+                (float) viewHeight/2,
+                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
         mapCamera.update(); // This is necessary to apply the changes
     }
 
@@ -151,6 +162,8 @@ public class GameScreen implements Screen {
      */
     @Override
     public void resize(int width, int height) {
+        viewWidth = width;
+        viewHeight = height;
         mapCamera.setToOrtho(false);
         hud.resize(width, height);
     }
