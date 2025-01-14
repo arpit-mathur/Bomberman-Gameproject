@@ -56,6 +56,21 @@ public class MenuScreen implements Screen {
                 game.goToGame(); // Change to the game screen when button is pressed
             }
         });
+
+        /** (Aryan)
+         * To choose a Map, the user needs a button, that button needs to open the filechooser window.
+         */
+        TextButton goToFileChooserButton = new TextButton("Choose your Map", game.getSkin());
+        table.add(goToFileChooserButton).width(350).row();
+        goToFileChooserButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.LoadFileChooser();
+
+            }
+        });
     }
 
     /**

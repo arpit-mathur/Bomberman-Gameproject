@@ -5,9 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Represents the game map.
@@ -43,17 +41,23 @@ public class GameMap {
     /** The Box2D world for physics simulation. */
     private final World world;
 
-    public final float mapWidth, mapHeight;
+    public float mapWidth, mapHeight;
     // Game objects
-    private final Player player;
+    private  Player player;
 
-    private final Chest chest;
+    private  Chest chest;
 
-    private final Wall[][] walls;
 
-    private final BreakableWall[][] breakableWalls;
+    private Wall[][] wallsOfDefaultGame;
 
-    private final Flowers[][] flowers;
+    private BreakableWall[][] breakableWallsOfDefaultGame;
+
+    private  Flowers[][] flowers;
+
+    ///Walls of the Selected Map
+    private ArrayList<Wall> wallsOfSelectedMap;
+    private ArrayList<BreakableWall> breakableWallsOfSelectedMap;
+    private ArrayList<Chest> Chests;
 
     public GameMap(BomberQuestGame game) {
         this.game = game;
@@ -63,22 +67,22 @@ public class GameMap {
         // Create a chest in the middle of the map
         this.chest = new Chest(world, 8, 15);
         // Create flowers in a 7x7 grid
-        this.walls = new Wall[29][17];
-        for (int i = 0; i < walls.length; i++) {
-            for (int j = 0; j < walls[i].length; j++) {
+        this.wallsOfDefaultGame = new Wall[29][17];
+        for (int i = 0; i < wallsOfDefaultGame.length; i++) {
+            for (int j = 0; j < wallsOfDefaultGame[i].length; j++) {
                 // Place walls only on the boundary cells (edges)
                 if (i==0 || i==28 || j==0 || j==16 ||(i % 2 == 0 && j % 2 == 0)) {
-                    this.walls[i][j] = new Wall(this.world, i, j);
+                    this.wallsOfDefaultGame[i][j] = new Wall(this.world, i, j);
                 }
             }
         }
 
-        this.breakableWalls = new BreakableWall[29][17];
-        for (int i = 1; i < breakableWalls.length; i++) {
-            for (int j = 1; j < breakableWalls[i].length; j++) {
+        this.breakableWallsOfDefaultGame = new BreakableWall[29][17];
+        for (int i = 1; i < breakableWallsOfDefaultGame.length; i++) {
+            for (int j = 1; j < breakableWallsOfDefaultGame[i].length; j++) {
                 // Place walls only on the boundary cells (edges)
                 if ((i % 2 == 1 && j % 2 == 1)&& i > 8 && j > 8) {
-                    this.breakableWalls[i][j] = new BreakableWall(this.world, i, j);
+                    this.breakableWallsOfDefaultGame[i][j] = new BreakableWall(this.world, i, j);
                 }
             }
         }
@@ -94,10 +98,59 @@ public class GameMap {
     }
 
     /**
-     * Updates the game state. This is called once per frame.
-     * Every dynamic object in the game should update its state here.
-     * @param frameTime the time that has passed since the last update
+     * Our brand new constructor, we are getting fancy out here.
+     * @param game
+     * @param coordinatesAndObjects
      */
+    public GameMap(BomberQuestGame game, HashMap<String, String> coordinatesAndObjects) {
+        this.game = game;
+        this.world = new World(Vector2.Zero, true);
+        game.setDidUserSelectTheMap(true);
+
+        //Initialized the walls, chests and Breakable walls, and flowers
+        this.wallsOfSelectedMap = new ArrayList<>();
+        this.Chests = new ArrayList<>();
+        this.breakableWallsOfSelectedMap = new ArrayList<>();
+
+        this.flowers = new Flowers[29][17];
+        for (int i = 0; i < flowers.length; i++) {
+            for (int j = 0; j < flowers[i].length; j++) {
+                this.flowers[i][j] = new Flowers(i, j);
+            }
+        }
+        parseKeyValueToBuild(coordinatesAndObjects);
+    }
+
+    public void parseKeyValueToBuild(Map<String, String> coordinatesAndObjects) {
+
+        for (String key : game.getCoordinatesAndObjects().keySet()) {
+
+            String[] coordinates = key.split(",");
+            ///x coordinate
+            int x = Integer.parseInt(coordinates[0].trim());
+            ///y coordinate
+            int y = Integer.parseInt(coordinates[1].trim());
+            ///value of our object
+            String object = coordinatesAndObjects.get(key);
+
+            switch (object) {
+                case "0" -> this.wallsOfSelectedMap.add(new Wall(world, x, y));
+                case "1" -> this.breakableWallsOfSelectedMap.add(new BreakableWall(world, x, y));
+                case "2" -> this.player = new Player(world, x, y);
+                case "3" -> this.chest = new Chest(world, x, y);
+                case "4" -> this.chest = new Chest(world, x, y);
+                case "5" -> this.chest = new Chest(world, x, y);
+                case "6" -> this.chest = new Chest(world, x, y);
+            }
+        }
+
+    }
+
+        /**
+         * Updates the game state. This is called once per frame.
+         * Every dynamic object in the game should update its state here.
+         * @param frameTime the time that has passed since the last update
+         */
     public void tick(float frameTime) {
         this.player.tick(frameTime);
         doPhysicsStep(frameTime);
@@ -127,17 +180,52 @@ public class GameMap {
     }
 
     /** Returns the walls on the map. */
-    public List<Wall> getWalls() {
-        return Arrays.stream(walls).flatMap(Arrays::stream).toList();
+    public List<Wall> getWallsOfDefaultGame() {
+        return Arrays.stream(wallsOfDefaultGame).flatMap(Arrays::stream).toList();
     }
 
     /** Returns the Breakable_walls on the map. */
-    public List<BreakableWall> getBreakableWalls() {
-        return Arrays.stream(breakableWalls).flatMap(Arrays::stream).toList();
+    public List<BreakableWall> getBreakableWallsOfDefaultGame() {
+        return Arrays.stream(breakableWallsOfDefaultGame).flatMap(Arrays::stream).toList();
     }
+
+    ///Getters and Setters
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setChest(Chest chest) {
+        this.chest = chest;
+    }
+
+    ///We need these getters to render them in the GameScreen
+    public ArrayList<Wall> getWallsOfSelectedMap() {
+        return wallsOfSelectedMap;
+    }
+
+    public void setWallsOfSelectedMap(ArrayList<Wall> wallsOfSelectedMap) {
+        this.wallsOfSelectedMap = wallsOfSelectedMap;
+    }
+
+    public ArrayList<BreakableWall> getBreakableWallsOfSelectedMap() {
+        return breakableWallsOfSelectedMap;
+    }
+
+    public void setBreakableWallsOfSelectedMap(ArrayList<BreakableWall> breakableWallsOfSelectedMap) {
+        this.breakableWallsOfSelectedMap = breakableWallsOfSelectedMap;
+    }
+
+    public ArrayList<Chest> getChests() {
+        return Chests;
+    }
+
+//    public void setChests(ArrayList<Chest> chests) {
+//        Chests = chests;
+//    }
 
     /** Returns the flowers on the map. */
     public List<Flowers> getFlowers() {
         return Arrays.stream(flowers).flatMap(Arrays::stream).toList();
     }
+
 }

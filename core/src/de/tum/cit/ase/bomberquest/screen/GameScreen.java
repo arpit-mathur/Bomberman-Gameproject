@@ -68,6 +68,8 @@ public class GameScreen implements Screen {
         // Check for escape key press to go back to the menu
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.goToMenu();
+            ///We need to dispose the bloody screen properly. In order to load a new map properly.
+//            dispose();
         }
 
         // Clear the previous frame from the screen, or else the picture smears
@@ -96,13 +98,14 @@ public class GameScreen implements Screen {
     private void updateCamera() {
         mapCamera.setToOrtho(false);
         /// Clamp is used --- why this min and why this max? (to make it Responsive)
-        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
-                (float) viewWidth/(2),
-                map.mapWidth * TILE_SIZE_PX * SCALE- (float)viewWidth/2) ;
-        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
-                (float) viewHeight/2,
-                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
+//        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
+//                (float) viewWidth/(2),
+//                map.mapWidth * TILE_SIZE_PX * SCALE- (float)viewWidth/2) ;
+//        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
+//                (float) viewHeight/2,
+//                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
         mapCamera.update(); // This is necessary to apply the changes
+        ///Commented out the Camera, to see if the map is loaded or not.
     }
 
     private void renderMap() {
@@ -114,24 +117,57 @@ public class GameScreen implements Screen {
 
         // Render everything in the map here, in order from lowest to highest (later things appear on top)
         // You may want to add a method to GameMap to return all the drawables in the correct order
-        for (Flowers flowers : map.getFlowers()) {
-            draw(spriteBatch, flowers);
-        }
-        draw(spriteBatch, map.getChest());
+        if(game.isDidUserSelectTheMap() == false){
 
-        for (BreakableWall breakableWall : map.getBreakableWalls()) {
-            if(breakableWall != null) {
-                draw(spriteBatch, breakableWall);
+            for (Flowers flowers : map.getFlowers()) {
+                if(flowers != null){
+                    draw(spriteBatch, flowers);
+                }
             }
-        }
 
-        for (Wall wall : map.getWalls()) {
-            if(wall != null) {
-                draw(spriteBatch, wall);
+            for (BreakableWall breakableWall : map.getBreakableWallsOfDefaultGame()) {
+                if(breakableWall != null) {
+                    draw(spriteBatch, breakableWall);
+                }
             }
+            for (Wall wall : map.getWallsOfDefaultGame()) {
+                if(wall != null) {
+                    draw(spriteBatch, wall);
+                }
+            }
+
+            draw(spriteBatch, map.getChest());
+            draw(spriteBatch, map.getPlayer());
+
+        } else if(game.isDidUserSelectTheMap() == true){
+
+            for(Flowers flowers : map.getFlowers()){
+                if(flowers != null){
+                    draw(spriteBatch, flowers);
+                }
+            }
+
+            for(BreakableWall breakableWall : map.getBreakableWallsOfSelectedMap()){
+                if(breakableWall != null){
+                    draw(spriteBatch, breakableWall);
+                }
+            }
+
+            for(Wall wall : map.getWallsOfSelectedMap()){
+                if(wall != null){
+                    draw(spriteBatch, wall);
+                }
+            }
+
+            for(Chest chest : map.getChests()){
+                if(chest != null){
+                    draw(spriteBatch, chest);
+                }
+            }
+
+            draw(spriteBatch, map.getPlayer());
         }
 
-        draw(spriteBatch, map.getPlayer());
 
         // Finish drawing, i.e. send the drawn items to the graphics card
         spriteBatch.end();
@@ -188,6 +224,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
     }
 
 }
