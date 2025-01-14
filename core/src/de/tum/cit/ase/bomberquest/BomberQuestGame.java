@@ -11,6 +11,7 @@ import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.GameMap;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.screen.MenuScreen;
+import de.tum.cit.ase.bomberquest.screen.PauseScreen;
 import games.spooky.gdx.nativefilechooser.NativeFileChooser;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserCallback;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserConfiguration;
@@ -105,10 +106,17 @@ public class BomberQuestGame extends Game {
         this.setScreen(new GameScreen(this)); // Set the current screen to GameScreen
     }
 
+    ///goes to the pauseScreen
+    public void goToPauseScreen(){
+        MusicTrack.BACKGROUND2.stop();
+        MusicTrack.BACKGROUND.play();
+        this.setScreen(new PauseScreen(this));
+    }
+
+
     /**
      * (Aryan) Goes to the map selected by user:
      */
-
     public void goToSelectedMap(){
         MusicTrack.BACKGROUND.stop();
         MusicTrack.BACKGROUND2.play();

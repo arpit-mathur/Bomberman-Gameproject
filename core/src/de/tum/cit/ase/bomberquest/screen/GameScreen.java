@@ -70,6 +70,8 @@ public class GameScreen implements Screen {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 //            dispose();
+        }else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            game.goToPauseScreen();
         }
 
         // Clear the previous frame from the screen, or else the picture smears
