@@ -81,9 +81,6 @@ public class BomberQuestGame extends Game {
         // Create a new game map (you should change this to load the map from a file instead)
         this.map = new GameMap(this);
 
-        // Play some background music
-        //MusicTrack.BACKGROUND.play();
-
         // Navigate to the menu screen
         goToMenu();
     }
@@ -92,6 +89,7 @@ public class BomberQuestGame extends Game {
      * Switches to the menu screen.
      */
     public void goToMenu() {
+        MusicTrack.PLAYER_MOVE.stop();
         MusicTrack.BACKGROUND2.stop();
         MusicTrack.BACKGROUND.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen
@@ -228,8 +226,6 @@ public class BomberQuestGame extends Game {
                 ///will determine, what happens on when your file is selected, in our case we want the user to go the selected map in the game,
                 ///So the end result should bring us to the selected map in the game.
                 doYourMagic(linesOfText);
-
-
             }
 
             ///We can do something like show a new screen on cancellation, which is kinda easy lets see.

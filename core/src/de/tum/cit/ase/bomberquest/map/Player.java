@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
@@ -92,7 +93,11 @@ public class Player implements Drawable {
     TextureRegion facing = SpriteSheet.CHARACTER.at(2,2);
     @Override
     public TextureRegion getCurrentAppearance() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if((int)this.getX() == 2 && (int)this.getY() == 15){
+            MusicTrack.PLAYER_MOVE.stop();
+            return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             MusicTrack.PLAYER_MOVE.play();
             facing = SpriteSheet.CHARACTER.at(1,2);
             return Animations.CHARACTER_WALK_LEFT.getKeyFrame(this.elapsedTime, true);
@@ -112,6 +117,7 @@ public class Player implements Drawable {
             facing = SpriteSheet.CHARACTER.at(2,2);
             return Animations.CHARACTER_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
         }
+
         MusicTrack.PLAYER_MOVE.stop();
         return facing;
     }

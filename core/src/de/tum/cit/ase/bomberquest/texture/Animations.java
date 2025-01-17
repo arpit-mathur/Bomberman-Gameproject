@@ -49,7 +49,7 @@ public class Animations {
     /**
      * The animation for the character's demise.
      */
-    public static final Animation<TextureRegion> CHARACTER_DEMISE = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> CHARACTER_DEMISE = new Animation<>(0.35f,
             SpriteSheet.CHARACTER.at(3, 1),
             SpriteSheet.CHARACTER.at(3, 2),
             SpriteSheet.CHARACTER.at(3, 3),

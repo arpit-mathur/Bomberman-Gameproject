@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
     /// for the width and height of the game window.
     public static int viewWidth, viewHeight;
 
+    private static boolean gameLost;
     private final BomberQuestGame game;
     private final SpriteBatch spriteBatch;
     private final GameMap map;
@@ -57,6 +58,11 @@ public class GameScreen implements Screen {
         /// Initialising
         viewWidth = Gdx.graphics.getWidth();
         viewHeight = Gdx.graphics.getHeight();
+        gameLost = false;
+    }
+
+    public static void setGameLostTrue() {
+        gameLost = true;
     }
 
     /**
@@ -66,7 +72,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         // Check for escape key press to go back to the menu
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || gameLost) {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 //            dispose();
@@ -100,12 +106,12 @@ public class GameScreen implements Screen {
     private void updateCamera() {
         mapCamera.setToOrtho(false);
         /// Clamp is used --- why this min and why this max? (to make it Responsive)
-//        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
-//                (float) viewWidth/(2),
-//                map.mapWidth * TILE_SIZE_PX * SCALE- (float)viewWidth/2) ;
-//        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
-//                (float) viewHeight/2,
-//                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
+        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
+                (float) viewWidth/(2),
+                Math.max(map.mapWidth * TILE_SIZE_PX * SCALE - (float)viewWidth/2, viewWidth));
+        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
+                (float) viewHeight/2,
+                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
         mapCamera.update(); // This is necessary to apply the changes
         ///Commented out the Camera, to see if the map is loaded or not.
     }
@@ -119,7 +125,7 @@ public class GameScreen implements Screen {
 
         // Render everything in the map here, in order from lowest to highest (later things appear on top)
         // You may want to add a method to GameMap to return all the drawables in the correct order
-        if(game.isDidUserSelectTheMap() == false){
+        if(!game.isDidUserSelectTheMap()){
 
             for (Flowers flowers : map.getFlowers()) {
                 if(flowers != null){
@@ -138,10 +144,13 @@ public class GameScreen implements Screen {
                 }
             }
 
+
+
             draw(spriteBatch, map.getChest());
             draw(spriteBatch, map.getPlayer());
+            draw(spriteBatch, map.getEnemy());
 
-        } else if(game.isDidUserSelectTheMap() == true){
+        } else{
 
             for(Flowers flowers : map.getFlowers()){
                 if(flowers != null){
