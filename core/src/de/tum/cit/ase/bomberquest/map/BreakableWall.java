@@ -17,6 +17,6 @@ public class BreakableWall extends Wall  {
     }
     @Override
     public TextureRegion getCurrentAppearance() {
-        return Textures.WALL2;
+        return Textures.BREAKABLEWALL;
     }
 }

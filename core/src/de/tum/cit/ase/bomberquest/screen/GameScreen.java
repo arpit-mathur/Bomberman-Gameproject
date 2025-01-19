@@ -131,6 +131,7 @@ public class GameScreen implements Screen {
 
         // Render everything in the map here, in order from lowest to highest (later things appear on top)
         // You may want to add a method to GameMap to return all the drawables in the correct order
+
         if(!game.isDidUserSelectTheMap()){
 
             for (Flowers flowers : map.getFlowers()) {
@@ -153,10 +154,8 @@ public class GameScreen implements Screen {
 
 
             draw(spriteBatch, map.getChest());
-            draw(spriteBatch, map.getPlayer());
-            draw(spriteBatch, map.getEnemy());
-
-        } else{
+        }
+        else{
 
             for(Flowers flowers : map.getFlowers()){
                 if(flowers != null){
@@ -181,9 +180,18 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, chest);
                 }
             }
-            draw(spriteBatch, map.getEnemy());
-            draw(spriteBatch, map.getPlayer());
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+            float bombX = Math.round(map.getPlayer().getX());
+            float bombY = Math.round(map.getPlayer().getY());
+            map.plantBomb(bombX,bombY);
+        }
+
+        if(map.getBomb() != null) {
+            draw(spriteBatch, map.getBomb());
+        }
+        draw(spriteBatch, map.getEnemy());
+        draw(spriteBatch, map.getPlayer());
 
 
         // Finish drawing, i.e. send the drawn items to the graphics card

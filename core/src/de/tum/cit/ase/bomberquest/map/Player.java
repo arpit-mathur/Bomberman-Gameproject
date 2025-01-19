@@ -2,14 +2,12 @@ package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
-import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
@@ -90,7 +88,7 @@ public class Player implements Drawable {
     }
 
     // Initially the Character is facing Right.
-    TextureRegion facing = SpriteSheet.CHARACTER.at(2,2);
+    TextureRegion facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
     @Override
     public TextureRegion getCurrentAppearance() {
         if((int)this.getX() == 2 && (int)this.getY() == 15){
@@ -99,22 +97,22 @@ public class Player implements Drawable {
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             MusicTrack.PLAYER_MOVE.play();
-            facing = SpriteSheet.CHARACTER.at(1,2);
+            facing = SpriteSheet.ORIGINAL_OBJECTS.at(1,2);
             return Animations.CHARACTER_WALK_LEFT.getKeyFrame(this.elapsedTime, true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             MusicTrack.PLAYER_MOVE.play();
-            facing = SpriteSheet.CHARACTER.at(2,5);
+            facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,5);
             return Animations.CHARACTER_WALK_UP.getKeyFrame(this.elapsedTime, true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             MusicTrack.PLAYER_MOVE.play();
-            facing = SpriteSheet.CHARACTER.at(1,5);
+            facing = SpriteSheet.ORIGINAL_OBJECTS.at(1,5);
             return Animations.CHARACTER_WALK_DOWN.getKeyFrame(this.elapsedTime, true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             MusicTrack.PLAYER_MOVE.play();
-            facing = SpriteSheet.CHARACTER.at(2,2);
+            facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
             return Animations.CHARACTER_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
         }
 
