@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
-
 import java.util.*;
+import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
 
 /**
  * Represents the game map.
@@ -43,7 +43,7 @@ public class GameMap {
 
     public float mapWidth, mapHeight;
     // Game objects
-    private  Player player;
+    private Player player;
 
     private Enemy enemy;
     private  Chest chest;
@@ -95,8 +95,8 @@ public class GameMap {
                 this.flowers[i][j] = new Flowers(i, j);
             }
         }
-        this.mapWidth = flowers.length;
-        this.mapHeight = flowers[0].length;
+        this.mapWidth = flowers.length * TILE_SIZE_PX * SCALE;
+        this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
     }
 
     /**
@@ -120,8 +120,9 @@ public class GameMap {
                 this.flowers[i][j] = new Flowers(i, j);
             }
         }
-        this.mapWidth = flowers.length;
-        this.mapHeight = flowers[0].length;
+        this.mapWidth = flowers.length * TILE_SIZE_PX * SCALE;
+        this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
+        this.enemy = new Enemy(this.world,2,11);
         parseKeyValueToBuild(coordinatesAndObjects);
     }
 

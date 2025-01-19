@@ -106,12 +106,18 @@ public class GameScreen implements Screen {
     private void updateCamera() {
         mapCamera.setToOrtho(false);
         /// Clamp is used --- why this min and why this max? (to make it Responsive)
-        mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX()* TILE_SIZE_PX * SCALE,
-                (float) viewWidth/(2),
-                Math.max(map.mapWidth * TILE_SIZE_PX * SCALE - (float)viewWidth/2, viewWidth));
-        mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY()* TILE_SIZE_PX * SCALE,
-                (float) viewHeight/2,
-                map.mapHeight  * TILE_SIZE_PX * SCALE - (float)viewHeight/2);
+        if(map.mapWidth > viewWidth) {
+            mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX() * TILE_SIZE_PX * SCALE,
+                    (float) viewWidth / (2),
+                    map.mapWidth - (float) viewWidth / 2);
+        }
+        else{
+            mapCamera.position.x = map.mapWidth/2f;
+        }
+            mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
+                    (float) viewHeight / 2,
+                    map.mapHeight - (float) viewHeight / 2);
+
         mapCamera.update(); // This is necessary to apply the changes
         ///Commented out the Camera, to see if the map is loaded or not.
     }
@@ -175,7 +181,7 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, chest);
                 }
             }
-
+            draw(spriteBatch, map.getEnemy());
             draw(spriteBatch, map.getPlayer());
         }
 
