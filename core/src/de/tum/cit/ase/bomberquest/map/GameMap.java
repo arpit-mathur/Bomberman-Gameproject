@@ -157,7 +157,9 @@ public class GameMap {
          */
     public void tick(float frameTime) {
         this.player.tick(frameTime);
-        this.enemy.tick(frameTime);
+        if(this.enemy != null) {
+            this.enemy.tick(frameTime);
+        }
         doPhysicsStep(frameTime);
     }
 
