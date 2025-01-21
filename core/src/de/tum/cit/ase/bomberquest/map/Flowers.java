@@ -33,4 +33,9 @@ public class Flowers implements Drawable {
     public float getY() {
         return y;
     }
+
+    @Override
+    public void destroy() {
+
+    }
 }

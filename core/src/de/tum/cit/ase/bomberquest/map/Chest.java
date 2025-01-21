@@ -67,4 +67,8 @@ public class Chest implements Drawable {
     public float getY() {
         return y;
     }
+
+    @Override
+    public void destroy() {
+    }
 }

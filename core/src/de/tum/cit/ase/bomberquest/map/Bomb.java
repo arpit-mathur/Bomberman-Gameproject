@@ -17,6 +17,11 @@ public class Bomb implements Drawable {
     private final Body hitbox;
     private final float bombTimer;
 
+    public static final int smallBombRadius = 1;
+    public static final int bigBombRadius = 2;
+
+    private boolean increasedBombRadius = false;
+
 
     /**
      * Create a bomb at the given position.
@@ -68,7 +73,7 @@ public class Bomb implements Drawable {
     public TextureRegion getCurrentAppearance() {
         /// If the bomb has exploded, show the explosion animation.
         if (elapsedTime >= bombTimer) {
-            disposeBomb(); // Deactivate the bomb's hitbox when the bomb explodes.
+            destroy(); // Deactivate the bomb's hitbox when the bomb explodes.
             // Show the explosion animation
             return Animations.BOMB_BLAST.getKeyFrame(this.elapsedTime - bombTimer, false);
         }
@@ -79,7 +84,24 @@ public class Bomb implements Drawable {
         /// null when no bomb is planted
         return null;
     }
-    
+
+    public int getBombRadius() {
+        if(isIncreasedBombRadius()) {
+            return bigBombRadius;
+        }
+        else {
+            return smallBombRadius;
+        }
+    }
+
+    public boolean isIncreasedBombRadius() {
+        return increasedBombRadius;
+    }
+
+    public void setIncreasedBombRadius(boolean increasedBombRadius) {
+        this.increasedBombRadius = increasedBombRadius;
+    }
+
     @Override
     public float getX() {
         return x;
@@ -90,10 +112,12 @@ public class Bomb implements Drawable {
         return y;
     }
 
-    public void disposeBomb(){
+    @Override
+    public void destroy(){
         hitbox.setActive(false);
     }
 
+    /// Used to solidify the bomb as soon as the player is outside the bomb grid
     public void setSensor(boolean isSensor) {
         for (Fixture fixture : hitbox.getFixtureList()) {
             fixture.setSensor(isSensor);

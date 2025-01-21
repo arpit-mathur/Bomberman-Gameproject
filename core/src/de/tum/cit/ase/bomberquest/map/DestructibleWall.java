@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-public class BreakableWall extends Wall  {
+public class DestructibleWall extends IndestructibleWall {
     /**
      * Create a chest at the given position.
      *
@@ -12,11 +12,11 @@ public class BreakableWall extends Wall  {
      * @param x     The X position.
      * @param y     The Y position.
      */
-    public BreakableWall(World world, float x, float y) {
+    public DestructibleWall(World world, float x, float y) {
         super(world, x, y);
     }
     @Override
     public TextureRegion getCurrentAppearance() {
-        return Textures.BREAKABLEWALL;
+        return Textures.DESTRUCTIBLEWALL;
     }
 }

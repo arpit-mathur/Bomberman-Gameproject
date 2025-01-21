@@ -140,14 +140,14 @@ public class GameScreen implements Screen {
                 }
             }
 
-            for (BreakableWall breakableWall : map.getBreakableWallsOfDefaultGame()) {
-                if(breakableWall != null) {
-                    draw(spriteBatch, breakableWall);
+            for (DestructibleWall destructibleWall : map.getDestructibleWallsOfDefaultGame()) {
+                if(destructibleWall != null) {
+                    draw(spriteBatch, destructibleWall);
                 }
             }
-            for (Wall wall : map.getWallsOfDefaultGame()) {
-                if(wall != null) {
-                    draw(spriteBatch, wall);
+            for (IndestructibleWall indestructibleWall : map.getIndestructibleWallsOfDefaultGame()) {
+                if(indestructibleWall != null) {
+                    draw(spriteBatch, indestructibleWall);
                 }
             }
 
@@ -163,15 +163,15 @@ public class GameScreen implements Screen {
                 }
             }
 
-            for(BreakableWall breakableWall : map.getBreakableWallsOfSelectedMap()){
-                if(breakableWall != null){
-                    draw(spriteBatch, breakableWall);
+            for(DestructibleWall destructibleWall : map.getDestructibleWallsOfSelectedMap()){
+                if(destructibleWall != null){
+                    draw(spriteBatch, destructibleWall);
                 }
             }
 
-            for(Wall wall : map.getWallsOfSelectedMap()){
-                if(wall != null){
-                    draw(spriteBatch, wall);
+            for(IndestructibleWall indestructibleWall : map.getIndestructibleWallsOfSelectedMap()){
+                if(indestructibleWall != null){
+                    draw(spriteBatch, indestructibleWall);
                 }
             }
 
@@ -190,7 +190,12 @@ public class GameScreen implements Screen {
         if(map.getBomb() != null) {
             draw(spriteBatch, map.getBomb());
         }
-        draw(spriteBatch, map.getEnemy());
+
+        for(Enemy enemy : map.getEnemies()){
+            if(enemy != null){
+                draw(spriteBatch, enemy);
+            }
+        }
         draw(spriteBatch, map.getPlayer());
 
 

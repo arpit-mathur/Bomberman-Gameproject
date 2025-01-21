@@ -158,6 +158,11 @@ public class Enemy implements Drawable {
         return hitbox.getPosition().y;
     }
 
+    @Override
+    public void destroy() {
+
+    }
+
     public TextureRegion demise(){
         return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime,false);
     }
