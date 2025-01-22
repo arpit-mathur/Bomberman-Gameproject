@@ -94,11 +94,12 @@ public class Animations {
             SpriteSheet.ORIGINAL_OBJECTS.at(3, 8)
     );
 
-    public static final Animation<TextureRegion> ENEMY_WALK_RIGHT = new Animation<>(0.13f,
+    public static final Animation<TextureRegion> ENEMY_ANIMATION = new Animation<>(0.13f,
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 1),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 2),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 3),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 2)
     );
+
 
 }

@@ -70,6 +70,8 @@ public class GameMap {
         this.world = new World(Vector2.Zero, true);
         // Create a player with initial position (1, 3)
         this.player = new Player(this.world, 1, 15);
+        ///I need to register
+        // world.setContactListener(this);
         this.enemies = new ArrayList<>();
         // Create a chest in the middle of the map
         this.chest = new Chest(world, 8, 15);
@@ -232,6 +234,10 @@ public class GameMap {
         return enemies;
     }
 
+    public void setEnemies(ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
     public Bomb getBomb() {
         return bomb;
     }
@@ -274,13 +280,10 @@ public class GameMap {
         return Chests;
     }
 
-//    public void setChests(ArrayList<Chest> chests) {
-//        Chests = chests;
-//    }
-
     /** Returns the flowers on the map. */
     public List<Flowers> getFlowers() {
         return Arrays.stream(flowers).flatMap(Arrays::stream).toList();
     }
+
 
 }

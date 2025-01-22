@@ -35,10 +35,7 @@
 package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 
@@ -73,6 +70,12 @@ public class Enemy implements Drawable {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         // Set the initial position of the body.
         bodyDef.position.set(startX, startY);
+        bodyDef.awake = true;
+        bodyDef.fixedRotation = true;
+//        bodyDef.bullet = true;
+        bodyDef.active = true;
+//        bodyDef.angularDamping = 45.0f;
+//        bodyDef.angularVelocity = 2.0f;
         // Create the body in the world using the body definition.
         Body body = world.createBody(bodyDef);
         // Now we need to give the body a shape so the physics engine knows how to collide with it.
@@ -80,14 +83,17 @@ public class Enemy implements Drawable {
         CircleShape circle = new CircleShape();
         // Give the circle a radius of 0.3 tiles (the player is 0.6 tiles wide).
         /// Changed the radius of the Hitbox, such that there is no overlapping with the walls.
-        circle.setRadius(0.475f);
+        circle.setRadius(0.47f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
-        body.createFixture(circle, 1f);
+        Fixture enemy = body.createFixture(circle, 1f);
+
+        enemy.setSensor(false);
         // We're done with the shape, so we should dispose of it to free up memory.
         circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
         body.setUserData(this);
+
         return body;
     }
 
@@ -97,53 +103,23 @@ public class Enemy implements Drawable {
      */
     public void tick(float frameTime) {
         this.elapsedTime += frameTime;
+        // Make the player move in a circle with radius 2 tiles
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
-        //float xVelocity = 0;
-        //float yVelocity = 0;
-        //if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-        //    xVelocity = -3.5f ;
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-        //    yVelocity = 3.5f;
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-        //    yVelocity = -3.5f;
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-        //    xVelocity = 3.5f ;
-        //}
-        //this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+        ///These things are responsible for the movement of the enemy.
+        float xVelocity = (float) Math.sin(this.elapsedTime) * 2;
+        float yVelocity = (float) Math.cos(this.elapsedTime) * 2;
+        this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
+
 
     // Initially the Character is facing Right.
     //TextureRegion facing = SpriteSheet.CHARACTER.at(2,2);
     @Override
     public TextureRegion getCurrentAppearance() {
-        //if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-        //    MusicTrack.PLAYER_MOVE.play();
-        //    facing = SpriteSheet.CHARACTER.at(1,2);
-        //    return Animations.CHARACTER_WALK_LEFT.getKeyFrame(this.elapsedTime, true);
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-        //    MusicTrack.PLAYER_MOVE.play();
-        //    facing = SpriteSheet.CHARACTER.at(2,5);
-        //    return Animations.CHARACTER_WALK_UP.getKeyFrame(this.elapsedTime, true);
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-        //    MusicTrack.PLAYER_MOVE.play();
-        //    facing = SpriteSheet.CHARACTER.at(1,5);
-        //    return Animations.CHARACTER_WALK_DOWN.getKeyFrame(this.elapsedTime, true);
-        //}
-        //else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-        //    MusicTrack.PLAYER_MOVE.play();
-        //    facing = SpriteSheet.CHARACTER.at(2,2);
-        //    return Animations.CHARACTER_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
-        //} //else if (this.getX() == enemy.getX() && this.getY == enemy.getY()) {
-        // return demise();
-        //}
-        //MusicTrack.PLAYER_MOVE.stop();
-        return Animations.ENEMY_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
+
+        return Animations.ENEMY_ANIMATION.getKeyFrame(this.elapsedTime, true);
+
     }
 
     @Override
