@@ -1,36 +1,3 @@
-//package de.tum.cit.ase.bomberquest.map;
-//
-//import com.badlogic.gdx.Gdx;
-//import com.badlogic.gdx.Input;
-//import com.badlogic.gdx.graphics.g2d.TextureRegion;
-//import com.badlogic.gdx.physics.box2d.Body;
-//import com.badlogic.gdx.physics.box2d.BodyDef;
-//import com.badlogic.gdx.physics.box2d.CircleShape;
-//import com.badlogic.gdx.physics.box2d.World;
-//import de.tum.cit.ase.bomberquest.audio.MusicTrack;
-//import de.tum.cit.ase.bomberquest.texture.Animations;
-//import de.tum.cit.ase.bomberquest.texture.Drawable;
-//import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
-//
-//public class Enemy extends Player{
-//
-//    private float elapsedTime;
-//
-//
-//    public Enemy(World world, float x, float y) {
-//        super(world,x,y);
-//    }
-//
-//    @Override
-//    public void tick(float frameTime) {
-//        this.elapsedTime += frameTime;
-//    }
-//
-//    @Override
-//    public TextureRegion getCurrentAppearance() {
-//        return Animations.ENEMY_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
-//    }
-//}
 
 package de.tum.cit.ase.bomberquest.map;
 
@@ -70,10 +37,10 @@ public class Enemy implements Drawable {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         // Set the initial position of the body.
         bodyDef.position.set(startX, startY);
-        bodyDef.awake = true;
-        bodyDef.fixedRotation = true;
-//        bodyDef.bullet = true;
-        bodyDef.active = true;
+//        bodyDef.awake = true;
+//        bodyDef.fixedRotation = true;
+////        bodyDef.bullet = true;
+//        bodyDef.active = true;
 //        bodyDef.angularDamping = 45.0f;
 //        bodyDef.angularVelocity = 2.0f;
         // Create the body in the world using the body definition.
@@ -86,11 +53,11 @@ public class Enemy implements Drawable {
         circle.setRadius(0.47f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
-        Fixture enemy = body.createFixture(circle, 1f);
+        body.createFixture(circle, 1.0f);
 
-        enemy.setSensor(false);
+//        enemy.setSensor(false);
         // We're done with the shape, so we should dispose of it to free up memory.
-        circle.dispose();
+//        circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
         body.setUserData(this);
 
@@ -142,5 +109,18 @@ public class Enemy implements Drawable {
     public TextureRegion demise(){
         return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime,false);
     }
+
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(float elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public Body getHitbox() {
+        return hitbox;
+    }
+
 }
 

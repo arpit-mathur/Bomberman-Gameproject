@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.map.*;
@@ -42,6 +46,10 @@ public class GameScreen implements Screen {
     private final GameMap map;
     private final Hud hud;
     private final OrthographicCamera mapCamera;
+    private CollisionDetecter collisionDetecter;
+
+    //Idk if we need it, since it is implemented it in almost every screen class.
+    private final Stage stage;
     /**
      * Constructor for GameScreen. Sets up the camera and font.
      *
@@ -51,14 +59,19 @@ public class GameScreen implements Screen {
         this.game = game;
         this.spriteBatch = game.getSpriteBatch();
         this.map = game.getMap();
+
         this.hud = new Hud(spriteBatch, game.getSkin().getFont("font"),game);
         // Create and configure the camera for the game view
         this.mapCamera = new OrthographicCamera();
         this.mapCamera.setToOrtho(false);
+//
+//        this.collisionDetecter = map.getCollisionDetecter();
         /// Initialising
         viewWidth = Gdx.graphics.getWidth();
         viewHeight = Gdx.graphics.getHeight();
         gameLost = false;
+        Viewport viewport = new ScreenViewport(mapCamera); // Create a viewport with the camera
+        stage = new Stage(viewport, game.getSpriteBatch());
     }
 
     public static void setGameLostTrue() {
@@ -75,7 +88,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || gameLost) {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
-//            dispose();
+
         }else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.goToPauseScreen();
         }
@@ -97,6 +110,7 @@ public class GameScreen implements Screen {
 
         // Render the HUD on the screen
         hud.render(frameTime);
+
     }
 
     /**
@@ -151,9 +165,15 @@ public class GameScreen implements Screen {
                 }
             }
 
-
+            for(Enemy enemy : map.getEnemies()){
+                if(enemy != null){
+                    draw(spriteBatch, enemy);
+                }
+            }
 
             draw(spriteBatch, map.getChest());
+            draw(spriteBatch, map.getPlayer());
+
         }
         else{
 
@@ -180,7 +200,21 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, chest);
                 }
             }
+
+            for(Enemy enemy : map.getEnemies()){
+                if(enemy != null){
+                    draw(spriteBatch, enemy);
+                }
+            }
+
+            draw(spriteBatch, map.getPlayer());
+//            if(map.getPlayer().isDead()){
+//
+//                draw(spriteBatch, map.getPlayer());
+//            }
+
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
             float bombX = Math.round(map.getPlayer().getX());
             float bombY = Math.round(map.getPlayer().getY());
@@ -191,12 +225,6 @@ public class GameScreen implements Screen {
             draw(spriteBatch, map.getBomb());
         }
 
-        for(Enemy enemy : map.getEnemies()){
-            if(enemy != null){
-                draw(spriteBatch, enemy);
-            }
-        }
-        draw(spriteBatch, map.getPlayer());
 
 
         // Finish drawing, i.e. send the drawn items to the graphics card
@@ -254,6 +282,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
 
     }
 

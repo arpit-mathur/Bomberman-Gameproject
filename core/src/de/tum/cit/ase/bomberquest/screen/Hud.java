@@ -46,6 +46,7 @@ public class Hud {
         font.setColor(Color.YELLOW);
         font.draw(spriteBatch, "Bomb blast radius: 1", 10, Gdx.graphics.getHeight() - 45);
         font.setColor(Color.GREEN);
+
         int remainingTime = (int)(200 - this.elapsedTime);
         if(remainingTime < 50 && remainingTime >20){
             font.setColor(Color.YELLOW);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+
 import java.util.*;
 import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
 
@@ -53,6 +54,8 @@ public class GameMap {
     // Indicates if the bomb is being monitored
     private boolean isBombActive = false;
 
+    private CollisionDetecter collisionDetecter;
+
 
     private IndestructibleWall[][] indestructibleWallsOfDefaultGame;
 
@@ -68,14 +71,22 @@ public class GameMap {
     public GameMap(BomberQuestGame game) {
         this.game = game;
         this.world = new World(Vector2.Zero, true);
+
+        //setting the contactListener is needed in order to detect the collision between object .
+        this.collisionDetecter = new CollisionDetecter();
+        this.world.setContactListener(collisionDetecter);
+
         // Create a player with initial position (1, 3)
         this.player = new Player(this.world, 1, 15);
-        ///I need to register
-        // world.setContactListener(this);
+
+        ///What else I need to do?
+
         this.enemies = new ArrayList<>();
         // Create a chest in the middle of the map
         this.chest = new Chest(world, 8, 15);
         this.bomb = new Bomb(world,7,15);
+
+
         // Create flowers in a 7x7 grid
         this.indestructibleWallsOfDefaultGame = new IndestructibleWall[29][17];
         for (int i = 0; i < indestructibleWallsOfDefaultGame.length; i++) {
@@ -114,8 +125,12 @@ public class GameMap {
      */
     public GameMap(BomberQuestGame game, HashMap<String, String> coordinatesAndObjects) {
         this.game = game;
-        this.world = new World(Vector2.Zero, true);
         game.setDidUserSelectTheMap(true);
+
+        this.world = new World(Vector2.Zero, true);
+        this.collisionDetecter = new CollisionDetecter();
+        this.world.setContactListener(collisionDetecter);
+
 
         //Initialized the walls, chests and Breakable walls, and flowers
         this.indestructibleWallsOfSelectedMap = new ArrayList<>();
@@ -166,12 +181,15 @@ public class GameMap {
          * @param frameTime the time that has passed since the last update
          */
         public void tick(float frameTime) {
+
             this.player.tick(frameTime);
+
             if (!this.enemies.isEmpty()) {
                 for (Enemy enemy : this.getEnemies()){
                     enemy.tick(frameTime);
                 }
             }
+
             this.bomb.tick(frameTime);
 
             // Manual timer logic for the bomb
@@ -180,6 +198,7 @@ public class GameMap {
 
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
+
                 float bombX = Math.round(this.bomb.getX());
                 float bombY = Math.round(this.bomb.getY());
 
@@ -189,6 +208,7 @@ public class GameMap {
                     isBombActive = false; // Stop monitoring the bomb
                 }
             }
+
             doPhysicsStep(frameTime);
         }
 
@@ -285,5 +305,31 @@ public class GameMap {
         return Arrays.stream(flowers).flatMap(Arrays::stream).toList();
     }
 
+    public CollisionDetecter getCollisionDetecter() {
+        return collisionDetecter;
+    }
 
+    public void setCollisionDetecter(CollisionDetecter collisionDetecter) {
+        this.collisionDetecter = collisionDetecter;
+    }
+
+    public float getPhysicsTime() {
+        return physicsTime;
+    }
+
+    public BomberQuestGame getGame() {
+        return game;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public float getMapWidth() {
+        return mapWidth;
+    }
+
+    public float getMapHeight() {
+        return mapHeight;
+    }
 }

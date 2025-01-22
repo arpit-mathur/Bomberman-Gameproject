@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.GameMap;
@@ -54,6 +55,7 @@ public class BomberQuestGame extends Game {
      * because the map should not be destroyed if we temporarily switch to another screen.
      */
     private GameMap map;
+
 
     /**
      * Constructor for BomberQuestGame.
@@ -268,6 +270,5 @@ public class BomberQuestGame extends Game {
         goToSelectedMap();
 
     }
-
 
 }
