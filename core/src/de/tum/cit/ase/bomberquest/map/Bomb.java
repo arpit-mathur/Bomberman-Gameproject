@@ -15,7 +15,7 @@ public class Bomb implements Drawable {
     private final float y;
     private float elapsedTime;
     private final Body hitbox;
-    public static final float BOMB_EXPLOSION_TIME = 4;
+    public static final float BOMB_EXPLOSION_TIME = 3 ;
 
     public static final int SMALL_EXPLOSION_RADIUS = 1;
     public static final int BIG_EXPLOSION_RADIUS = 2;
@@ -65,7 +65,7 @@ public class Bomb implements Drawable {
     }
 
     public void tick() {
-        this.elapsedTime += 0.025f;
+        this.elapsedTime += 0.017f;
     }
 
     @Override

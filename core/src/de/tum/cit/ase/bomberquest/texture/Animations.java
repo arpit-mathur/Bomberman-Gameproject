@@ -62,7 +62,7 @@ public class Animations {
     /**
      * The animation for the ticking Bomb.
      */
-    public static final Animation<TextureRegion> BOMB_TICKING = new Animation<>(0.3f,
+    public static final Animation<TextureRegion> BOMB_TICKING = new Animation<>(0.2f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 1),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 2),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 3),
@@ -72,7 +72,7 @@ public class Animations {
     /**
      * The animation for the bomb blast with bigger radius.
      */
-    public static final Animation<TextureRegion> BOMB_BLAST_LONG = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> BOMB_BLAST_LONG = new Animation<>(0.05f,
             SpriteSheet.BOMB_BLAST_LONG.at(5, 1),
             SpriteSheet.BOMB_BLAST_LONG.at(5, 6),
             SpriteSheet.BOMB_BLAST_LONG.at(10, 1),
@@ -86,7 +86,7 @@ public class Animations {
     /**
      * The animation for the bomb blast with bigger radius.
      */
-    public static final Animation<TextureRegion> BOMB_BLAST_DEFAULT = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> BOMB_BLAST_DEFAULT = new Animation<>(0.05f,
             SpriteSheet.BOMB_BLAST_SHORT.at(6, 2),
             SpriteSheet.BOMB_BLAST_SHORT.at(6, 7),
             SpriteSheet.BOMB_BLAST_SHORT.at(11, 2),

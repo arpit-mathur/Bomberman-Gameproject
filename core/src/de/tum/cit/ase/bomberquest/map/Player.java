@@ -25,9 +25,12 @@ public class Player implements Drawable {
 
     private TextureRegion facing;
 
+    private float playerSpeed;
+
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
+        this.playerSpeed = 3f;
     }
 
     /**
@@ -83,17 +86,17 @@ public class Player implements Drawable {
             float xVelocity = 0;
             float yVelocity = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                xVelocity = -3.5f ;
+                xVelocity = -playerSpeed;
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                yVelocity = 3.5f;
+                yVelocity = playerSpeed;
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                yVelocity = -3.5f;
+                yVelocity = -playerSpeed;
             }
 
             else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                xVelocity = 3.5f ;
+                xVelocity = playerSpeed;
             }
             this.hitbox.setLinearVelocity(xVelocity, yVelocity);
         }
@@ -181,6 +184,22 @@ public class Player implements Drawable {
     public void setDead(boolean dead) {
         this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
         isDead = dead;
+    }
+
+    public float getPlayerSpeed() {
+        return playerSpeed;
+    }
+
+    public void setPlayerSpeed(float playerSpeed) {
+        this.playerSpeed = playerSpeed;
+    }
+
+    public TextureRegion getFacing() {
+        return facing;
+    }
+
+    public void setFacing(TextureRegion facing) {
+        this.facing = facing;
     }
 }
 

@@ -195,11 +195,11 @@ public class GameMap {
 
             getDestructibleWallsOfSelectedMap()
                     .parallelStream()
-                    .forEach(wall -> wall.tick(0.025f));
+                    .forEach(wall -> wall.tick(0.017f));
 
             /// Manual timer logic for the bomb
             if (isBombActive) {
-                float fixedTimeStep = 0.025f;
+                float fixedTimeStep = 0.017f;
                 bombTimer += fixedTimeStep;
 
                 float playerX = Math.round(getPlayer().getX());
