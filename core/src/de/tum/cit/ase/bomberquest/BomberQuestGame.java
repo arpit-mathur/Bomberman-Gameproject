@@ -90,7 +90,8 @@ public class BomberQuestGame extends Game {
      * Switches to the menu screen.
      */
     public void goToMenu() {
-        MusicTrack.PLAYER_MOVE.stop();
+        MusicTrack.PLAYER_MOVE1.stop();
+        MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.Level_THEME.stop();
         MusicTrack.MENU_BGM.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen

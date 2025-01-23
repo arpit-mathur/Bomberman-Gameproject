@@ -30,7 +30,7 @@ public class Player implements Drawable {
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
-        this.playerSpeed = 3f;
+        this.playerSpeed = 3.5f;
     }
 
     /**
@@ -112,26 +112,31 @@ public class Player implements Drawable {
         if(!isDead){
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                MusicTrack.PLAYER_MOVE.play();
+                MusicTrack.PLAYER_MOVE2.stop();
+                MusicTrack.PLAYER_MOVE1.play();
                 facing = SpriteSheet.ORIGINAL_OBJECTS.at(1,2);
                 return Animations.CHARACTER_WALK_LEFT.getKeyFrame(this.elapsedTime, true);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                MusicTrack.PLAYER_MOVE.play();
+                MusicTrack.PLAYER_MOVE1.stop();
+                MusicTrack.PLAYER_MOVE2.play();
                 facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,5);
                 return Animations.CHARACTER_WALK_UP.getKeyFrame(this.elapsedTime, true);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                MusicTrack.PLAYER_MOVE.play();
+                MusicTrack.PLAYER_MOVE1.stop();
+                MusicTrack.PLAYER_MOVE2.play();
                 facing = SpriteSheet.ORIGINAL_OBJECTS.at(1,5);
                 return Animations.CHARACTER_WALK_DOWN.getKeyFrame(this.elapsedTime, true);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                MusicTrack.PLAYER_MOVE.play();
+                MusicTrack.PLAYER_MOVE2.stop();
+                MusicTrack.PLAYER_MOVE1.play();
                 facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
                 return Animations.CHARACTER_WALK_RIGHT.getKeyFrame(this.elapsedTime, true);
             }
-            MusicTrack.PLAYER_MOVE.stop();
+            MusicTrack.PLAYER_MOVE1.stop();
+            MusicTrack.PLAYER_MOVE2.stop();
 
             return facing;
         }
@@ -183,7 +188,8 @@ public class Player implements Drawable {
 
     public void setDead(boolean dead) {
         this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
-        MusicTrack.PLAYER_MOVE.stop();
+        MusicTrack.PLAYER_MOVE1.stop();
+        MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.PLAYER_DEMISE.play();
         isDead = dead;
     }

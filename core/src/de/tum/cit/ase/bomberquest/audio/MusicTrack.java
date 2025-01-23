@@ -14,7 +14,8 @@ import com.badlogic.gdx.audio.Music;
 public enum MusicTrack {
 
     MENU_BGM("MenuBGM.mp3", 0.15f,true),
-    PLAYER_MOVE("running-in-grass-sound.mp3", 0.5f,true),
+    PLAYER_MOVE1("Player_moving1.mp3", 0.15f,true),
+    PLAYER_MOVE2("Player_moving2.mp3", 0.15f,true),
     Level_THEME("Level-Theme.mp3", 0.15f,true),
     PLAYER_DEMISE("Player_Demise.mp3", 0.15f,false),
     BOMB_PLANT("Bomb_plantsfx.mp3",0.15f,false),

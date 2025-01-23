@@ -13,7 +13,7 @@ public class Animations {
     /**
      * The animation for the character walking down.
      */
-    public static final Animation<TextureRegion> CHARACTER_WALK_DOWN = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> CHARACTER_WALK_DOWN = new Animation<>(0.075f,
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 4),
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 5),
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 6),
@@ -22,7 +22,7 @@ public class Animations {
     /**
      * The animation for the character walking left.
      */
-    public static final Animation<TextureRegion> CHARACTER_WALK_LEFT = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> CHARACTER_WALK_LEFT = new Animation<>(0.075f,
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 1),
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 2),
             SpriteSheet.ORIGINAL_OBJECTS.at(1, 3),
@@ -31,7 +31,7 @@ public class Animations {
     /**
      * The animation for the character walking up.
      */
-    public static final Animation<TextureRegion> CHARACTER_WALK_UP = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> CHARACTER_WALK_UP = new Animation<>(0.075f,
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 4),
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 5),
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 6),
@@ -40,7 +40,7 @@ public class Animations {
     /**
      * The animation for the character walking right.
      */
-    public static final Animation<TextureRegion> CHARACTER_WALK_RIGHT = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> CHARACTER_WALK_RIGHT = new Animation<>(0.075f,
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 1),
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 2),
             SpriteSheet.ORIGINAL_OBJECTS.at(2, 3),
