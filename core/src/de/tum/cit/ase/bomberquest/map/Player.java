@@ -137,10 +137,10 @@ public class Player implements Drawable {
         }
         else {
             this.hitbox.setActive(false);
-            MusicTrack.PLAYER_MOVE.stop();
             TextureRegion playerDemise = Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, false);
             /// Check if the animation has finished
             if (Animations.CHARACTER_DEMISE.isAnimationFinished(this.elapsedTime)) {
+                MusicTrack.PLAYER_DEMISE.stop();
                 return null; ///return null as player is destroyed
             }
             return playerDemise;
@@ -183,6 +183,8 @@ public class Player implements Drawable {
 
     public void setDead(boolean dead) {
         this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
+        MusicTrack.PLAYER_MOVE.stop();
+        MusicTrack.PLAYER_DEMISE.play();
         isDead = dead;
     }
 

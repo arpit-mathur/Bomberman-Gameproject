@@ -13,15 +13,19 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-    BACKGROUND("background.mp3", 0.02f),
-    PLAYER_MOVE("running-in-grass-sound.mp3", 0.3f),
-    BACKGROUND2("background2.mp3", 0.05f);
+    MENU_BGM("MenuBGM.mp3", 0.15f,true),
+    PLAYER_MOVE("running-in-grass-sound.mp3", 0.5f,true),
+    Level_THEME("Level-Theme.mp3", 0.15f,true),
+    PLAYER_DEMISE("Player_Demise.mp3", 0.15f,false),
+    BOMB_PLANT("Bomb_plantsfx.mp3",0.15f,false),
+    BOMB_EXPLOSION("Bomb_explosionsfx.mp3",0.15f,false);
+
     /** The music file owned by this variant. */
     private final Music music;
 
-    MusicTrack(String fileName, float volume) {
+    MusicTrack(String fileName, float volume, boolean loop) {
         this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/" + fileName));
-        this.music.setLooping(true);
+        this.music.setLooping(loop);
         this.music.setVolume(volume);
     }
 

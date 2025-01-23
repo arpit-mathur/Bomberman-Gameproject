@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.GameMap;
@@ -92,8 +91,8 @@ public class BomberQuestGame extends Game {
      */
     public void goToMenu() {
         MusicTrack.PLAYER_MOVE.stop();
-        MusicTrack.BACKGROUND2.stop();
-        MusicTrack.BACKGROUND.play();
+        MusicTrack.Level_THEME.stop();
+        MusicTrack.MENU_BGM.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen
     }
 
@@ -101,15 +100,15 @@ public class BomberQuestGame extends Game {
      * Switches to the game screen.
      */
     public void goToGame() {
-        MusicTrack.BACKGROUND.stop();
-        MusicTrack.BACKGROUND2.play();
+        MusicTrack.MENU_BGM.stop();
+        MusicTrack.Level_THEME.play();
         this.setScreen(new GameScreen(this)); // Set the current screen to GameScreen
     }
 
     ///goes to the pauseScreen
     public void goToPauseScreen(){
-        MusicTrack.BACKGROUND2.stop();
-        MusicTrack.BACKGROUND.play();
+        MusicTrack.Level_THEME.stop();
+        MusicTrack.MENU_BGM.play();
         this.setScreen(new PauseScreen(this));
     }
 
@@ -118,8 +117,8 @@ public class BomberQuestGame extends Game {
      * (Aryan) Goes to the map selected by user:
      */
     public void goToSelectedMap(){
-        MusicTrack.BACKGROUND.stop();
-        MusicTrack.BACKGROUND2.play();
+        MusicTrack.MENU_BGM.stop();
+        MusicTrack.Level_THEME.play();
         this.setScreen(new GameScreen(this));
 
     }
