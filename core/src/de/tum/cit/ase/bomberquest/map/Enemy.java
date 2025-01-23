@@ -15,15 +15,17 @@ public class Enemy implements Drawable {
     /** Total time elapsed since the game started. We use this for calculating the player movement and animating it. */
     private float elapsedTime;
 
+    private boolean isDestroyed;
     /** The Box2D hitbox of the player, used for position and collision detection. */
     private final Body hitbox;
 
     public Enemy(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
+        this.isDestroyed = false;
     }
 
     /**
-     * Creates a Box2D body for the player.
+     * Creates a Box2D body for the Enemy.
      * This is what the physics engine uses to move the player around and detect collisions with other bodies.
      * @param world The Box2D world to add the body to.
      * @param startX The initial X position.
@@ -39,7 +41,7 @@ public class Enemy implements Drawable {
         bodyDef.position.set(startX, startY);
 //        bodyDef.awake = true;
 //        bodyDef.fixedRotation = true;
-////        bodyDef.bullet = true;
+//        bodyDef.bullet = true;
 //        bodyDef.active = true;
 //        bodyDef.angularDamping = 45.0f;
 //        bodyDef.angularVelocity = 2.0f;
@@ -57,7 +59,7 @@ public class Enemy implements Drawable {
 
 //        enemy.setSensor(false);
         // We're done with the shape, so we should dispose of it to free up memory.
-//        circle.dispose();
+        circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
         body.setUserData(this);
 
@@ -80,13 +82,18 @@ public class Enemy implements Drawable {
     }
 
 
-    // Initially the Character is facing Right.
-    //TextureRegion facing = SpriteSheet.CHARACTER.at(2,2);
     @Override
     public TextureRegion getCurrentAppearance() {
-
+        if (isDestroyed) {
+            /// Play the Enemy Demise animation
+            TextureRegion enemyDemise = Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+            /// Check if the animation has finished
+            if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
+                return null; ///return null as wall is destroyed
+            }
+            return enemyDemise;
+        }
         return Animations.ENEMY_ANIMATION.getKeyFrame(this.elapsedTime, true);
-
     }
 
     @Override
@@ -103,24 +110,14 @@ public class Enemy implements Drawable {
 
     @Override
     public void destroy() {
-
+        if(!isDestroyed) {
+            isDestroyed = true;
+            hitbox.setActive(false); /// Deactivate the wall's hitbox when it's destroyed.
+            this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
+        }
     }
-
-    public TextureRegion demise(){
-        return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime,false);
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
-
-    public float getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public void setElapsedTime(float elapsedTime) {
-        this.elapsedTime = elapsedTime;
-    }
-
-    public Body getHitbox() {
-        return hitbox;
-    }
-
 }
 

@@ -62,7 +62,7 @@ public class Animations {
     /**
      * The animation for the ticking Bomb.
      */
-    public static final Animation<TextureRegion> BOMB_TICKING = new Animation<>(0.25f,
+    public static final Animation<TextureRegion> BOMB_TICKING = new Animation<>(0.3f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 1),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 2),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 3),
@@ -72,7 +72,7 @@ public class Animations {
     /**
      * The animation for the bomb blast.
      */
-    public static final Animation<TextureRegion> BOMB_BLAST = new Animation<>(0.13f,
+    public static final Animation<TextureRegion> BOMB_BLAST = new Animation<>(0.11f,
             SpriteSheet.ORIGINAL_OBJECTS.at(7, 3),
             SpriteSheet.ORIGINAL_OBJECTS.at(7, 8),
             SpriteSheet.ORIGINAL_OBJECTS.at(12, 3),
@@ -84,7 +84,7 @@ public class Animations {
     );
 
     /// Added animation of breaking the wall (Aryan)
-    public static final Animation<TextureRegion> BREAK_WALL = new Animation<>(0.1f,
+    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.17f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 6),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 8),

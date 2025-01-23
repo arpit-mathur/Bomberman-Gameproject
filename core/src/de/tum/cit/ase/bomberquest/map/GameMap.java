@@ -84,7 +84,7 @@ public class GameMap {
         this.enemies = new ArrayList<>();
         // Create a chest in the middle of the map
         this.chest = new Chest(world, 8, 15);
-        this.bomb = new Bomb(world,7,15);
+        this.bomb = new Bomb(world,100,100);
 
 
         // Create flowers in a 7x7 grid
@@ -116,6 +116,8 @@ public class GameMap {
         }
         this.mapWidth = flowers.length * TILE_SIZE_PX * SCALE;
         this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
+        this.destructibleWallsOfSelectedMap = new ArrayList<>();
+        this.indestructibleWallsOfSelectedMap = new ArrayList<>();
     }
 
     /**
@@ -146,7 +148,7 @@ public class GameMap {
         this.mapWidth = flowers.length * TILE_SIZE_PX * SCALE;
         this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
         this.enemies = new ArrayList<>();
-        this.bomb = new Bomb(world,7,11);
+        this.bomb = new Bomb(world,100,100);
         parseKeyValueToBuild(coordinatesAndObjects);
     }
 
@@ -190,11 +192,21 @@ public class GameMap {
                 }
             }
 
-            this.bomb.tick(frameTime);
+            this.bomb.tick();
+
+            getDestructibleWallsOfSelectedMap()
+                    .parallelStream()
+                    .forEach(wall -> wall.tick(0.025f));
+
+            getFlowers().parallelStream()
+                    .forEach(f -> f.tick(0.025f));
+
+            /// Manual timer logic for the bomb
 
             // Manual timer logic for the bomb
             if (isBombActive) {
-                bombTimer += frameTime; // Increment the timer
+                float fixedTimeStep = 0.025f;
+                bombTimer += fixedTimeStep;
 
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
@@ -202,13 +214,64 @@ public class GameMap {
                 float bombX = Math.round(this.bomb.getX());
                 float bombY = Math.round(this.bomb.getY());
 
-                // Check if the player has moved away from the bomb
-                if ((playerX != bombX || playerY != bombY) && bombTimer > 0.5f) {
+                /// Check if the player has moved away from the bomb
+                if ((playerX != bombX || playerY != bombY) && bombTimer > 0.7f && bombTimer < Bomb.BOMB_EXPLOSION_TIME) {
                     this.bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
+                }
+
+                /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
+                ///to trigger the destroy() method for each of them.
+
+                if(bombTimer >= Bomb.BOMB_EXPLOSION_TIME){
+                    /// Defined explosion radius
+                    float explosionRadius = this.bomb.getExplosionRadius();
+
+                    /// used parallel streams for concurrent processes
+                    getDestructibleWallsOfSelectedMap()
+                            .parallelStream()
+                            .forEach(wall -> {
+                                // Check if the wall is aligned with the bomb in either X or Y direction
+                                boolean isAlignedX = wall.getX() == bombX && Math.abs(wall.getY() - bombY) <= explosionRadius;
+                                boolean isAlignedY = wall.getY() == bombY && Math.abs(wall.getX() - bombX) <= explosionRadius;
+
+                                // Destroy only if it's in the explosion radius and aligned with the bomb
+                                if ((isAlignedX || isAlignedY) && !wall.isDestroyed()) {
+                                    wall.destroy();
+                                }
+                            });
+
+                    getEnemies()
+                            .forEach(enemy -> {
+                                // Round enemy's coordinates to integers
+                                float enemyX = Math.round(enemy.getX());
+                                float enemyY = Math.round(enemy.getY());
+
+                                // Check if the enemy is aligned with the bomb in either X or Y direction
+                                boolean isAlignedX = enemyX == bombX && Math.abs(enemyY - bombY) <= explosionRadius;
+                                boolean isAlignedY = enemyY == bombY && Math.abs(enemyX - bombX) <= explosionRadius;
+
+                                // Destroy the enemy only if it's within the explosion radius and aligned with the bomb
+                                if ((isAlignedX || isAlignedY) && !enemy.isDestroyed()) {
+                                    enemy.destroy();
+                                }
+                            });
+
+                    ArrayList<Flowers> flowersToDestroy = new ArrayList<>();
+
+                    getFlowers()
+                            .parallelStream()
+                            .forEach(flower -> {
+                                float distance = Vector2.dst(bombX, bombY, flower.getX(), flower.getY());
+                                if(distance <= explosionRadius){
+                                    flowersToDestroy.add(flower);
+                                }
+                            });
+
+                    flowersToDestroy.parallelStream().forEach(Flowers::destroy);
+
                     isBombActive = false; // Stop monitoring the bomb
                 }
             }
-
             doPhysicsStep(frameTime);
         }
 

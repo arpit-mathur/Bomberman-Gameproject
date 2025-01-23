@@ -58,11 +58,11 @@ public class Player implements Drawable {
 
         ///This fixture has the physics properties of the players hitbox.
         ///Doesnt really do that much thing, this sliding
-//        playerr.setFriction(10f); //To prevent sliding:
+//        player.setFriction(10f); //To prevent sliding:
 //
-//       playerr.setRestitution(3f);// to prevent bouncing
+//       player.setRestitution(3f);// to prevent bouncing
         // We're done with the shape, so we should dispose of it to free up memory.
-//        circle.dispose();
+        circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
         body.setUserData(this);
 
@@ -79,7 +79,7 @@ public class Player implements Drawable {
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
 
-        if(isDead == false){
+        if(!isDead){
             float xVelocity = 0;
             float yVelocity = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -111,7 +111,7 @@ public class Player implements Drawable {
 //        }
 //        else
 
-        if(isDead == false){
+        if(!isDead){
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 MusicTrack.PLAYER_MOVE.play();
@@ -135,14 +135,18 @@ public class Player implements Drawable {
             }
             MusicTrack.PLAYER_MOVE.stop();
 
+            return facing;
         }
-        else if(isDead == true){
+        else {
+            this.hitbox.setActive(false);
             MusicTrack.PLAYER_MOVE.stop();
-            facing = SpriteSheet.ORIGINAL_OBJECTS.at(3,8);
-            return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, true);
+            TextureRegion playerDemise = Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, false);
+            /// Check if the animation has finished
+            if (Animations.CHARACTER_DEMISE.isAnimationFinished(this.elapsedTime)) {
+                return null; ///return null as player is destroyed
+            }
+            return playerDemise;
         }
-
-        return facing;
     }
 
     @Override
@@ -180,20 +184,8 @@ public class Player implements Drawable {
     }
 
     public void setDead(boolean dead) {
+        this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
         isDead = dead;
-    }
-
-    public TextureRegion getFacing() {
-        return facing;
-    }
-
-    public void setFacing(TextureRegion facing) {
-        this.facing = facing;
-    }
-
-    public TextureRegion playerDies(){
-        isDead = true;
-        return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, true);
     }
 }
 

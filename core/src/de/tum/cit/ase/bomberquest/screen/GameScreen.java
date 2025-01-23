@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
         }
 
         // Clear the previous frame from the screen, or else the picture smears
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(Color.LIGHT_GRAY);
 
         // Cap frame time to 250ms to prevent spiral of death
         float frameTime = Math.min(deltaTime, 0.250f);
@@ -165,14 +165,7 @@ public class GameScreen implements Screen {
                 }
             }
 
-            for(Enemy enemy : map.getEnemies()){
-                if(enemy != null){
-                    draw(spriteBatch, enemy);
-                }
-            }
-
             draw(spriteBatch, map.getChest());
-            draw(spriteBatch, map.getPlayer());
 
         }
         else{
@@ -183,9 +176,11 @@ public class GameScreen implements Screen {
                 }
             }
 
-            for(DestructibleWall destructibleWall : map.getDestructibleWallsOfSelectedMap()){
-                if(destructibleWall != null){
-                    draw(spriteBatch, destructibleWall);
+            if(!map.getDestructibleWallsOfSelectedMap().isEmpty()) {
+                for (DestructibleWall destructibleWall : map.getDestructibleWallsOfSelectedMap()) {
+                    if (destructibleWall != null) {
+                        draw(spriteBatch, destructibleWall);
+                    }
                 }
             }
 
@@ -200,14 +195,6 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, chest);
                 }
             }
-
-            for(Enemy enemy : map.getEnemies()){
-                if(enemy != null){
-                    draw(spriteBatch, enemy);
-                }
-            }
-
-            draw(spriteBatch, map.getPlayer());
 //            if(map.getPlayer().isDead()){
 //
 //                draw(spriteBatch, map.getPlayer());
@@ -225,6 +212,14 @@ public class GameScreen implements Screen {
             draw(spriteBatch, map.getBomb());
         }
 
+        for(Enemy enemy : map.getEnemies()){
+            if(enemy != null){
+                draw(spriteBatch, enemy);
+            }
+        }
+
+        draw(spriteBatch, map.getPlayer());
+
 
 
         // Finish drawing, i.e. send the drawn items to the graphics card
@@ -240,12 +235,14 @@ public class GameScreen implements Screen {
     private static void draw(SpriteBatch spriteBatch, Drawable drawable) {
         TextureRegion texture = drawable.getCurrentAppearance();
         // Drawable coordinates are in tiles, so we need to scale them to pixels
-        float x = drawable.getX() * TILE_SIZE_PX * SCALE;
-        float y = drawable.getY() * TILE_SIZE_PX * SCALE;
-        // Additionally scale everything by the game scale
-        float width = texture.getRegionWidth() * SCALE;
-        float height = texture.getRegionHeight() * SCALE;
-        spriteBatch.draw(texture, x, y, width, height);
+        if(texture !=null) {
+            float x = drawable.getX() * TILE_SIZE_PX * SCALE;
+            float y = drawable.getY() * TILE_SIZE_PX * SCALE;
+            // Additionally scale everything by the game scale
+            float width = texture.getRegionWidth() * SCALE;
+            float height = texture.getRegionHeight() * SCALE;
+            spriteBatch.draw(texture, x, y, width, height);
+        }
     }
 
     /**
