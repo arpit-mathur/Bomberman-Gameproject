@@ -51,7 +51,7 @@ public class Player implements Drawable {
         // We'll use a circle shape for the player.
         CircleShape circle = new CircleShape();
         // Give the circle a radius of 0.3 tiles (the player is 0.6 tiles wide).
-        circle.setRadius(0.47f);
+        circle.setRadius(0.49f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
          body.createFixture(circle, 1.0f);
@@ -105,11 +105,6 @@ public class Player implements Drawable {
 
     @Override
     public TextureRegion getCurrentAppearance() {
-//        if((int)this.getX() == 2 && (int)this.getY() == 15){
-//            MusicTrack.PLAYER_MOVE.stop();
-//            return Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, true);
-//        }
-//        else
 
         if(!isDead){
 

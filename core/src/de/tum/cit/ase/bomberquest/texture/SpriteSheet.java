@@ -18,7 +18,11 @@ public enum SpriteSheet {
     /** The character spritesheet, which has a grid size of 16x16. */
     ORIGINAL_OBJECTS("original-bomberman.png", 16, 16),
     /** The basic tiles spritesheet, which has a grid size of 16x16. */
-    BASIC_TILES("basictiles.png", 16, 16);
+    BASIC_TILES("Bomberman - Sprites.png", 16, 16),
+    /// Size of bomb with bigger radius is 80x80
+    BOMB_BLAST_LONG("original-bomberman.png", 80, 80),
+    /// Size of bomb with default radius is 48x48
+    BOMB_BLAST_SHORT("original-bomberman.png", 48, 48);
 
     private final Texture spritesheet;
     private final int width;
@@ -49,6 +53,15 @@ public enum SpriteSheet {
      * @return the texture
      */
     public TextureRegion at(int row, int column) {
+        if(this == BOMB_BLAST_LONG || this == BOMB_BLAST_SHORT){
+            return new TextureRegion(
+                    spritesheet,
+                    (column -1) * 16,
+                    (row -1) * 16,
+                    this.width,
+                    this.height
+            );
+        }
         return new TextureRegion(
                 spritesheet,
                 (column -1) * this.width,

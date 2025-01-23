@@ -17,8 +17,6 @@ public class CollisionDetecter  implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        System.out.println("Contact detected!");
-
         if((fixtureA.getBody().getUserData() instanceof Player) && fixtureB.getBody().getUserData() instanceof Enemy) {
             Player player = (Player) fixtureA.getBody().getUserData();
             player.setDead(true);

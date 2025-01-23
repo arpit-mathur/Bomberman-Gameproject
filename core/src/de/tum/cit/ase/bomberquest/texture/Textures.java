@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Textures {
 
-    public static final TextureRegion FLOWERS = SpriteSheet.BASIC_TILES.at(2,4);
+    public static final TextureRegion FLOWERS = SpriteSheet.BASIC_TILES.at(5,1);
 
     public static final TextureRegion CHEST = SpriteSheet.ORIGINAL_OBJECTS.at(4, 12);
 

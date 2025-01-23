@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -153,6 +152,9 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, flowers);
                 }
             }
+            if(map.getBomb() != null) {
+                draw(spriteBatch, map.getBomb());
+            }
 
             for (DestructibleWall destructibleWall : map.getDestructibleWallsOfDefaultGame()) {
                 if(destructibleWall != null) {
@@ -164,9 +166,7 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, indestructibleWall);
                 }
             }
-
             draw(spriteBatch, map.getChest());
-
         }
         else{
 
@@ -174,6 +174,9 @@ public class GameScreen implements Screen {
                 if(flowers != null){
                     draw(spriteBatch, flowers);
                 }
+            }
+            if(map.getBomb() != null) {
+                draw(spriteBatch, map.getBomb());
             }
 
             if(!map.getDestructibleWallsOfSelectedMap().isEmpty()) {
@@ -195,21 +198,12 @@ public class GameScreen implements Screen {
                     draw(spriteBatch, chest);
                 }
             }
-//            if(map.getPlayer().isDead()){
-//
-//                draw(spriteBatch, map.getPlayer());
-//            }
-
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
             float bombX = Math.round(map.getPlayer().getX());
             float bombY = Math.round(map.getPlayer().getY());
             map.plantBomb(bombX,bombY);
-        }
-
-        if(map.getBomb() != null) {
-            draw(spriteBatch, map.getBomb());
         }
 
         for(Enemy enemy : map.getEnemies()){
@@ -219,8 +213,6 @@ public class GameScreen implements Screen {
         }
 
         draw(spriteBatch, map.getPlayer());
-
-
 
         // Finish drawing, i.e. send the drawn items to the graphics card
         spriteBatch.end();
@@ -235,12 +227,24 @@ public class GameScreen implements Screen {
     private static void draw(SpriteBatch spriteBatch, Drawable drawable) {
         TextureRegion texture = drawable.getCurrentAppearance();
         // Drawable coordinates are in tiles, so we need to scale them to pixels
-        if(texture !=null) {
+        if (texture != null) {
             float x = drawable.getX() * TILE_SIZE_PX * SCALE;
             float y = drawable.getY() * TILE_SIZE_PX * SCALE;
-            // Additionally scale everything by the game scale
+
+            // Calculate width and height of the texture in pixels
             float width = texture.getRegionWidth() * SCALE;
             float height = texture.getRegionHeight() * SCALE;
+
+            /// If the Drawable is a bomb and the elapsed time exceeds the explosion time,
+            /// center the explosion texture around the bomb's position
+            if (drawable instanceof Bomb bomb) {
+                if (bomb.getElapsedTime() >= Bomb.BOMB_EXPLOSION_TIME) {
+                    // Adjust x and y to center the explosion texture
+                    x -= (width / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center horizontally
+                    y -= (height / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center vertically
+                }
+            }
+            // Draw the texture
             spriteBatch.draw(texture, x, y, width, height);
         }
     }

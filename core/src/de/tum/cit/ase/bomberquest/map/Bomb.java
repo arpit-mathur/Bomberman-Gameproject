@@ -74,7 +74,14 @@ public class Bomb implements Drawable {
         if (elapsedTime >= BOMB_EXPLOSION_TIME) {
             destroy(); /// Deactivate the bomb's hitbox when the bomb explodes.
             /// Show the explosion animation
-            return Animations.BOMB_BLAST.getKeyFrame(this.elapsedTime - BOMB_EXPLOSION_TIME, false);
+            if(isIncreasedBombRadius()) {
+                /// radius increases by POWER_UP
+                return Animations.BOMB_BLAST_LONG.getKeyFrame(this.elapsedTime - BOMB_EXPLOSION_TIME, false);
+            }
+            else{
+                /// Default bomb blast radius
+                return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.elapsedTime - BOMB_EXPLOSION_TIME, false);
+            }
         }
         /// Shows the ticking animation, looping as long as the bomb is ticking
         else if (elapsedTime < BOMB_EXPLOSION_TIME) {
@@ -123,4 +130,7 @@ public class Bomb implements Drawable {
         }
     }
 
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
 }
