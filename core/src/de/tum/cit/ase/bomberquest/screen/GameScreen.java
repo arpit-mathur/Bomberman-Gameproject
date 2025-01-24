@@ -128,15 +128,10 @@ public class GameScreen implements Screen {
         }
         else {
             mapCamera.position.x = map.mapWidth / 2f;
-            if(map.getMapHeight() > viewHeight) {
-                mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
+        }
+            mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
                         (float) viewHeight / 2,
                         map.mapHeight - (float) viewHeight / 2);
-            }
-            else{
-                mapCamera.position.y = map.mapHeight / 2f;
-            }
-        }
 
         mapCamera.update(); // This is necessary to apply the changes
         ///Commented out the Camera, to see if the map is loaded or not.
