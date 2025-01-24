@@ -165,8 +165,12 @@ public class GameScreen implements Screen {
         }
 
 
-        if(map.getBomb() != null) {
-            draw(spriteBatch, map.getBomb());
+        if(!map.getBombs().isEmpty()) {
+            for(Bomb bomb : map.getBombs()){
+                if(bomb!= null){
+                    draw(spriteBatch, bomb);
+                }
+            }
         }
 
         if(!map.getDestructibleWalls().isEmpty()) {
@@ -228,7 +232,7 @@ public class GameScreen implements Screen {
             /// If the Drawable is a bomb and the elapsed time exceeds the explosion time,
             /// center the explosion texture around the bomb's position
             if (drawable instanceof Bomb bomb) {
-                if (bomb.getElapsedTime() >= Bomb.BOMB_EXPLOSION_TIME) {
+                if (bomb.getBombTimer() >= Bomb.BOMB_EXPLOSION_TIME) {
                     // Adjust x and y to center the explosion texture
                     x -= (width / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center horizontally
                     y -= (height / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center vertically

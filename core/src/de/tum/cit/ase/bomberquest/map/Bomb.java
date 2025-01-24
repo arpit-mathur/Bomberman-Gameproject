@@ -13,15 +13,23 @@ public class Bomb implements Drawable {
     // We would normally get the position from the hitbox, but since we don't need to move the bomb, we can store the position directly.
     private final float x;
     private final float y;
-    private float elapsedTime;
+    private float bombTimer;
     private final Body hitbox;
     public static final float BOMB_EXPLOSION_TIME = 3 ;
+
+    private static int activeBombs = 0;
+    /// Initially only one bomb at a time
+    private static int maxConcurrentBombs = 1;
+
 
     public static final int SMALL_EXPLOSION_RADIUS = 1;
     public static final int BIG_EXPLOSION_RADIUS = 2;
 
     private boolean increasedBombRadius = false;
     private boolean concurrentBombs = false;
+
+    private boolean bombActive ;
+
 
 
     /**
@@ -34,7 +42,9 @@ public class Bomb implements Drawable {
         this.x = x;
         this.y = y;
         this.hitbox = createHitbox(world, x, y);
-        this.elapsedTime = 0;
+        this.bombTimer = 0;
+        this.bombActive = true;
+        this.setSensor(true);
         // Since the hitbox never moves, and we never need to change it, we don't need to store a reference to it.
     }
     
@@ -65,28 +75,28 @@ public class Bomb implements Drawable {
         return body;
     }
 
-    public void tick() {
-        this.elapsedTime += 0.017f;
+    public void tick(float frameTime) {
+        this.bombTimer += frameTime;
     }
 
     @Override
     public TextureRegion getCurrentAppearance() {
         /// If the bomb has exploded, show the explosion animation.
-        if (elapsedTime >= BOMB_EXPLOSION_TIME) {
+        if (bombTimer >= BOMB_EXPLOSION_TIME) {
             destroy(); /// Deactivate the bomb's hitbox when the bomb explodes.
             /// Show the explosion animation
             if(isIncreasedBombRadius()) {
                 /// radius increases by POWER_UP
-                return Animations.BOMB_BLAST_LONG.getKeyFrame(this.elapsedTime - BOMB_EXPLOSION_TIME, false);
+                return Animations.BOMB_BLAST_LONG.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
             }
             else{
                 /// Default bomb blast radius
-                return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.elapsedTime - BOMB_EXPLOSION_TIME, false);
+                return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
             }
         }
         /// Shows the ticking animation, looping as long as the bomb is ticking
-        else if (elapsedTime < BOMB_EXPLOSION_TIME) {
-            return Animations.BOMB_TICKING.getKeyFrame(this.elapsedTime, true);
+        else if (bombTimer < BOMB_EXPLOSION_TIME) {
+            return Animations.BOMB_TICKING.getKeyFrame(this.bombTimer, true);
         }
         /// null when no bomb is planted
         return null;
@@ -109,6 +119,27 @@ public class Bomb implements Drawable {
         this.increasedBombRadius = increasedBombRadius;
     }
 
+    /// Methods to monitor the active Bombs
+    public static void incrementActiveBombs() {
+        activeBombs++;
+    }
+    public static void decrementActiveBombs() {
+        activeBombs--;
+    }
+    public static int getActiveBombs() {
+        return activeBombs;
+    }
+    public static int getMaxConcurrentBombs() {
+        return maxConcurrentBombs;
+    }
+    /// As the Player can plant at-most 8 concurrent bombs
+    public static void incrementMaxConcurrentBombs() {
+        if (maxConcurrentBombs < 8) {
+            maxConcurrentBombs++;
+        }
+    }
+
+
     @Override
     public float getX() {
         return x;
@@ -122,6 +153,7 @@ public class Bomb implements Drawable {
     @Override
     public void destroy(){
         hitbox.setActive(false);
+        setBombActive(false);
     }
 
     /// Used to solidify the bomb as soon as the player is outside the bomb grid
@@ -131,8 +163,8 @@ public class Bomb implements Drawable {
         }
     }
 
-    public float getElapsedTime() {
-        return elapsedTime;
+    public float getBombTimer() {
+        return bombTimer;
     }
 
     public boolean isConcurrentBombs() {
@@ -141,5 +173,13 @@ public class Bomb implements Drawable {
 
     public void setConcurrentBombs(boolean concurrentBombs) {
         this.concurrentBombs = concurrentBombs;
+    }
+
+    public boolean isBombActive() {
+        return bombActive;
+    }
+
+    public void setBombActive(boolean bombActive) {
+        this.bombActive = bombActive;
     }
 }

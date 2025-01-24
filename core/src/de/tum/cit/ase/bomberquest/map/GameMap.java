@@ -54,14 +54,10 @@ public class GameMap {
     private ArrayList<DestructibleWall> destructibleWalls;
     private ArrayList<Chest> chests;
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
-    private ArrayList<BombBlastPowerUp> bombRadiusPowerUp;
 
-    private Bomb bomb;
+    private ArrayList<Bomb> bombs;
     // Tracks elapsed time since the bomb was planted
-    private float bombTimer = 0f;
     // Indicates if the bomb is being monitored
-    private boolean isBombActive = false;
-
     private CollisionDetecter collisionDetecter;
 
 
@@ -76,7 +72,7 @@ public class GameMap {
         this.collisionDetecter = new CollisionDetecter();
         this.world.setContactListener(collisionDetecter);
 
-        this.bomb = getBomb();
+        this.bombs = new ArrayList<>();
         this.player = getPlayer();
 
         //Initialized the walls, chests and Breakable walls, and flowers
@@ -84,7 +80,6 @@ public class GameMap {
         this.destructibleWalls = new ArrayList<>();
         this.chests = new ArrayList<>();
         this.concurrentBombPowerUps = new ArrayList<>();
-        this.bombRadiusPowerUp = new ArrayList<>();
 
         this.flowers = new Flowers[21][21];
         for (int i = 0; i < flowers.length; i++) {
@@ -120,86 +115,71 @@ public class GameMap {
                     this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                     this.destructibleWalls.add(new DestructibleWall(world,x,y));
                 }
-                case "6" -> {
-                    this.bombRadiusPowerUp.add(new BombBlastPowerUp(world, x, y));
-                    this.destructibleWalls.add(new DestructibleWall(world, x, y));
-                }
+                //case "6" -> this.chest = new Chest(world, x, y);
             }
         }
 
     }
 
-        /**
-         * Updates the game state. This is called once per frame.
-         * Every dynamic object in the game should update its state here.
-         * @param frameTime the time that has passed since the last update
-         */
-        public void tick(float frameTime) {
+    /**
+     * Updates the game state. This is called once per frame.
+     * Every dynamic object in the game should update its state here.
+     * @param frameTime the time that has passed since the last update
+     */
+    public void tick(float frameTime) {
 
-            if(this.player !=null) {
-                this.player.tick(frameTime);
+        if(this.player !=null) {
+            this.player.tick(frameTime);
+        }
+        if (!this.enemies.isEmpty()) {
+            for (Enemy enemy : this.getEnemies()){
+                enemy.tick(frameTime);
             }
-            if (!this.enemies.isEmpty()) {
-                for (Enemy enemy : this.getEnemies()){
-                    enemy.tick(frameTime);
-                }
-            }
-            if(this.bomb !=null) {
-                this.bomb.tick();
-            }
-
-            getConcurrentBombPowerUps().forEach(power -> {
-                float player_X = Math.round(getPlayer().getX());
-                float player_Y = Math.round(getPlayer().getY());
-                if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
-                    MusicTrack.POWERUP_TAKEN.play();
-                    power.setPowerTaken(true);
-                    power.destroy();
-                    getPlayer().setPlayerSpeed(5f);
-                }
-            }
-            );
-
-            getBombRadiusPowerUp().forEach(power -> {
-                        float player_X = Math.round(getPlayer().getX());
-                        float player_Y = Math.round(getPlayer().getY());
-                        if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
-                            MusicTrack.POWERUP_TAKEN.play();
-                            power.setPowerTaken(true);
-                            power.destroy();
-                            getPlayer().setPlayerSpeed(5f);
-                        }
-                    }
-            );
-
-
-            getDestructibleWalls()
+        }
+        if(!this.bombs.isEmpty()) {
+            getBombs()
                     .parallelStream()
-                    .forEach(wall -> wall.tick(0.017f));
+                    .forEach(bomb -> bomb.tick(0.017f));
+        }
 
-            /// Manual timer logic for the bomb
-            if (isBombActive) {
-                float fixedTimeStep = 0.017f;
-                bombTimer += fixedTimeStep;
+        getConcurrentBombPowerUps().forEach(power -> {
+            float player_X = Math.round(getPlayer().getX());
+            float player_Y = Math.round(getPlayer().getY());
+            if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
+                MusicTrack.POWERUP_TAKEN.play();
+                power.setPowerTaken(true);
+                power.destroy();
+                getPlayer().setPlayerSpeed(5f);
+            }
+        }
+        );
+
+        getDestructibleWalls()
+                .parallelStream()
+                .forEach(wall -> wall.tick(0.017f));
+
+        /// Manual timer logic for the bomb
+        for(Bomb bomb : getBombs()){
+            if (bomb.isBombActive()) {
 
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
 
-                float bombX = Math.round(this.bomb.getX());
-                float bombY = Math.round(this.bomb.getY());
+                float bombX = Math.round(bomb.getX());
+                float bombY = Math.round(bomb.getY());
 
                 /// Check if the player has moved away from the bomb
-                if ((playerX != bombX || playerY != bombY) && bombTimer > 0.5f && bombTimer < Bomb.BOMB_EXPLOSION_TIME) {
-                    this.bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
+                if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.5f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
+                    bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
 
                 /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
                 ///to trigger the destroy() method for each of them.
 
-                if(bombTimer >= Bomb.BOMB_EXPLOSION_TIME){
+                if (bomb.getBombTimer() >= Bomb.BOMB_EXPLOSION_TIME) {
                     /// Defined explosion radius
                     MusicTrack.BOMB_EXPLOSION.play();
-                    float explosionRadius = this.bomb.getExplosionRadius();
+                    float explosionRadius = bomb.getExplosionRadius();
 
                     /// used parallel streams for concurrent processes
                     getDestructibleWalls()
@@ -244,10 +224,12 @@ public class GameMap {
                     if ((isAlignedpX || isAlignedpY) && !getPlayer().isDead()) {
                         getPlayer().setDead(true);
                     }
-                    isBombActive = false; // Stop monitoring the bomb
+                    bomb.setBombActive(false);
+                    bomb.destroy();
                 }
             }
-            doPhysicsStep(frameTime);
+        }
+        doPhysicsStep(frameTime);
         }
 
     /**
@@ -282,26 +264,21 @@ public class GameMap {
         this.enemies = enemies;
     }
 
-    public Bomb getBomb() {
-        return bomb;
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
     }
 
     public void plantBomb(float x, float y) {
-        MusicTrack.BOMB_PLANT.play();
-        // Dispose of the previous bomb to free memory
-        if (this.bomb != null) {
-            this.bomb.destroy();
-        }
-
-        // Create a new bomb at the specified position
-        this.bomb = new Bomb(this.world, x, y);
-
-        // Initially set the bomb as a sensor
-        this.bomb.setSensor(true);
-
-        // Reset the timer and activate the monitoring state
-        bombTimer = 0f;
-        isBombActive = true;
+        if (Bomb.getActiveBombs() <= Bomb.getMaxConcurrentBombs()) {
+            MusicTrack.BOMB_PLANT.play();
+            // Dispose of the previous bomb to free memory
+//            if (this.bomb != null) {
+//                this.bomb.destroy();
+//            }
+            // Create a new bomb at the specified position
+            Bomb bomb =new Bomb(world,x,y);
+            this.bombs.add(bomb);
+            }
     }
 
     public ArrayList<ConcurrentBombPowerUp> getConcurrentBombPowerUps() {
@@ -310,14 +287,6 @@ public class GameMap {
 
     public void setConcurrentBombPowerUps(ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps) {
         this.concurrentBombPowerUps = concurrentBombPowerUps;
-    }
-
-    public ArrayList<BombBlastPowerUp> getBombRadiusPowerUp() {
-        return bombRadiusPowerUp;
-    }
-
-    public void setBombRadiusPowerUp(ArrayList<BombBlastPowerUp> bombRadiusPowerUp) {
-        this.bombRadiusPowerUp = bombRadiusPowerUp;
     }
 
     ///We need these getters to render them in the GameScreen
