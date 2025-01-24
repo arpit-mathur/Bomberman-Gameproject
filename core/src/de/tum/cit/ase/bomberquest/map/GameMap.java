@@ -223,7 +223,7 @@ public class GameMap {
                     boolean isAlignedpY = playernewY == bombY && Math.abs(playernewX - bombX) <= explosionRadius;
 
                     // Destroy the enemy only if it's within the explosion radius and aligned with the bomb
-                    if ((isAlignedpX || isAlignedpY)) {
+                    if ((isAlignedpX || isAlignedpY) && !getPlayer().isDead()) {
                         getPlayer().setDead(true);
                     }
                     isBombActive = false; // Stop monitoring the bomb

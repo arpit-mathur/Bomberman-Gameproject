@@ -187,7 +187,7 @@ public class GameScreen implements Screen {
         }
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead()){
             float bombX = Math.round(map.getPlayer().getX());
             float bombY = Math.round(map.getPlayer().getY());
             map.plantBomb(bombX,bombY);
@@ -253,6 +253,7 @@ public class GameScreen implements Screen {
     // Unused methods from the Screen interface
     @Override
     public void pause() {
+
     }
 
     @Override
