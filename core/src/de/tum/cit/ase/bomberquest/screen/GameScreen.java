@@ -158,7 +158,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        for(BombBlastPowerUp powerUp : map.getBombRadiusPowerUp()){
+        for(BombBlastPowerUp powerUp : map.getBombBlastPowerUp()){
             if(powerUp!= null){
                 draw(spriteBatch, powerUp);
             }
@@ -194,7 +194,7 @@ public class GameScreen implements Screen {
         }
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead()){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
             float bombX = Math.round(map.getPlayer().getX());
             float bombY = Math.round(map.getPlayer().getY());
             map.plantBomb(bombX,bombY);

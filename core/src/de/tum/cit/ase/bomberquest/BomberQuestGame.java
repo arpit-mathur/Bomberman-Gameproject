@@ -8,6 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.map.Bomb;
 import de.tum.cit.ase.bomberquest.map.GameMap;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.screen.MenuScreen;
@@ -275,6 +276,8 @@ public class BomberQuestGame extends Game {
 
         /// VVI to clear the previous objects.
         coordinatesAndObjects.clear();
+        Bomb.setActiveBombs(0);
+        Bomb.setMaxConcurrentBombs(1);
         for (String line : linesOfText) {
             line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) {

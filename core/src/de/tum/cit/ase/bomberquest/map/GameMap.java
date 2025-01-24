@@ -54,7 +54,7 @@ public class GameMap {
     private ArrayList<DestructibleWall> destructibleWalls;
     private ArrayList<Chest> chests;
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
-    private ArrayList<BombBlastPowerUp> bombRadiusPowerUp;
+    private ArrayList<BombBlastPowerUp> bombBlastPowerUp;
 
 
     private ArrayList<Bomb> bombs;
@@ -82,7 +82,7 @@ public class GameMap {
         this.destructibleWalls = new ArrayList<>();
         this.chests = new ArrayList<>();
         this.concurrentBombPowerUps = new ArrayList<>();
-        this.bombRadiusPowerUp = new ArrayList<>();
+        this.bombBlastPowerUp = new ArrayList<>();
 
         this.flowers = new Flowers[21][21];
         for (int i = 0; i < flowers.length; i++) {
@@ -119,7 +119,7 @@ public class GameMap {
                     this.destructibleWalls.add(new DestructibleWall(world,x,y));
                 }
                 case "6" -> {
-                    this.bombRadiusPowerUp.add(new BombBlastPowerUp(world, x, y));
+                    this.bombBlastPowerUp.add(new BombBlastPowerUp(world, x, y));
                     this.destructibleWalls.add(new DestructibleWall(world,x,y));
                 }
             }
@@ -155,12 +155,12 @@ public class GameMap {
                 MusicTrack.POWERUP_TAKEN.play();
                 power.setPowerTaken(true);
                 power.destroy();
-                getPlayer().setPlayerSpeed(5f);
+                Bomb.incrementMaxConcurrentBombs();
             }
         }
         );
 
-        getBombRadiusPowerUp().forEach(power -> {
+        getBombBlastPowerUp().forEach(power -> {
                     float player_X = Math.round(getPlayer().getX());
                     float player_Y = Math.round(getPlayer().getY());
                     if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
@@ -244,6 +244,7 @@ public class GameMap {
                     }
                     bomb.setBombActive(false);
                     bomb.destroy();
+                    Bomb.decrementActiveBombs();
                 }
             }
         }
@@ -296,6 +297,7 @@ public class GameMap {
             // Create a new bomb at the specified position
             Bomb bomb =new Bomb(world,x,y);
             this.bombs.add(bomb);
+            Bomb.incrementActiveBombs();
             }
     }
 
@@ -307,12 +309,12 @@ public class GameMap {
         this.concurrentBombPowerUps = concurrentBombPowerUps;
     }
 
-    public ArrayList<BombBlastPowerUp> getBombRadiusPowerUp() {
-        return bombRadiusPowerUp;
+    public ArrayList<BombBlastPowerUp> getBombBlastPowerUp() {
+        return bombBlastPowerUp;
     }
 
-    public void setBombRadiusPowerUp(ArrayList<BombBlastPowerUp> bombRadiusPowerUp) {
-        this.bombRadiusPowerUp = bombRadiusPowerUp;
+    public void setBombBlastPowerUp(ArrayList<BombBlastPowerUp> bombBlastPowerUp) {
+        this.bombBlastPowerUp = bombBlastPowerUp;
     }
 
     ///We need these getters to render them in the GameScreen

@@ -17,6 +17,7 @@ public class Bomb implements Drawable {
     private final Body hitbox;
     public static final float BOMB_EXPLOSION_TIME = 3 ;
 
+    /// Static as it changes for all the bomb objects
     private static int activeBombs = 0;
     /// Initially only one bomb at a time
     private static int maxConcurrentBombs = 1;
@@ -129,6 +130,14 @@ public class Bomb implements Drawable {
     public static int getActiveBombs() {
         return activeBombs;
     }
+    public static void setActiveBombs(int n) {
+        activeBombs = n;
+    }
+    public static void setMaxConcurrentBombs(int n) {
+        maxConcurrentBombs = n;
+    }
+
+
     public static int getMaxConcurrentBombs() {
         return maxConcurrentBombs;
     }
