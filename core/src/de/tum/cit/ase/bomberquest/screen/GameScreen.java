@@ -154,6 +154,14 @@ public class GameScreen implements Screen {
                 draw(spriteBatch, flowers);
             }
         }
+
+        for(ConcurrentBombPowerUp powerUp : map.getConcurrentBombPowerUps()){
+            if(powerUp!= null){
+                draw(spriteBatch, powerUp);
+            }
+        }
+
+
         if(map.getBomb() != null) {
             draw(spriteBatch, map.getBomb());
         }

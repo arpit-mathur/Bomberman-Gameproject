@@ -46,8 +46,15 @@ public class GameMap {
     public float mapWidth, mapHeight;
     // Game objects
     private Player player;
-
     private ArrayList<Enemy> enemies;
+
+    private final Flowers[][] flowers;
+    ///Walls of the Selected Map
+    private ArrayList<IndestructibleWall> indestructibleWalls;
+    private ArrayList<DestructibleWall> destructibleWalls;
+    private ArrayList<Chest> chests;
+    private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
+
     private Bomb bomb;
     // Tracks elapsed time since the bomb was planted
     private float bombTimer = 0f;
@@ -56,12 +63,6 @@ public class GameMap {
 
     private CollisionDetecter collisionDetecter;
 
-    private final Flowers[][] flowers;
-
-    ///Walls of the Selected Map
-    private ArrayList<IndestructibleWall> indestructibleWalls;
-    private ArrayList<DestructibleWall> destructibleWalls;
-    private ArrayList<Chest> chests;
 
     /**
      *
@@ -81,6 +82,7 @@ public class GameMap {
         this.indestructibleWalls = new ArrayList<>();
         this.destructibleWalls = new ArrayList<>();
         this.chests = new ArrayList<>();
+        this.concurrentBombPowerUps = new ArrayList<>();
 
         this.flowers = new Flowers[21][21];
         for (int i = 0; i < flowers.length; i++) {
@@ -112,7 +114,10 @@ public class GameMap {
                 case "2" -> this.player = new Player(world, x, y);
                 case "3" -> this.enemies.add(new Enemy(world, x, y));
                 //case "4" -> this.chest = new Chest(world, x, y);
-                //case "5" -> this.chest = new Chest(world, x, y);
+                case "5" -> {
+                    this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
+                    this.destructibleWalls.add(new DestructibleWall(world,x,y));
+                }
                 //case "6" -> this.chest = new Chest(world, x, y);
             }
         }
@@ -137,6 +142,18 @@ public class GameMap {
             if(this.bomb !=null) {
                 this.bomb.tick();
             }
+
+            getConcurrentBombPowerUps().forEach(power -> {
+                float player_X = Math.round(getPlayer().getX());
+                float player_Y = Math.round(getPlayer().getY());
+                if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
+                    MusicTrack.POWERUP_TAKEN.play();
+                    power.setPowerTaken(true);
+                    power.destroy();
+                    getPlayer().setPlayerSpeed(5f);
+                }
+            }
+            );
 
             getDestructibleWalls()
                     .parallelStream()
@@ -267,6 +284,14 @@ public class GameMap {
         // Reset the timer and activate the monitoring state
         bombTimer = 0f;
         isBombActive = true;
+    }
+
+    public ArrayList<ConcurrentBombPowerUp> getConcurrentBombPowerUps() {
+        return concurrentBombPowerUps;
+    }
+
+    public void setConcurrentBombPowerUps(ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps) {
+        this.concurrentBombPowerUps = concurrentBombPowerUps;
     }
 
     ///We need these getters to render them in the GameScreen

@@ -13,6 +13,8 @@ public class Textures {
 
     public static final TextureRegion CHEST = SpriteSheet.ORIGINAL_OBJECTS.at(4, 12);
 
+    public static final TextureRegion CBPowerUp = SpriteSheet.ORIGINAL_OBJECTS.at(15, 2);
+
     public static final TextureRegion INDESTRUCTIBLEWALL = SpriteSheet.ORIGINAL_OBJECTS.at(4, 4);
 
     public static final TextureRegion DESTRUCTIBLEWALL = SpriteSheet.ORIGINAL_OBJECTS.at(4, 5);
