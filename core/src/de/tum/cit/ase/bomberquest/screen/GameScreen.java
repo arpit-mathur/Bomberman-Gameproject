@@ -158,6 +158,12 @@ public class GameScreen implements Screen {
             }
         }
 
+        for(BombBlastPowerUp powerUp : map.getBombRadiusPowerUp()){
+            if(powerUp!= null){
+                draw(spriteBatch, powerUp);
+            }
+        }
+
 
         if(map.getBomb() != null) {
             draw(spriteBatch, map.getBomb());

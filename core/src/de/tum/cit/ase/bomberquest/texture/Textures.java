@@ -15,6 +15,8 @@ public class Textures {
 
     public static final TextureRegion CBPowerUp = SpriteSheet.ORIGINAL_OBJECTS.at(15, 2);
 
+    public static final TextureRegion BRPowerUp = SpriteSheet.ORIGINAL_OBJECTS.at(15, 1);
+
     public static final TextureRegion INDESTRUCTIBLEWALL = SpriteSheet.ORIGINAL_OBJECTS.at(4, 4);
 
     public static final TextureRegion DESTRUCTIBLEWALL = SpriteSheet.ORIGINAL_OBJECTS.at(4, 5);
