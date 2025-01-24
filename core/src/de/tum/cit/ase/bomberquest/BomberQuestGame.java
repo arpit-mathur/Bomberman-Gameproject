@@ -47,7 +47,6 @@ public class BomberQuestGame extends Game {
      * And the Attribute didUserSelectTheMap will keep track of whether the user has selected the map or not.
      */
     private HashMap<String, String> coordinatesAndObjects = new HashMap<>();
-    private boolean didUserSelectTheMap;
     /**
      * The map. This is where all the game objects are stored.
      * This is owned by {@link BomberQuestGame} and not by {@link GameScreen}
@@ -73,17 +72,50 @@ public class BomberQuestGame extends Game {
      */
     @Override
     public void create() {
-        //Initialize/ create  spriteBatch for rendering
+        // Initialize SpriteBatch for rendering
         this.spriteBatch = new SpriteBatch();
 
         // Load UI skin
         this.skin = new Skin(Gdx.files.internal("skin/craftacular/craftacular-ui.json"));
 
-        // Create a new game map (you should change this to load the map from a file instead)
-        this.map = new GameMap(this);
+        // Load default map from "map-1.properties"
+        loadDefaultMap();
 
         // Navigate to the menu screen
         goToMenu();
+    }
+
+    /**
+     * Loads the default map from "map-1.properties" in /maps
+     */
+    private void loadDefaultMap() {
+
+        /// By the same logic as in doYourMagic()
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear(); // Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+    }
+
+    /**
+     * Switches to the game screen and starts the default map.
+     */
+    public void startDefaultMap() {
+        MusicTrack.MENU_BGM.stop();
+        MusicTrack.Level_THEME.play();
+        this.setScreen(new GameScreen(this));
     }
 
     /**
@@ -176,14 +208,6 @@ public class BomberQuestGame extends Game {
         this.coordinatesAndObjects = coordinatesAndObjects;
     }
 
-    public boolean isDidUserSelectTheMap() {
-        return didUserSelectTheMap;
-    }
-
-    public void setDidUserSelectTheMap(boolean didUserSelectTheMap) {
-        this.didUserSelectTheMap = didUserSelectTheMap;
-    }
-
     /**(Aryan)
      * The LoadFileChooser Method, which will be invoked once the user clicks on that button.
      * In this Method, the fileChooser Attribute of our class, will invoke a method fileChooser.chooseFile(),
@@ -197,11 +221,8 @@ public class BomberQuestGame extends Game {
         NativeFileChooserConfiguration configuration = new NativeFileChooserConfiguration();
         //title
         configuration.title = "Please Choose your file!";
-        //Directory, most important attribute, without it the window wont show up
+        //Directory, most important attribute, without it the window won't show up
         configuration.directory = Gdx.files.getFileHandle("maps/", Files.FileType.Internal);
-        //idk if you need intent; probably not
-        ///configuration.intent = NativeFileChooserIntent.OPEN;
-
         //The name filter to filter it out by the suffixes
         configuration.nameFilter = new FilenameFilter() {
             @Override
@@ -216,8 +237,7 @@ public class BomberQuestGame extends Game {
         NativeFileChooserCallback fileChooserCallback = new NativeFileChooserCallback() {
             @Override
             public void onFileChosen(FileHandle file) {
-                //Set the attribute to true
-                setDidUserSelectTheMap(true);
+
                 //read the properties file, which will give us the output in one line with "\n".
                 String EntireText = file.readString();
                 //Then we split the map properly, and we end up with our proper file as you can see right now in the map properties folder and store it into the array
@@ -234,19 +254,16 @@ public class BomberQuestGame extends Game {
             @Override
             public void onCancellation() {
                 System.out.println("why did you cancel?");
-                setDidUserSelectTheMap(false);
             }
 
             @Override
             public void onError(Exception exception) {
                 System.out.println("reason: " + exception);
-                setDidUserSelectTheMap(false);
             }
         };
 
         ///Then we put the arguments in this method, so that everything comes together in the end.
         fileChooser.chooseFile(configuration, fileChooserCallback);
-
     }
 
     /**
@@ -257,6 +274,8 @@ public class BomberQuestGame extends Game {
      */
     public void doYourMagic(String[] linesOfText) {
 
+        /// VVI to clear the previous objects.
+        coordinatesAndObjects.clear();
         for (String line : linesOfText) {
             line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) {
@@ -268,7 +287,6 @@ public class BomberQuestGame extends Game {
         }
         this.map = new GameMap(this, coordinatesAndObjects);
         goToSelectedMap();
-
     }
 
 }

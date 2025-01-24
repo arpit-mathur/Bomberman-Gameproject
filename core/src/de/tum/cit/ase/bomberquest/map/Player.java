@@ -30,7 +30,7 @@ public class Player implements Drawable {
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
-        this.playerSpeed = 3.5f;
+        this.playerSpeed = 3.2f;
     }
 
     /**

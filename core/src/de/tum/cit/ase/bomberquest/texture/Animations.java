@@ -99,7 +99,7 @@ public class Animations {
 
 
     /// Added animation of breaking the wall (Aryan)
-    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.2f,
+    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.13f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 6),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 8),

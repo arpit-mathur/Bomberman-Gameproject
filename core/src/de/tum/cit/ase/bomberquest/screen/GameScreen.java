@@ -119,17 +119,22 @@ public class GameScreen implements Screen {
     private void updateCamera() {
         mapCamera.setToOrtho(false);
         /// Clamp is used --- why this min and why this max? (to make it Responsive)
-        if(map.mapWidth > viewWidth) {
+        if(map.getMapWidth() > viewWidth) {
             mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX() * TILE_SIZE_PX * SCALE,
                     (float) viewWidth / (2),
                     map.mapWidth - (float) viewWidth / 2);
         }
-        else{
-            mapCamera.position.x = map.mapWidth/2f;
+        else {
+            mapCamera.position.x = map.mapWidth / 2f;
+            if(map.getMapHeight() > viewHeight) {
+                mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
+                        (float) viewHeight / 2,
+                        map.mapHeight - (float) viewHeight / 2);
+            }
+            else{
+                mapCamera.position.y = map.mapHeight / 2f;
+            }
         }
-            mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
-                    (float) viewHeight / 2,
-                    map.mapHeight - (float) viewHeight / 2);
 
         mapCamera.update(); // This is necessary to apply the changes
         ///Commented out the Camera, to see if the map is loaded or not.
@@ -144,61 +149,35 @@ public class GameScreen implements Screen {
 
         // Render everything in the map here, in order from lowest to highest (later things appear on top)
         // You may want to add a method to GameMap to return all the drawables in the correct order
-
-        if(!game.isDidUserSelectTheMap()){
-
-            for (Flowers flowers : map.getFlowers()) {
-                if(flowers != null){
-                    draw(spriteBatch, flowers);
-                }
+        for(Flowers flowers : map.getFlowers()){
+            if(flowers != null){
+                draw(spriteBatch, flowers);
             }
-            if(map.getBomb() != null) {
-                draw(spriteBatch, map.getBomb());
-            }
+        }
+        if(map.getBomb() != null) {
+            draw(spriteBatch, map.getBomb());
+        }
 
-            for (DestructibleWall destructibleWall : map.getDestructibleWallsOfDefaultGame()) {
-                if(destructibleWall != null) {
+        if(!map.getDestructibleWalls().isEmpty()) {
+            for (DestructibleWall destructibleWall : map.getDestructibleWalls()) {
+                if (destructibleWall != null) {
                     draw(spriteBatch, destructibleWall);
                 }
             }
-            for (IndestructibleWall indestructibleWall : map.getIndestructibleWallsOfDefaultGame()) {
-                if(indestructibleWall != null) {
-                    draw(spriteBatch, indestructibleWall);
-                }
-            }
-            draw(spriteBatch, map.getChest());
         }
-        else{
 
-            for(Flowers flowers : map.getFlowers()){
-                if(flowers != null){
-                    draw(spriteBatch, flowers);
-                }
-            }
-            if(map.getBomb() != null) {
-                draw(spriteBatch, map.getBomb());
-            }
-
-            if(!map.getDestructibleWallsOfSelectedMap().isEmpty()) {
-                for (DestructibleWall destructibleWall : map.getDestructibleWallsOfSelectedMap()) {
-                    if (destructibleWall != null) {
-                        draw(spriteBatch, destructibleWall);
-                    }
-                }
-            }
-
-            for(IndestructibleWall indestructibleWall : map.getIndestructibleWallsOfSelectedMap()){
-                if(indestructibleWall != null){
-                    draw(spriteBatch, indestructibleWall);
-                }
-            }
-
-            for(Chest chest : map.getChests()){
-                if(chest != null){
-                    draw(spriteBatch, chest);
-                }
+        for(IndestructibleWall indestructibleWall : map.getIndestructibleWalls()){
+            if(indestructibleWall != null){
+                draw(spriteBatch, indestructibleWall);
             }
         }
+
+        for(Chest chest : map.getChests()){
+            if(chest != null){
+                draw(spriteBatch, chest);
+            }
+        }
+
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
             float bombX = Math.round(map.getPlayer().getX());
