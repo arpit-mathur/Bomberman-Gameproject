@@ -34,16 +34,14 @@ public class PauseScreen implements Screen {
         stage.addActor(table); // Add the table to the stage
 
         // Add a label as a title
-        table.add(new Label("Bomber_Quest", game.getSkin(), "title")).padBottom(80).row();
         table.add(new Label("Game is paused", game.getSkin(), "title")).padBottom(80).row();
 
 
-        TextButton resumeButton = new TextButton("resume", game.getSkin());
+        TextButton resumeButton = new TextButton("Resume", game.getSkin());
         table.add(resumeButton).width(200).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
                 game.goToGame();
             }

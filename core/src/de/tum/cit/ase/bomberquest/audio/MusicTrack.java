@@ -20,7 +20,8 @@ public enum MusicTrack {
     PLAYER_DEMISE("Player_Demise.mp3", 0.15f,false),
     BOMB_PLANT("Bomb_plantsfx.mp3",0.15f,false),
     BOMB_EXPLOSION("Bomb_explosionsfx.mp3",0.15f,false),
-    POWERUP_TAKEN("ConBombPowerUp.mp3",0.15f,false);
+    POWERUP_TAKEN("ConBombPowerUp.mp3",0.15f,false),
+    GAME_PAUSE("GamePauseSFX.mp3",0.15f,false);
 
     /** The music file owned by this variant. */
     private final Music music;

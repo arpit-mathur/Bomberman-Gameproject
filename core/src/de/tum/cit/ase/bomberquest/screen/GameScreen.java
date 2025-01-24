@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.map.*;
 
@@ -88,7 +89,8 @@ public class GameScreen implements Screen {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 
-        }else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+        }else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            MusicTrack.GAME_PAUSE.play();
             game.goToPauseScreen();
         }
 

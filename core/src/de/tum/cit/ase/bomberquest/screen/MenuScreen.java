@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 
 /**
  * The MenuScreen class is responsible for displaying the main menu of the game.
@@ -68,9 +70,24 @@ public class MenuScreen implements Screen {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
                 game.LoadFileChooser();
-
             }
         });
+
+        Label tipLabel = new Label("Press ENTER for Quick Start", game.getSkin());
+        table.add(tipLabel).padTop(30).row();
+
+        Slider volumeSlider = new Slider(0,1,0.1f,false,game.getSkin());
+        volumeSlider.setAnimateDuration(0.8f);
+        volumeSlider.setVisualPercent(0.6f);
+//        volumeSlider.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                ///This method will open the filechooser window
+//
+//            }
+//        });
+        table.add(volumeSlider).padTop(30).row();
+
     }
 
     /**

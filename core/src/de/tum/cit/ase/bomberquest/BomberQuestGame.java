@@ -141,7 +141,6 @@ public class BomberQuestGame extends Game {
     ///goes to the pauseScreen
     public void goToPauseScreen(){
         MusicTrack.Level_THEME.stop();
-        MusicTrack.MENU_BGM.play();
         this.setScreen(new PauseScreen(this));
     }
 
