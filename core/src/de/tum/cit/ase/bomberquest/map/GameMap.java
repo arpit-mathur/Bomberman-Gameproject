@@ -54,6 +54,8 @@ public class GameMap {
     private ArrayList<DestructibleWall> destructibleWalls;
     private ArrayList<Chest> chests;
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
+    private ArrayList<BombBlastPowerUp> bombRadiusPowerUp;
+
 
     private ArrayList<Bomb> bombs;
     // Tracks elapsed time since the bomb was planted
@@ -80,6 +82,7 @@ public class GameMap {
         this.destructibleWalls = new ArrayList<>();
         this.chests = new ArrayList<>();
         this.concurrentBombPowerUps = new ArrayList<>();
+        this.bombRadiusPowerUp = new ArrayList<>();
 
         this.flowers = new Flowers[21][21];
         for (int i = 0; i < flowers.length; i++) {
@@ -115,7 +118,10 @@ public class GameMap {
                     this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                     this.destructibleWalls.add(new DestructibleWall(world,x,y));
                 }
-                //case "6" -> this.chest = new Chest(world, x, y);
+                case "6" -> {
+                    this.bombRadiusPowerUp.add(new BombBlastPowerUp(world, x, y));
+                    this.destructibleWalls.add(new DestructibleWall(world,x,y));
+                }
             }
         }
 
@@ -152,6 +158,18 @@ public class GameMap {
                 getPlayer().setPlayerSpeed(5f);
             }
         }
+        );
+
+        getBombRadiusPowerUp().forEach(power -> {
+                    float player_X = Math.round(getPlayer().getX());
+                    float player_Y = Math.round(getPlayer().getY());
+                    if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
+                        MusicTrack.POWERUP_TAKEN.play();
+                        power.setPowerTaken(true);
+                        power.destroy();
+                        getPlayer().setPlayerSpeed(5f);
+                    }
+                }
         );
 
         getDestructibleWalls()
@@ -287,6 +305,14 @@ public class GameMap {
 
     public void setConcurrentBombPowerUps(ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps) {
         this.concurrentBombPowerUps = concurrentBombPowerUps;
+    }
+
+    public ArrayList<BombBlastPowerUp> getBombRadiusPowerUp() {
+        return bombRadiusPowerUp;
+    }
+
+    public void setBombRadiusPowerUp(ArrayList<BombBlastPowerUp> bombRadiusPowerUp) {
+        this.bombRadiusPowerUp = bombRadiusPowerUp;
     }
 
     ///We need these getters to render them in the GameScreen
