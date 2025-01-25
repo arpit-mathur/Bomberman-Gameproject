@@ -23,6 +23,8 @@ public class Player implements Drawable {
 
     private boolean isDead = false;
 
+    private boolean isDeathAnimationFinished = false;
+
     private TextureRegion facing;
 
     private float playerSpeed;
@@ -145,8 +147,9 @@ public class Player implements Drawable {
             TextureRegion playerDemise = Animations.CHARACTER_DEMISE.getKeyFrame(this.elapsedTime, false);
             /// Check if the animation has finished
             if (Animations.CHARACTER_DEMISE.isAnimationFinished(this.elapsedTime)) {
+                isDeathAnimationFinished = true;
                 MusicTrack.PLAYER_DEMISE.stop();
-                return null; ///return null as player is destroyed
+                return null;  ///return null as player is destroyed
             }
             return playerDemise;
         }
@@ -208,6 +211,14 @@ public class Player implements Drawable {
 
     public void setFacing(TextureRegion facing) {
         this.facing = facing;
+    }
+
+    public boolean isDeathAnimationFinished() {
+        return isDeathAnimationFinished;
+    }
+
+    public void setDeathAnimationFinished(boolean deathAnimationFinished) {
+        isDeathAnimationFinished = deathAnimationFinished;
     }
 }
 

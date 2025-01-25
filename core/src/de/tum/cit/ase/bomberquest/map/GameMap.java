@@ -265,7 +265,8 @@ public class GameMap {
             }
         }
         doPhysicsStep(frameTime);
-        }
+
+    }
 
     /**
      * Performs as many physics steps as necessary to catch up to the given frame time.

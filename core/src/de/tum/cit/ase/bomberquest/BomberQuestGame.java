@@ -11,6 +11,7 @@ import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
 import de.tum.cit.ase.bomberquest.map.GameMap;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
+import de.tum.cit.ase.bomberquest.screen.LostScreen;
 import de.tum.cit.ase.bomberquest.screen.MenuScreen;
 import de.tum.cit.ase.bomberquest.screen.PauseScreen;
 import games.spooky.gdx.nativefilechooser.NativeFileChooser;
@@ -96,7 +97,7 @@ public class BomberQuestGame extends Game {
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
 
-        coordinatesAndObjects.clear(); // Clear any previous data
+        coordinatesAndObjects.clear();// Clear any previous data
         for (String line : linesOfText) {
             line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) {
@@ -145,6 +146,11 @@ public class BomberQuestGame extends Game {
         this.setScreen(new PauseScreen(this));
     }
 
+    public void goToLostScreen(){
+        MusicTrack.Level_THEME.stop();
+        MusicTrack.MENU_BGM.play();
+        this.setScreen(new LostScreen(this));
+    }
 
     /**
      * (Aryan) Goes to the map selected by user:

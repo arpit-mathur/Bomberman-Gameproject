@@ -36,17 +36,17 @@ public class LostScreen implements Screen{
 
         // Add a label as a title
         table.add(new Label("Bomber_Quest", game.getSkin(), "title")).padBottom(80).row();
-        table.add(new Label("Game is paused", game.getSkin(), "title")).padBottom(80).row();
+        table.add(new Label("You Died", game.getSkin(), "title")).padBottom(80).row();
 
 
-        TextButton resumeButton = new TextButton("resume", game.getSkin());
-        table.add(resumeButton).width(200).row();
+        TextButton resumeButton = new TextButton("Start a new Game", game.getSkin());
+        table.add(resumeButton).width(400).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
-                game.goToGame();
+                game.startDefaultMap();
             }
         });
 
@@ -54,7 +54,8 @@ public class LostScreen implements Screen{
 
     @Override
     public void show() {
-
+        // Set the input processor so the stage can receive input events
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

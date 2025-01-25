@@ -89,7 +89,7 @@ public class GameScreen implements Screen {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 
-        }else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        }else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             MusicTrack.GAME_PAUSE.play();
             game.goToPauseScreen();
         }
@@ -211,8 +211,14 @@ public class GameScreen implements Screen {
                 draw(spriteBatch, enemy);
             }
         }
+        if(map.getPlayer().isDeathAnimationFinished()){
+            stage.dispose();
+            game.goToLostScreen();
+            game.getCoordinatesAndObjects().clear();
+        } else {
+            draw(spriteBatch, map.getPlayer());
+        }
 
-        draw(spriteBatch, map.getPlayer());
 
         // Finish drawing, i.e. send the drawn items to the graphics card
         spriteBatch.end();
