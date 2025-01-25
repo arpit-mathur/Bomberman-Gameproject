@@ -121,6 +121,7 @@ public class GameScreen implements Screen {
     private void updateCamera() {
         mapCamera.setToOrtho(false);
         /// Clamp is used --- why this min and why this max? (to make it Responsive)
+        /// Horizontal Centering
         if(map.getMapWidth() > viewWidth) {
             mapCamera.position.x = MathUtils.clamp(map.getPlayer().getX() * TILE_SIZE_PX * SCALE,
                     (float) viewWidth / (2),
@@ -129,12 +130,17 @@ public class GameScreen implements Screen {
         else {
             mapCamera.position.x = map.mapWidth / 2f;
         }
-            mapCamera.position.y = MathUtils.clamp(map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
-                        (float) viewHeight / 2,
-                        map.mapHeight - (float) viewHeight / 2);
-
+        /// Vertical centering
+        if (map.getMapHeight() > viewHeight) {
+            mapCamera.position.y = MathUtils.clamp(
+                    map.getPlayer().getY() * TILE_SIZE_PX * SCALE,
+                    (float) viewHeight / 2,
+                    map.mapHeight - (float) viewHeight / 2
+            );
+        } else {
+            mapCamera.position.y = map.mapHeight / 2f;
+        }
         mapCamera.update(); // This is necessary to apply the changes
-        ///Commented out the Camera, to see if the map is loaded or not.
     }
 
     private void renderMap() {

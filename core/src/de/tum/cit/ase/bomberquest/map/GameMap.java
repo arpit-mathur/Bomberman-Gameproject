@@ -44,6 +44,7 @@ public class GameMap {
     private final World world;
 
     public float mapWidth, mapHeight;
+    private int mapMaxX, mapMaxY;
     // Game objects
     private Player player;
     private ArrayList<Enemy> enemies;
@@ -77,14 +78,20 @@ public class GameMap {
         this.bombs = new ArrayList<>();
         this.player = getPlayer();
 
+        this.mapMaxX = 0;
+        this.mapMaxY =0;
+
         //Initialized the walls, chests and Breakable walls, and flowers
         this.indestructibleWalls = new ArrayList<>();
         this.destructibleWalls = new ArrayList<>();
         this.chests = new ArrayList<>();
         this.concurrentBombPowerUps = new ArrayList<>();
         this.bombBlastPowerUp = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+        parseKeyValueToBuild(coordinatesAndObjects);
 
-        this.flowers = new Flowers[21][21];
+        /// +1 as an account for Index
+        this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
         for (int i = 0; i < flowers.length; i++) {
             for (int j = 0; j < flowers[i].length; j++) {
                 this.flowers[i][j] = new Flowers(i, j);
@@ -92,39 +99,48 @@ public class GameMap {
         }
         this.mapWidth = flowers.length * TILE_SIZE_PX * SCALE;
         this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
-        this.enemies = new ArrayList<>();
-        parseKeyValueToBuild(coordinatesAndObjects);
     }
 
     public void parseKeyValueToBuild(Map<String, String> coordinatesAndObjects) {
 
         for (String key : game.getCoordinatesAndObjects().keySet()) {
-
             String[] coordinates = key.split(",");
-            ///x coordinate
-            int x = Integer.parseInt(coordinates[0].trim());
-            ///y coordinate
-            int y = Integer.parseInt(coordinates[1].trim());
-            ///value of our object
-            String object = coordinatesAndObjects.get(key);
+            try {
+                ///x coordinate
+                int x = Integer.parseInt(coordinates[0].trim());
 
-            switch (object) {
-                case "0" -> this.indestructibleWalls.add(new IndestructibleWall(world, x, y));
-                case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
-                case "2" -> this.player = new Player(world, x, y);
-                case "3" -> this.enemies.add(new Enemy(world, x, y));
-                //case "4" -> this.chest = new Chest(world, x, y);
-                case "5" -> {
-                    this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
-                    this.destructibleWalls.add(new DestructibleWall(world,x,y));
+                if (x > mapMaxX) {
+                    this.mapMaxX = x;
                 }
-                case "6" -> {
-                    this.bombBlastPowerUp.add(new BombBlastPowerUp(world, x, y));
-                    this.destructibleWalls.add(new DestructibleWall(world,x,y));
+
+                ///y coordinate
+                int y = Integer.parseInt(coordinates[1].trim());
+
+                if (y > mapMaxY) {
+                    this.mapMaxY = y;
                 }
+                ///value of our object
+                String object = coordinatesAndObjects.get(key);
+
+                switch (object) {
+                    case "0" -> this.indestructibleWalls.add(new IndestructibleWall(world, x, y));
+                    case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
+                    case "2" -> this.player = new Player(world, x, y);
+                    case "3" -> this.enemies.add(new Enemy(world, x, y));
+                    //case "4" -> this.chest = new Chest(world, x, y);
+                    case "5" -> {
+                        this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
+                        this.destructibleWalls.add(new DestructibleWall(world, x, y));
+                    }
+                    case "6" -> {
+                        this.bombBlastPowerUp.add(new BombBlastPowerUp(world, x, y));
+                        this.destructibleWalls.add(new DestructibleWall(world, x, y));
+                    }
+                }
+            }catch (Exception e){
+                System.err.println("Invalid coordinate format: " + key);
             }
         }
-
     }
 
     /**
@@ -341,6 +357,14 @@ public class GameMap {
     /** Returns the flowers on the map. */
     public List<Flowers> getFlowers() {
         return Arrays.stream(flowers).flatMap(Arrays::stream).toList();
+    }
+
+    public int getMapMaxX() {
+        return mapMaxX;
+    }
+
+    public int getMapMaxY() {
+        return mapMaxY;
     }
 
     public CollisionDetecter getCollisionDetecter() {
