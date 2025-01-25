@@ -83,10 +83,10 @@ public class Player implements Drawable {
         this.elapsedTime += frameTime;
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
+        float xVelocity = 0;
+        float yVelocity = 0;
 
         if(!isDead){
-            float xVelocity = 0;
-            float yVelocity = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 xVelocity = -playerSpeed;
             }
@@ -100,8 +100,8 @@ public class Player implements Drawable {
             else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 xVelocity = playerSpeed;
             }
-            this.hitbox.setLinearVelocity(xVelocity, yVelocity);
         }
+        this.hitbox.setLinearVelocity(xVelocity, yVelocity);
 
 
     }
@@ -148,7 +148,6 @@ public class Player implements Drawable {
             /// Check if the animation has finished
             if (Animations.CHARACTER_DEMISE.isAnimationFinished(this.elapsedTime)) {
                 isDeathAnimationFinished = true;
-                MusicTrack.PLAYER_DEMISE.stop();
                 return null;  ///return null as player is destroyed
             }
             return playerDemise;
@@ -193,7 +192,12 @@ public class Player implements Drawable {
         this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
-        MusicTrack.PLAYER_DEMISE.play();
+        if(dead) {
+            MusicTrack.PLAYER_DEMISE.play();
+        }
+        else{
+            this.hitbox.setActive(true);
+        }
         isDead = dead;
     }
 

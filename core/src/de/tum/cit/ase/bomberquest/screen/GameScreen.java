@@ -74,10 +74,6 @@ public class GameScreen implements Screen {
         stage = new Stage(viewport, game.getSpriteBatch());
     }
 
-    public static void setGameLostTrue() {
-        gameLost = true;
-    }
-
     /**
      * The render method is called every frame to render the game.
      * @param deltaTime The time in seconds since the last render.
@@ -267,6 +263,14 @@ public class GameScreen implements Screen {
         viewHeight = height;
         mapCamera.setToOrtho(false);
         hud.resize(width, height);
+    }
+
+    public static boolean isGameLost() {
+        return gameLost;
+    }
+
+    public static void setGameLost(boolean gameLost) {
+        GameScreen.gameLost = gameLost;
     }
 
     // Unused methods from the Screen interface

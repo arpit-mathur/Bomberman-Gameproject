@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.map.GameMap;
+import de.tum.cit.ase.bomberquest.map.Player;
 
 public class LostScreen implements Screen{
 
@@ -35,17 +37,20 @@ public class LostScreen implements Screen{
         stage.addActor(table); // Add the table to the stage
 
         // Add a label as a title
-        table.add(new Label("Bomber_Quest", game.getSkin(), "title")).padBottom(80).row();
-        table.add(new Label("You Died", game.getSkin(), "title")).padBottom(80).row();
+        table.add(new Label("Game Over", game.getSkin(), "title")).padBottom(80).row();
+        table.add(new Label("Better Luck Next Time", game.getSkin())).padBottom(40).row();
 
 
-        TextButton resumeButton = new TextButton("Start a new Game", game.getSkin());
+        TextButton resumeButton = new TextButton("Restart", game.getSkin());
         table.add(resumeButton).width(400).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
+                game.getMap().getPlayer().setDeathAnimationFinished(false);
+                GameScreen.setGameLost(false);
+                game.getMap().getPlayer().setDead(false);
                 game.startDefaultMap();
             }
         });
@@ -61,7 +66,10 @@ public class LostScreen implements Screen{
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.goToGame();
+            game.getMap().getPlayer().setDeathAnimationFinished(false);
+            GameScreen.setGameLost(false);
+            game.getMap().getPlayer().setDead(false);
+            game.startDefaultMap();
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);
