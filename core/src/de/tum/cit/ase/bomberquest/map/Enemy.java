@@ -119,5 +119,21 @@ public class Enemy implements Drawable {
     public boolean isDestroyed() {
         return isDestroyed;
     }
+
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(float elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public Body getHitbox() {
+        return hitbox;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
+    }
 }
 

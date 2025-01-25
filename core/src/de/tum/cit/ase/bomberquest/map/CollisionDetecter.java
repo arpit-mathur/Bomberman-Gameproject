@@ -18,6 +18,7 @@ public class CollisionDetecter  implements ContactListener {
         Fixture fixtureB = contact.getFixtureB();
 
         if((fixtureA.getBody().getUserData() instanceof Player) && fixtureB.getBody().getUserData() instanceof Enemy) {
+            ///Honestly I have no Idea what we are yssigning to player
             Player player = (Player) fixtureA.getBody().getUserData();
             player.setDead(true);
 
@@ -26,6 +27,9 @@ public class CollisionDetecter  implements ContactListener {
             Player player = (Player) fixtureB.getBody().getUserData();
             player.setDead(true);
 
+        } else if ((fixtureA.getBody().getUserData() instanceof Enemy) && fixtureB.getBody().getUserData()instanceof Enemy){
+            Enemy enemy = (Enemy) fixtureA.getBody().getUserData();
+            ///This thing is not going to do anything now.
         }
 
     }

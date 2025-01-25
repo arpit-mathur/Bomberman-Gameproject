@@ -49,10 +49,11 @@ public class PauseScreen implements Screen {
 
     }
 
-    @Override
     public void show() {
-
+        // Set the input processor so the stage can receive input events
+        Gdx.input.setInputProcessor(stage);
     }
+
 
     @Override
     public void render(float deltaTime) {
