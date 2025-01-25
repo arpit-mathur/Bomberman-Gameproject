@@ -46,14 +46,20 @@ public class LostScreen implements Screen{
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.loadDefaultMap();
 
-                ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
-                game.getMap().getPlayer().setDeathAnimationFinished(false);
-                GameScreen.setGameLost(false);
-                game.getMap().getPlayer().setDead(false);
-                game.startDefaultMap();
             }
         });
+
+        TextButton goToMenu = new TextButton("Go to Main Menu", game.getSkin());
+        table.add(goToMenu).width(400).row();
+        goToMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.goToMenu();
+            }
+        });
+
 
     }
 
@@ -66,10 +72,7 @@ public class LostScreen implements Screen{
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.getMap().getPlayer().setDeathAnimationFinished(false);
-            GameScreen.setGameLost(false);
-            game.getMap().getPlayer().setDead(false);
-            game.startDefaultMap();
+            game.loadDefaultMap();
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);

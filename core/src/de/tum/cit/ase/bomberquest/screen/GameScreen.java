@@ -208,9 +208,8 @@ public class GameScreen implements Screen {
             }
         }
         if(map.getPlayer().isDeathAnimationFinished()){
-            stage.dispose();
             game.goToLostScreen();
-            game.getCoordinatesAndObjects().clear();
+
         } else {
             draw(spriteBatch, map.getPlayer());
         }

@@ -80,8 +80,8 @@ public class BomberQuestGame extends Game {
         // Load UI skin
         this.skin = new Skin(Gdx.files.internal("skin/craftacular/craftacular-ui.json"));
 
-        // Load default map from "map-1.properties"
-        loadDefaultMap();
+//        // Load default map from "map-1.properties"
+//        loadDefaultMap();
 
         // Navigate to the menu screen
         goToMenu();
@@ -90,9 +90,10 @@ public class BomberQuestGame extends Game {
     /**
      * Loads the default map from "map-1.properties" in /maps
      */
-    private void loadDefaultMap() {
+    public void loadDefaultMap() {
 
         /// By the same logic as in doYourMagic()
+        coordinatesAndObjects.clear();
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
@@ -109,16 +110,14 @@ public class BomberQuestGame extends Game {
 
         // Initialize the GameMap object with default map
         this.map = new GameMap(this, coordinatesAndObjects);
-    }
-
-    /**
-     * Switches to the game screen and starts the default map.
-     */
-    public void startDefaultMap() {
         MusicTrack.MENU_BGM.stop();
         MusicTrack.Level_THEME.play();
         this.setScreen(new GameScreen(this));
+
     }
+
+
+
 
     /**
      * Switches to the menu screen.
