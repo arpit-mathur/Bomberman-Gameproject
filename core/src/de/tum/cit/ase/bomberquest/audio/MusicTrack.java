@@ -13,10 +13,12 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-    MENU_BGM("MenuBGM.mp3", 0.15f,true),
+    MENU_BGM("MenuBGM.mp3", 0.15f,false),
     PLAYER_MOVE1("Player_moving1.mp3", 0.15f,true),
     PLAYER_MOVE2("Player_moving2.mp3", 0.15f,true),
-    Level_THEME("Level-Theme.mp3", 0.15f,true),
+    Level_THEME("Level-Theme.mp3", 0.15f,false),
+    Level_THEME2("Level-Theme2.mp3", 0.15f,false),
+    LEVEL_COMPLETED("Level-Completed.mp3", 0.15f,false),
     PLAYER_DEMISE("Player_Demise.mp3", 0.15f,false),
     BOMB_PLANT("Bomb_plantsfx.mp3",0.15f,false),
     BOMB_EXPLOSION("Bomb_explosionsfx.mp3",0.15f,false),

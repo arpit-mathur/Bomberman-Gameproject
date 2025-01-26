@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.map.Bomb;
 import de.tum.cit.ase.bomberquest.map.GameMap;
 import de.tum.cit.ase.bomberquest.map.Player;
 
@@ -41,22 +42,26 @@ public class VictoryScreen implements Screen{
         table.add(new Label("You are a GigaChad", game.getSkin())).padBottom(40).row();
 
 
-        TextButton resumeButton = new TextButton("WannaPlayAgain?", game.getSkin());
-        table.add(resumeButton).width(400).row();
+        TextButton resumeButton = new TextButton("PlayAgain!", game.getSkin());
+        table.add(resumeButton).width(250).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameScreen.setGameWon(false);
                 MusicTrack.GAME_OVER.stop();
+                MusicTrack.Level_THEME.play();
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
                 game.loadDefaultMap();
-
             }
         });
 
         TextButton goToMenu = new TextButton("Go to Main Menu", game.getSkin());
-        table.add(goToMenu).width(400).row();
+        table.add(goToMenu).width(350).row();
         goToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                MusicTrack.GAME_OVER.stop();
                 game.goToMenu();
             }
         });
@@ -73,7 +78,11 @@ public class VictoryScreen implements Screen{
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            MusicTrack.GAME_OVER.stop();
+            MusicTrack.LEVEL_COMPLETED.stop();
+            GameScreen.setGameWon(false);
+            MusicTrack.Level_THEME.play();
+            Bomb.setMaxConcurrentBombs(1);
+            Bomb.setCurrentBombRadius(1);
             game.loadDefaultMap();
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);

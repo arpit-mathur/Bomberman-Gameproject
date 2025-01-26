@@ -41,6 +41,7 @@ public class GameScreen implements Screen {
     public static int viewWidth, viewHeight;
 
     private static boolean gameLost;
+    private static boolean gameWon;
     private final BomberQuestGame game;
     private final SpriteBatch spriteBatch;
     private final GameMap map;
@@ -265,6 +266,14 @@ public class GameScreen implements Screen {
 
     public static boolean isGameLost() {
         return gameLost;
+    }
+
+    public static boolean isGameWon() {
+        return gameWon;
+    }
+
+    public static void setGameWon(boolean gameWon) {
+        GameScreen.gameWon = gameWon;
     }
 
     public static void setGameLost(boolean gameLost) {

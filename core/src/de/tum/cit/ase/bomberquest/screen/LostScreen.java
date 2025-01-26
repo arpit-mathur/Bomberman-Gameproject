@@ -49,6 +49,7 @@ public class LostScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MusicTrack.GAME_OVER.stop();
+                MusicTrack.Level_THEME.play();
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
                 game.loadDefaultMap();
@@ -77,6 +78,7 @@ public class LostScreen implements Screen{
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             MusicTrack.GAME_OVER.stop();
+            MusicTrack.Level_THEME.play();
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
             game.loadDefaultMap();

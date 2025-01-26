@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 
 /**
  * A Heads-Up Display (HUD) that displays information on the screen.
@@ -48,7 +49,9 @@ public class Hud {
         font.setColor(Color.GREEN);
 
         int remainingTime = (int)(200 - this.elapsedTime);
-        if(remainingTime < 50 && remainingTime >20){
+        if(remainingTime < 70 && remainingTime >20){
+            MusicTrack.Level_THEME.stop();
+            MusicTrack.Level_THEME2.play();
             font.setColor(Color.YELLOW);
         } else if(remainingTime <= 20 && remainingTime > 0){
             font.setColor(Color.RED);

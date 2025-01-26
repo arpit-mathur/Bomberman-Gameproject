@@ -35,7 +35,6 @@ public class BomberQuestGame extends Game {
     private Skin skin;
 
     private boolean isMultiLevelSelected;
-
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
@@ -111,7 +110,6 @@ public class BomberQuestGame extends Game {
         // Initialize the GameMap object with default map
         this.map = new GameMap(this, coordinatesAndObjects);
         MusicTrack.MENU_BGM.stop();
-        MusicTrack.Level_THEME.play();
         this.setScreen(new GameScreen(this));
 
     }
@@ -153,6 +151,7 @@ public class BomberQuestGame extends Game {
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.Level_THEME.stop();
+        MusicTrack.Level_THEME2.stop();
         MusicTrack.MENU_BGM.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen
     }
@@ -169,11 +168,13 @@ public class BomberQuestGame extends Game {
     ///goes to the pauseScreen
     public void goToPauseScreen(){
         MusicTrack.Level_THEME.stop();
+        MusicTrack.Level_THEME2.stop();
         this.setScreen(new PauseScreen(this));
     }
 
     public void goToLostScreen(){
         MusicTrack.Level_THEME.stop();
+        MusicTrack.Level_THEME2.stop();
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.GAME_OVER.play();
@@ -182,9 +183,10 @@ public class BomberQuestGame extends Game {
 
     public void goToVictoryScreen(){
         MusicTrack.Level_THEME.stop();
+        MusicTrack.Level_THEME2.stop();
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
-        MusicTrack.GAME_OVER.play();
+        MusicTrack.LEVEL_COMPLETED.play();
         this.setScreen(new VictoryScreen(this));
     }
 

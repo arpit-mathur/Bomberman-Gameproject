@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
@@ -60,12 +61,6 @@ public class Player implements Drawable {
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
          body.createFixture(circle, 1.0f);
-
-        ///This fixture has the physics properties of the players hitbox.
-        ///Doesnt really do that much thing, this sliding
-//        player.setFriction(10f); //To prevent sliding:
-//
-//       player.setRestitution(3f);// to prevent bouncing
         // We're done with the shape, so we should dispose of it to free up memory.
         circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
@@ -102,8 +97,6 @@ public class Player implements Drawable {
             }
         }
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
-
-
     }
 
 
@@ -111,8 +104,7 @@ public class Player implements Drawable {
     @Override
     public TextureRegion getCurrentAppearance() {
 
-        if(!isDead){
-
+        if(!isDead && !GameScreen.isGameWon()){
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 MusicTrack.PLAYER_MOVE2.stop();
                 MusicTrack.PLAYER_MOVE1.play();

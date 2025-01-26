@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.screen.GameScreen;
 
 import java.util.*;
 import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
@@ -192,16 +193,17 @@ public class GameMap {
         float player_Y1 = Math.round(getPlayer().getY());
         if(game.isMultiLevelSelected()){
             if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
-                MusicTrack.PLAYER_MOVE1.stop();
-                MusicTrack.PLAYER_MOVE2.stop();
-                MusicTrack.POWERUP_TAKEN.play();
+                MusicTrack.Level_THEME.stop();
+                MusicTrack.Level_THEME2.play();
                 game.loadDefaultMap();
             }
-        } else if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
-            MusicTrack.PLAYER_MOVE1.stop();
-            MusicTrack.PLAYER_MOVE2.stop();
-            MusicTrack.POWERUP_TAKEN.play();
-            game.goToVictoryScreen();
+        } else{
+            if(getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                GameScreen.setGameWon(true);
+                MusicTrack.PLAYER_MOVE1.stop();
+                MusicTrack.PLAYER_MOVE2.stop();
+                game.goToVictoryScreen();
+            }
         }
 
 

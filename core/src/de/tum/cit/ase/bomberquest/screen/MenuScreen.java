@@ -37,6 +37,7 @@ public class MenuScreen implements Screen {
      */
     public MenuScreen(BomberQuestGame game) {
         this.game = game;
+        GameScreen.setGameWon(false);
         var camera = new OrthographicCamera();
         camera.zoom = 1.4f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
@@ -55,17 +56,18 @@ public class MenuScreen implements Screen {
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-              game.loadDefaultMap();// Change to the game screen when button is pressed
+                MusicTrack.Level_THEME.play();
+                game.loadDefaultMap();// Change to the game screen when button is pressed
             }
         });
 
         TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
         table.add(loadAChallenge).width(300).row();
         loadAChallenge.addListener(new ChangeListener() {
-
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
+                MusicTrack.Level_THEME.play();
                 game.loadChallenge();
             }
         });
@@ -109,6 +111,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            MusicTrack.Level_THEME.play();
             game.loadDefaultMap();
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
