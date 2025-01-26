@@ -51,11 +51,22 @@ public class MenuScreen implements Screen {
 
         // Create and add a button to go to the game screen
         TextButton goToGameButton = new TextButton("Start", game.getSkin());
-        table.add(goToGameButton).width(200).row();
+        table.add(goToGameButton).width(220).row();
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
               game.loadDefaultMap();// Change to the game screen when button is pressed
+            }
+        });
+
+        TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
+        table.add(loadAChallenge).width(300).row();
+        loadAChallenge.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.loadChallenge();
             }
         });
 
@@ -70,17 +81,6 @@ public class MenuScreen implements Screen {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
                 game.LoadFileChooser();
-            }
-        });
-
-        TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
-        table.add(loadAChallenge).width(350).row();
-        loadAChallenge.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                ///This method will open the filechooser window
-                game.loadChallenge();
             }
         });
 

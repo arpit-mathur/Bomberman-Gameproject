@@ -220,7 +220,7 @@ public class GameMap {
                 float bombY = Math.round(bomb.getY());
 
                 /// Check if the player has moved away from the bomb
-                if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.5f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
+                if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
 
