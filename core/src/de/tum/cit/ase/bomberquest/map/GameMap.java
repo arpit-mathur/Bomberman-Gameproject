@@ -51,6 +51,7 @@ public class GameMap {
     private ArrayList<Enemy> enemies;
 
     private final Flowers[][] flowers;
+    private List<ExplosionSegment> segments = new ArrayList<>();
     ///Walls of the Selected Map
     private ArrayList<IndestructibleWall> indestructibleWalls;
     private ArrayList<DestructibleWall> destructibleWalls;
@@ -59,7 +60,7 @@ public class GameMap {
     private ArrayList<BombBlastPowerUp> bombBlastPowerUp;
 
 
-    private ArrayList<Bomb> bombs;
+    private final ArrayList<Bomb> bombs;
     // Tracks elapsed time since the bomb was planted
     // Indicates if the bomb is being monitored
     private CollisionDetecter collisionDetecter;
@@ -164,6 +165,11 @@ public class GameMap {
                     .parallelStream()
                     .forEach(bomb -> bomb.tick(0.017f));
         }
+        if(!this.segments.isEmpty()) {
+            getSegments()
+                    .forEach(segment -> segment.tick(0.017f));
+        }
+
 
         getConcurrentBombPowerUps().forEach(power -> {
             float player_X = Math.round(getPlayer().getX());
@@ -234,6 +240,11 @@ public class GameMap {
                     MusicTrack.BOMB_EXPLOSION.play();
                     float explosionRadius = Bomb.getCurrentBombRadius();
 
+
+                    // Generate explosion segments
+                    List<ExplosionSegment> newSegments = createExplosionSegments(bombX, bombY, explosionRadius);
+                    segments.addAll(newSegments);
+
                     /// used parallel streams for concurrent processes
                     getDestructibleWalls()
                             .parallelStream()
@@ -284,7 +295,39 @@ public class GameMap {
             }
         }
         doPhysicsStep(frameTime);
+    }
 
+    private List<ExplosionSegment> createExplosionSegments(float x, float y, float radius) {
+        List<ExplosionSegment> newSegments = new ArrayList<>();
+
+        // Directions: {dx, dy} for up, down, left, right
+        int[][] directions = {
+                {0, 1},
+                {0, -1},
+                {-1, 0},
+                {1, 0}
+        };
+
+        for (int[] dir : directions) {
+            for (int i = 1; i <= radius; i++) {
+                float segmentX = x + dir[0] * i;
+                float segmentY = y + dir[1] * i;
+
+                // Check for collisions with walls
+                boolean isBlocked = isWallAt(segmentX, segmentY);
+                boolean isEnd = isBlocked || i == radius;
+
+                // Add the segment with direction and end-line status
+                newSegments.add(new ExplosionSegment(Math.round(segmentX), Math.round(segmentY), dir[0], dir[1], isEnd));
+
+                if (isBlocked) break;
+            }
+        }
+        return newSegments;
+    }
+
+    private boolean isWallAt(float x, float y) {
+        return indestructibleWalls.stream().anyMatch(w -> w.getX() == x && w.getY() == y);
     }
 
     /**
@@ -394,6 +437,14 @@ public class GameMap {
 
     public float getPhysicsTime() {
         return physicsTime;
+    }
+
+    public List<ExplosionSegment> getSegments() {
+        return segments;
+    }
+
+    public void setSegments(List<ExplosionSegment> segments) {
+        this.segments = segments;
     }
 
     public BomberQuestGame getGame() {

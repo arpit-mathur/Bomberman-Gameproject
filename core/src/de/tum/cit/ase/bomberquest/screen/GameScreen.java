@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
         }
 
         // Clear the previous frame from the screen, or else the picture smears
-        ScreenUtils.clear(Color.LIGHT_GRAY);
+        ScreenUtils.clear(Color.BLACK);
 
         // Cap frame time to 250ms to prevent spiral of death
         float frameTime = Math.min(deltaTime, 0.250f);
@@ -155,6 +155,12 @@ public class GameScreen implements Screen {
             }
         }
 
+        for(ExplosionSegment segment : map.getSegments()){
+            draw(spriteBatch,segment);
+        }
+
+
+
         for(ConcurrentBombPowerUp powerUp : map.getConcurrentBombPowerUps()){
             if(powerUp!= null){
                 draw(spriteBatch, powerUp);
@@ -192,8 +198,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-
 
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
@@ -235,16 +239,6 @@ public class GameScreen implements Screen {
             // Calculate width and height of the texture in pixels
             float width = texture.getRegionWidth() * SCALE;
             float height = texture.getRegionHeight() * SCALE;
-
-            /// If the Drawable is a bomb and the elapsed time exceeds the explosion time,
-            /// center the explosion texture around the bomb's position
-            if (drawable instanceof Bomb bomb) {
-                if (bomb.getBombTimer() >= Bomb.BOMB_EXPLOSION_TIME) {
-                    // Adjust x and y to center the explosion texture
-                    x -= (width / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center horizontally
-                    y -= (height / 2f) - (TILE_SIZE_PX * SCALE / 2f); // Center vertically
-                }
-            }
             // Draw the texture
             spriteBatch.draw(texture, x, y, width, height);
         }

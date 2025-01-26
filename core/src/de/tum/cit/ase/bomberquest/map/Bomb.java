@@ -84,21 +84,25 @@ public class Bomb implements Drawable {
         if (bombTimer >= BOMB_EXPLOSION_TIME) {
             destroy(); /// Deactivate the bomb's hitbox when the bomb explodes.
             /// Show the explosion animation
-            if(currentBombRadius == 1) {
-                /// radius increases by POWER_UP
-                return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
+            // If the animation has finished, return null (indicating the segment is gone)
+            TextureRegion explosionAnimation = Animations.EXPLOSION_CENTER.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME,false);
+            if (Animations.EXPLOSION_CENTER.isAnimationFinished(this.bombTimer - BOMB_EXPLOSION_TIME)) {
+                return null;
             }
-            else{
-                /// Default bomb blast radius
-                return Animations.BOMB_BLAST_LONG.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
-            }
+            // Get the current frame based on elapsed time
+            return explosionAnimation;
+
+            //if(currentBombRadius == 1) {
+            //    /// radius increases by POWER_UP
+            //    return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
+            //}
+            //else{
+            //    /// Default bomb blast radius
+            //    return Animations.BOMB_BLAST_LONG.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
+            //}
         }
         /// Shows the ticking animation, looping as long as the bomb is ticking
-        else if (bombTimer < BOMB_EXPLOSION_TIME) {
-            return Animations.BOMB_TICKING.getKeyFrame(this.bombTimer, true);
-        }
-        /// null when no bomb is planted
-        return null;
+        return Animations.BOMB_TICKING.getKeyFrame(this.bombTimer, true);
     }
 
     public static int getCurrentBombRadius() {

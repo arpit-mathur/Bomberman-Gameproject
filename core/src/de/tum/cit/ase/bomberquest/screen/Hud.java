@@ -49,14 +49,16 @@ public class Hud {
         font.setColor(Color.GREEN);
 
         int remainingTime = (int)(200 - this.elapsedTime);
-        if(remainingTime < 70 && remainingTime >20){
+        if(remainingTime == 70){
             MusicTrack.Level_THEME.stop();
             MusicTrack.Level_THEME2.play();
+        }
+        if(remainingTime < 70 && remainingTime >20){
             font.setColor(Color.YELLOW);
         } else if(remainingTime <= 20 && remainingTime > 0){
             font.setColor(Color.RED);
         } else if (remainingTime == 0) {
-            game.goToMenu();
+            game.goToLostScreen();
         }
         font.draw(spriteBatch, "Remaining Time : " + remainingTime, 10, Gdx.graphics.getHeight() - 10);
         // Finish drawing

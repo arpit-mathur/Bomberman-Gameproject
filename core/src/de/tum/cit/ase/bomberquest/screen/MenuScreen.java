@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
+import de.tum.cit.ase.bomberquest.map.Bomb;
 
 /**
  * The MenuScreen class is responsible for displaying the main menu of the game.
@@ -56,8 +57,11 @@ public class MenuScreen implements Screen {
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
                 MusicTrack.Level_THEME.play();
-                game.loadDefaultMap();// Change to the game screen when button is pressed
+                game.loadDefaultMap();
             }
         });
 
@@ -67,6 +71,9 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
                 MusicTrack.Level_THEME.play();
                 game.loadChallenge();
             }
@@ -111,6 +118,9 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            Bomb.setActiveBombs(0);
+            Bomb.setMaxConcurrentBombs(1);
+            Bomb.setCurrentBombRadius(1);
             MusicTrack.Level_THEME.play();
             game.loadDefaultMap();
         }

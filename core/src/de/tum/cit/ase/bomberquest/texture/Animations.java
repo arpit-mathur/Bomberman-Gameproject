@@ -70,36 +70,98 @@ public class Animations {
     );
 
     /**
-     * The animation for the bomb blast with bigger radius.
+     * The animation for the center of bomb explosion
      */
-    public static final Animation<TextureRegion> BOMB_BLAST_LONG = new Animation<>(0.05f,
-            SpriteSheet.BOMB_BLAST_LONG.at(5, 1),
-            SpriteSheet.BOMB_BLAST_LONG.at(5, 6),
-            SpriteSheet.BOMB_BLAST_LONG.at(10, 1),
-            SpriteSheet.BOMB_BLAST_LONG.at(10, 6),
-            SpriteSheet.BOMB_BLAST_LONG.at(10, 1),
-            SpriteSheet.BOMB_BLAST_LONG.at(5, 6),
-            SpriteSheet.BOMB_BLAST_LONG.at(5, 1),
-            SpriteSheet.BOMB_BLAST_LONG.at(10, 11)
+    public static final Animation<TextureRegion> EXPLOSION_CENTER = new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 3)
     );
 
     /**
-     * The animation for the bomb blast with bigger radius.
+     * The animation for the explosion's right-end
      */
-    public static final Animation<TextureRegion> BOMB_BLAST_DEFAULT = new Animation<>(0.05f,
-            SpriteSheet.BOMB_BLAST_SHORT.at(6, 2),
-            SpriteSheet.BOMB_BLAST_SHORT.at(6, 7),
-            SpriteSheet.BOMB_BLAST_SHORT.at(11, 2),
-            SpriteSheet.BOMB_BLAST_SHORT.at(11, 7),
-            SpriteSheet.BOMB_BLAST_SHORT.at(11, 2),
-            SpriteSheet.BOMB_BLAST_SHORT.at(6, 7),
-            SpriteSheet.BOMB_BLAST_SHORT.at(6, 2),
-            SpriteSheet.BOMB_BLAST_SHORT.at(10, 11)
+    public static final Animation<TextureRegion> EXPLOSION_RIGHT_END= new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 5),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 10),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 5),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 10),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 5),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 10),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 5)
     );
 
+    /**
+     * The animation for the explosion's left-end
+     */
+    public static final Animation<TextureRegion> EXPLOSION_LEFT_END= new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 1),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 6),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 1),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 6),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 1),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 6),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 1)
+    );
+
+    /**
+     * The animation for the explosion's Top-end
+     */
+    public static final Animation<TextureRegion> EXPLOSION_TOP_END = new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(5, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(5, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(10, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(10, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(10, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(5, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(5, 3)
+    );
+
+    /**
+     * The animation for the explosion's bottom end
+     */
+    public static final Animation<TextureRegion> EXPLOSION_BOTTOM_END = new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(9, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(9, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(14, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(14, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(14, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(9, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(9, 3)
+    );
+
+    /**
+     * The animation for the explosion's vertical part
+     */
+    public static final Animation<TextureRegion> EXPLOSION_VERTICAL = new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(6, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(6, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(11, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(11, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(11, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(6, 8),
+            SpriteSheet.ORIGINAL_OBJECTS.at(6, 3)
+    );
+
+    /**
+     * The animation for the explosion's horizontal part
+     */
+    public static final Animation<TextureRegion> EXPLOSION_HORIZONTAL = new Animation<>(0.05f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 2),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 7),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 2),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 7),
+            SpriteSheet.ORIGINAL_OBJECTS.at(12, 2),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 7),
+            SpriteSheet.ORIGINAL_OBJECTS.at(7, 2)
+    );
 
     /// Added animation of breaking the wall (Aryan)
-    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.13f,
+    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.07f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 6),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 8),

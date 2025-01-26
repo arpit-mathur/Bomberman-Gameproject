@@ -50,6 +50,7 @@ public class VictoryScreen implements Screen{
                 GameScreen.setGameWon(false);
                 MusicTrack.GAME_OVER.stop();
                 MusicTrack.Level_THEME.play();
+                Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
                 game.loadDefaultMap();
@@ -81,6 +82,7 @@ public class VictoryScreen implements Screen{
             MusicTrack.LEVEL_COMPLETED.stop();
             GameScreen.setGameWon(false);
             MusicTrack.Level_THEME.play();
+            Bomb.setActiveBombs(0);
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
             game.loadDefaultMap();

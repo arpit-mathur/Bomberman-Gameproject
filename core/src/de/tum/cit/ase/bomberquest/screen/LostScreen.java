@@ -44,12 +44,13 @@ public class LostScreen implements Screen{
 
 
         TextButton resumeButton = new TextButton("Restart", game.getSkin());
-        table.add(resumeButton).width(400).row();
+        table.add(resumeButton).width(300).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 MusicTrack.GAME_OVER.stop();
                 MusicTrack.Level_THEME.play();
+                Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
                 game.loadDefaultMap();
@@ -65,7 +66,6 @@ public class LostScreen implements Screen{
             }
         });
 
-
     }
 
     @Override
@@ -79,6 +79,7 @@ public class LostScreen implements Screen{
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             MusicTrack.GAME_OVER.stop();
             MusicTrack.Level_THEME.play();
+            Bomb.setActiveBombs(0);
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
             game.loadDefaultMap();

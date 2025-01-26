@@ -53,15 +53,6 @@ public enum SpriteSheet {
      * @return the texture
      */
     public TextureRegion at(int row, int column) {
-        if(this == BOMB_BLAST_LONG || this == BOMB_BLAST_SHORT){
-            return new TextureRegion(
-                    spritesheet,
-                    (column -1) * 16,
-                    (row -1) * 16,
-                    this.width,
-                    this.height
-            );
-        }
         return new TextureRegion(
                 spritesheet,
                 (column -1) * this.width,
