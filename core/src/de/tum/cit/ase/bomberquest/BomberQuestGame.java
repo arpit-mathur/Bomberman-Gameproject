@@ -10,10 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
 import de.tum.cit.ase.bomberquest.map.GameMap;
-import de.tum.cit.ase.bomberquest.screen.GameScreen;
-import de.tum.cit.ase.bomberquest.screen.LostScreen;
-import de.tum.cit.ase.bomberquest.screen.MenuScreen;
-import de.tum.cit.ase.bomberquest.screen.PauseScreen;
+import de.tum.cit.ase.bomberquest.screen.*;
 import games.spooky.gdx.nativefilechooser.NativeFileChooser;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserCallback;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserConfiguration;
@@ -151,6 +148,14 @@ public class BomberQuestGame extends Game {
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.GAME_OVER.play();
         this.setScreen(new LostScreen(this));
+    }
+
+    public void goToVictoryScreen(){
+        MusicTrack.Level_THEME.stop();
+        MusicTrack.PLAYER_MOVE1.stop();
+        MusicTrack.PLAYER_MOVE2.stop();
+        MusicTrack.GAME_OVER.play();
+        this.setScreen(new VictoryScreen(this));
     }
 
     /**

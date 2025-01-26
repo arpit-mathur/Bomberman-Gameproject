@@ -194,7 +194,7 @@ public class GameMap {
             MusicTrack.PLAYER_MOVE1.stop();
             MusicTrack.PLAYER_MOVE2.stop();
             MusicTrack.POWERUP_TAKEN.play();
-            game.goToLostScreen();
+            game.goToVictoryScreen();
         }
 
 
