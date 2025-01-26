@@ -183,7 +183,7 @@ public class GameMap {
                         MusicTrack.POWERUP_TAKEN.play();
                         power.setPowerTaken(true);
                         power.destroy();
-                        getPlayer().setPlayerSpeed(5f);
+                        Bomb.incrementCurrentBombRadius();
                     }
                 }
         );
@@ -230,7 +230,7 @@ public class GameMap {
                 if (bomb.getBombTimer() >= Bomb.BOMB_EXPLOSION_TIME) {
                     /// Defined explosion radius
                     MusicTrack.BOMB_EXPLOSION.play();
-                    float explosionRadius = bomb.getExplosionRadius();
+                    float explosionRadius = Bomb.getCurrentBombRadius();
 
                     /// used parallel streams for concurrent processes
                     getDestructibleWalls()
