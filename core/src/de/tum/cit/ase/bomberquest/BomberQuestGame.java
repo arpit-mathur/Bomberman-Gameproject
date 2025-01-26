@@ -147,6 +147,8 @@ public class BomberQuestGame extends Game {
 
     public void goToLostScreen(){
         MusicTrack.Level_THEME.stop();
+        MusicTrack.PLAYER_MOVE1.stop();
+        MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.GAME_OVER.play();
         this.setScreen(new LostScreen(this));
     }

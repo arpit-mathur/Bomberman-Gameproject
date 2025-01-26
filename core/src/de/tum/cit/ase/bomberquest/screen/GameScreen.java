@@ -189,12 +189,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        for(Chest chest : map.getChests()){
-            if(chest != null){
-                draw(spriteBatch, chest);
-            }
-        }
-
+        draw(spriteBatch, map.getExit());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
             float bombX = Math.round(map.getPlayer().getX());

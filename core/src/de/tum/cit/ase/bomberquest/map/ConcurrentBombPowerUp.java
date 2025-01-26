@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-public class ConcurrentBombPowerUp extends Chest{
+public class ConcurrentBombPowerUp extends Exit {
     private boolean powerTaken;
 
     public ConcurrentBombPowerUp(World world, float x, float y){

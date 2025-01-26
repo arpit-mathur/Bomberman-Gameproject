@@ -8,7 +8,7 @@ import de.tum.cit.ase.bomberquest.texture.Textures;
 /**
  * A chest is a static object with a hitbox, so the player cannot walk through it.
  */
-public class Chest implements Drawable {
+public class Exit implements Drawable {
     
     // We would normally get the position from the hitbox, but since we don't need to move the chest, we can store the position directly.
     private final float x;
@@ -22,7 +22,7 @@ public class Chest implements Drawable {
      * @param x The X position.
      * @param y The Y position.
      */
-    public Chest(World world, float x, float y) {
+    public Exit(World world, float x, float y) {
         this.x = x;
         this.y = y;
 
@@ -59,7 +59,7 @@ public class Chest implements Drawable {
     
     @Override
     public TextureRegion getCurrentAppearance() {
-        return Textures.CHEST;
+        return Textures.EXIT;
     }
     
     @Override
