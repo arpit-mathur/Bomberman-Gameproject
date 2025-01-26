@@ -84,7 +84,7 @@ public class GameMap {
         //Initialized the walls, chests and Breakable walls, and flowers
         this.indestructibleWalls = new ArrayList<>();
         this.destructibleWalls = new ArrayList<>();
-        this.exit = new Exit(world, 1, 11);
+        this.exit = new Exit(world, 10, 13);
         this.concurrentBombPowerUps = new ArrayList<>();
         this.bombBlastPowerUp = new ArrayList<>();
         this.enemies = new ArrayList<>();
@@ -127,7 +127,7 @@ public class GameMap {
                     case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
                     case "2" -> this.player = new Player(world, x, y);
                     case "3" -> this.enemies.add(new Enemy(world, x, y));
-                    //case "4" -> this.chest = new Chest(world, x, y);
+                    //case "4" -> this.exit = new Exit(world, x, y);
                     case "5" -> {
                         this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
@@ -190,7 +190,14 @@ public class GameMap {
 
         float player_X1 = Math.round(getPlayer().getX());
         float player_Y1 = Math.round(getPlayer().getY());
-        if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
+        if(game.isMultiLevelSelected()){
+            if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
+                MusicTrack.PLAYER_MOVE1.stop();
+                MusicTrack.PLAYER_MOVE2.stop();
+                MusicTrack.POWERUP_TAKEN.play();
+                game.loadDefaultMap();
+            }
+        } else if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
             MusicTrack.PLAYER_MOVE1.stop();
             MusicTrack.PLAYER_MOVE2.stop();
             MusicTrack.POWERUP_TAKEN.play();

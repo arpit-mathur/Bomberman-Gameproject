@@ -34,6 +34,8 @@ public class BomberQuestGame extends Game {
     /** The game's UI skin. This is used to style the game's UI elements. */
     private Skin skin;
 
+    private boolean isMultiLevelSelected;
+
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
@@ -90,8 +92,36 @@ public class BomberQuestGame extends Game {
     public void loadDefaultMap() {
 
         /// By the same logic as in doYourMagic()
+        isMultiLevelSelected = false;
         coordinatesAndObjects.clear();
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear();// Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+        MusicTrack.MENU_BGM.stop();
+        MusicTrack.Level_THEME.play();
+        this.setScreen(new GameScreen(this));
+
+    }
+
+    public void loadChallenge() {
+
+        /// By the same logic as in doYourMagic()
+        isMultiLevelSelected = true;
+        coordinatesAndObjects.clear();
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map-2.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
 
@@ -303,4 +333,11 @@ public class BomberQuestGame extends Game {
         goToSelectedMap();
     }
 
+    public boolean isMultiLevelSelected() {
+        return isMultiLevelSelected;
+    }
+
+    public void setMultiLevelSelected(boolean multiLevelSelected) {
+        isMultiLevelSelected = multiLevelSelected;
+    }
 }

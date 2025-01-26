@@ -73,6 +73,17 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
+        table.add(loadAChallenge).width(350).row();
+        loadAChallenge.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.loadChallenge();
+            }
+        });
+
         Label tipLabel = new Label("Press ENTER for Quick Start", game.getSkin());
         table.add(tipLabel).padTop(30).row();
 
