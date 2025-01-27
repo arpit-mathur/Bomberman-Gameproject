@@ -182,7 +182,6 @@ public class GameScreen implements Screen {
             }
         }
 
-        draw(spriteBatch, map.getExit());
 
         for(IndestructibleWall indestructibleWall : map.getIndestructibleWalls()){
             if(indestructibleWall != null){
@@ -198,6 +197,8 @@ public class GameScreen implements Screen {
                 }
             }
         }
+
+        draw(spriteBatch, map.getExit());
 
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){

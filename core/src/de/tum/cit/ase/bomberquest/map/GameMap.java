@@ -92,6 +92,15 @@ public class GameMap {
         this.enemies = new ArrayList<>();
         parseKeyValueToBuild(coordinatesAndObjects);
 
+        if(!destructibleWalls.isEmpty()){
+            Random random = new Random();
+            int wallno = random.nextInt(destructibleWalls.size());
+            DestructibleWall wall = destructibleWalls.get(wallno);
+            float exitX = wall.getX();
+            float exitY = wall.getY();
+            this.exit = new Exit(world, exitX, exitY);
+        }
+
         /// +1 as an account for Index
         this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
         for (int i = 0; i < flowers.length; i++) {
@@ -124,12 +133,16 @@ public class GameMap {
                 ///value of our object
                 String object = coordinatesAndObjects.get(key);
 
+
                 switch (object) {
                     case "0" -> this.indestructibleWalls.add(new IndestructibleWall(world, x, y));
-                    case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
+                    case "1" -> {
+                        this.destructibleWalls.add(new DestructibleWall(world, x, y));
+
+                    }
                     case "2" -> this.player = new Player(world, x, y);
                     case "3" -> this.enemies.add(new Enemy(world, x, y));
-                    //case "4" -> this.exit = new Exit(world, x, y);
+//                    case "4" -> this.exit = new Exit(world, x, y);
                     case "5" -> {
                         this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
@@ -139,6 +152,8 @@ public class GameMap {
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
                     }
                 }
+
+
             }catch (Exception e){
                 System.err.println("Invalid coordinate format: " + key);
             }
@@ -243,6 +258,7 @@ public class GameMap {
 
                     // Generate explosion segments
                     List<ExplosionSegment> newSegments = createExplosionSegments(bombX, bombY, explosionRadius);
+
                     segments.addAll(newSegments);
 
                     /// used parallel streams for concurrent processes
