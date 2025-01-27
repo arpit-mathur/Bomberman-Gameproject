@@ -9,7 +9,7 @@ import de.tum.cit.ase.bomberquest.texture.Textures;
  * A chest is a static object with a hitbox, so the player cannot walk through it.
  */
 public class Exit implements Drawable {
-    
+
     // We would normally get the position from the hitbox, but since we don't need to move the chest, we can store the position directly.
     private final float x;
     private final float y;
@@ -28,9 +28,8 @@ public class Exit implements Drawable {
 
         // Since the hitbox never moves, and we never need to change it, we don't need to store a reference to it.
         this.hitbox = createHitbox(world);
-
     }
-    
+
     /**
      * Create a Box2D body for the chest.
      * @param world The Box2D world to add the body to.
@@ -57,17 +56,17 @@ public class Exit implements Drawable {
         body.setUserData(this);
         return body;
     }
-    
+
     @Override
     public TextureRegion getCurrentAppearance() {
         return Textures.EXIT;
     }
-    
+
     @Override
     public float getX() {
         return x;
     }
-    
+
     @Override
     public float getY() {
         return y;
@@ -76,18 +75,5 @@ public class Exit implements Drawable {
     @Override
     public void destroy() {
         this.hitbox.setActive(false);
-    }
-
-    public void setSensor(boolean isSensor) {
-        for (Fixture fixture : hitbox.getFixtureList()) {
-            fixture.setSensor(isSensor);
-        }
-    }
-
-    public Boolean getSensor() {
-        for (Fixture fixture : hitbox.getFixtureList()) {
-            return fixture.isSensor();
-        }
-        return null;
     }
 }

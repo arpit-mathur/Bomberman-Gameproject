@@ -55,7 +55,7 @@ public class Hud {
 
         font.draw(spriteBatch, "Remaining Enemies: "+ game.getMap().getRemainingEnemies(),10, Gdx.graphics.getHeight() - 80);
 
-        if(game.getMap().getRemainingEnemies()==13 && !isEnemyClearSoundPlayed()){
+        if(game.getMap().getRemainingEnemies()==0 && !isEnemyClearSoundPlayed()){
             MusicTrack.ENEMIES_CLEAR.play();
             MusicTrack.Level_THEME.stop();
             MusicTrack.Level_THEME2.play();
@@ -63,7 +63,7 @@ public class Hud {
         }
 
         font.setColor(Color.GREEN);
-        int remainingTime = (int)(90 - this.elapsedTime);
+        int remainingTime = (int)(180 - this.elapsedTime);
         if(remainingTime == 70){
             MusicTrack.Level_THEME.stop();
             MusicTrack.Level_THEME2.play();

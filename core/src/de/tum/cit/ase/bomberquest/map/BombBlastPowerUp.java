@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-public class BombBlastPowerUp extends ConcurrentBombPowerUp {
+public class BombBlastPowerUp extends Exit {
     private boolean powerTaken;
 
     public BombBlastPowerUp(World world, float x, float y){
@@ -29,5 +29,4 @@ public class BombBlastPowerUp extends ConcurrentBombPowerUp {
     public void setPowerTaken(boolean powerTaken) {
         this.powerTaken = powerTaken;
     }
-
 }
