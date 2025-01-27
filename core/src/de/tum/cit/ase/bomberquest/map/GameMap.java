@@ -107,6 +107,7 @@ public class GameMap {
                     Random random1 = new Random();
                     int wall3 = random1.nextInt(destructibleWalls.size());
                     float indexOfActualBreakableWall = i + 17 * wall3/3 ;
+
                     int roundedIndex = Math.round(indexOfActualBreakableWall);
 
                     if(roundedIndex < destructibleWalls.size() && roundedIndex >= 0){
@@ -117,7 +118,6 @@ public class GameMap {
                     }
 
                 }
-
 
             }
         }

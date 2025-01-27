@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 
 public class PauseScreen implements Screen {
 
@@ -44,6 +45,16 @@ public class PauseScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
                 game.goToGame();
+            }
+        });
+
+        TextButton goToMenu = new TextButton("Go to Main Menu", game.getSkin());
+        table.add(goToMenu).width(350).row();
+        goToMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                MusicTrack.GAME_OVER.stop();
+                game.goToMenu();
             }
         });
 

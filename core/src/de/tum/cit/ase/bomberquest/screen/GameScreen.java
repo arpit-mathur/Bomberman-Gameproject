@@ -85,11 +85,11 @@ public class GameScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         // Check for escape key press to go back to the menu
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || gameLost) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) || gameLost) {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 
-        }else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+        }else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             MusicTrack.GAME_PAUSE.play();
             game.goToPauseScreen();
         }
