@@ -24,7 +24,8 @@ public enum MusicTrack {
     BOMB_EXPLOSION("Bomb_explosionsfx.mp3",0.15f,false),
     POWERUP_TAKEN("PowerUpsfx.mp3",0.15f,false),
     GAME_PAUSE("GamePauseSFX.mp3",0.15f,false),
-    GAME_OVER("GameOver.mp3",0.15f,false);
+    GAME_OVER("GameOver.mp3",0.15f,false),
+    ENEMIES_CLEAR("Enemiesclear.mp3",0.15f,false);
 
     /** The music file owned by this variant. */
     private final Music music;

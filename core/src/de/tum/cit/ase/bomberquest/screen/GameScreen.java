@@ -49,8 +49,10 @@ public class GameScreen implements Screen {
     private final OrthographicCamera mapCamera;
     private CollisionDetecter collisionDetecter;
 
-    //Idk if we need it, since it is implemented it in almost every screen class.
     private final Stage stage;
+    /// The Level increases as the player completes challenges
+    private static int level;
+
     /**
      * Constructor for GameScreen. Sets up the camera and font.
      *
@@ -73,6 +75,7 @@ public class GameScreen implements Screen {
         gameLost = false;
         Viewport viewport = new ScreenViewport(mapCamera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch());
+        level = 1;
     }
 
     /**
@@ -296,8 +299,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
-
     }
 
+    public static int getLevel() {
+        return level;
+    }
+
+    public static void setLevel(int level) {
+        GameScreen.level = level;
+    }
 }

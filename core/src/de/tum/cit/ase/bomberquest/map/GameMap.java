@@ -86,19 +86,21 @@ public class GameMap {
         //Initialized the walls, chests and Breakable walls, and flowers
         this.indestructibleWalls = new ArrayList<>();
         this.destructibleWalls = new ArrayList<>();
-        this.exit = new Exit(world, 10, 13);
         this.concurrentBombPowerUps = new ArrayList<>();
         this.bombBlastPowerUp = new ArrayList<>();
         this.enemies = new ArrayList<>();
         parseKeyValueToBuild(coordinatesAndObjects);
 
-        if(!destructibleWalls.isEmpty()){
-            Random random = new Random();
-            int wallno = random.nextInt(destructibleWalls.size());
-            DestructibleWall wall = destructibleWalls.get(wallno);
-            float exitX = wall.getX();
-            float exitY = wall.getY();
-            this.exit = new Exit(world, exitX, exitY);
+        if(getExit() == null) {
+            /// This code will be executed if there is no Exit in the map file
+            if (!destructibleWalls.isEmpty()) {
+                Random random = new Random();
+                int wallno = random.nextInt(destructibleWalls.size());
+                DestructibleWall wallForExit = destructibleWalls.get(wallno);
+                float exitX = wallForExit.getX();
+                float exitY = wallForExit.getY();
+                this.exit = new Exit(world, exitX, exitY);
+            }
         }
 
         /// +1 as an account for Index
@@ -142,7 +144,10 @@ public class GameMap {
                     }
                     case "2" -> this.player = new Player(world, x, y);
                     case "3" -> this.enemies.add(new Enemy(world, x, y));
-//                    case "4" -> this.exit = new Exit(world, x, y);
+                    case "4" -> {
+                        this.exit = new Exit(world, x, y);
+                        this.destructibleWalls.add(new DestructibleWall(world, x, y));
+                    }
                     case "5" -> {
                         this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
@@ -213,18 +218,20 @@ public class GameMap {
 
         float player_X1 = Math.round(getPlayer().getX());
         float player_Y1 = Math.round(getPlayer().getY());
-        if(game.isMultiLevelSelected()){
-            if(getExit().getX() == player_X1 && getExit().getY() == player_Y1){
-                MusicTrack.Level_THEME.stop();
-                MusicTrack.Level_THEME2.play();
-                game.loadDefaultMap();
-            }
-        } else{
-            if(getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                GameScreen.setGameWon(true);
-                MusicTrack.PLAYER_MOVE1.stop();
-                MusicTrack.PLAYER_MOVE2.stop();
-                game.goToVictoryScreen();
+        if(getRemainingEnemies() == 0) {
+            if (game.isMultiLevelSelected()) {
+                if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                    MusicTrack.Level_THEME.stop();
+                    MusicTrack.Level_THEME2.play();
+                    game.loadDefaultMap();
+                }
+            } else {
+                if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                    GameScreen.setGameWon(true);
+                    MusicTrack.PLAYER_MOVE1.stop();
+                    MusicTrack.PLAYER_MOVE2.stop();
+                    game.goToVictoryScreen();
+                }
             }
         }
 
@@ -386,10 +393,6 @@ public class GameMap {
     public void plantBomb(float x, float y) {
         if (Bomb.getActiveBombs() <= Bomb.getMaxConcurrentBombs()) {
             MusicTrack.BOMB_PLANT.play();
-            // Dispose of the previous bomb to free memory
-//            if (this.bomb != null) {
-//                this.bomb.destroy();
-//            }
             // Create a new bomb at the specified position
             Bomb bomb =new Bomb(world,x,y);
             this.bombs.add(bomb);
@@ -482,6 +485,10 @@ public class GameMap {
 
     public Exit getExit() {
         return exit;
+    }
+
+    public int getRemainingEnemies(){
+        return (int)enemies.stream().filter(e -> !e.isDestroyed()).count();
     }
 
     public void setExit(Exit exit) {

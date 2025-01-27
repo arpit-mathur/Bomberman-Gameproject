@@ -107,7 +107,6 @@ public class MenuScreen implements Screen {
 //            }
 //        });
         table.add(volumeSlider).padTop(30).row();
-
     }
 
     /**
