@@ -58,6 +58,7 @@ public class GameMap {
     private Exit exit;
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
     private ArrayList<BombBlastPowerUp> bombBlastPowerUp;
+    private ArrayList<SpeedPowerUp> speedIncreasePowerUps;
 
 
     private final ArrayList<Bomb> bombs;
@@ -88,6 +89,7 @@ public class GameMap {
         this.destructibleWalls = new ArrayList<>();
         this.concurrentBombPowerUps = new ArrayList<>();
         this.bombBlastPowerUp = new ArrayList<>();
+        this.speedIncreasePowerUps = new ArrayList<>();
         this.enemies = new ArrayList<>();
         parseKeyValueToBuild(coordinatesAndObjects);
 
@@ -100,6 +102,23 @@ public class GameMap {
                 float exitX = wallForExit.getX();
                 float exitY = wallForExit.getY();
                 this.exit = new Exit(world, exitX, exitY);
+
+                for(int i = 0; i < destructibleWalls.size(); i++){
+                    Random random1 = new Random();
+                    int wall3 = random1.nextInt(destructibleWalls.size());
+                    float indexOfActualBreakableWall = i + 17 * wall3/3 ;
+                    int roundedIndex = Math.round(indexOfActualBreakableWall);
+
+                    if(roundedIndex < destructibleWalls.size() && roundedIndex >= 0){
+                        DestructibleWall wall1=  destructibleWalls.get(roundedIndex);
+                        float speedPowerUpX = wall1.getX();
+                        float speedPowerUpY = wall1.getY();
+                        this.speedIncreasePowerUps.add(new SpeedPowerUp(world, speedPowerUpX, speedPowerUpY));
+                    }
+
+                }
+
+
             }
         }
 
@@ -212,6 +231,18 @@ public class GameMap {
                         power.setPowerTaken(true);
                         power.destroy();
                         Bomb.incrementCurrentBombRadius();
+                    }
+                }
+        );
+
+        speedIncreasePowerUps.forEach(speedpower -> {
+                    float player_X = Math.round(getPlayer().getX());
+                    float player_Y = Math.round(getPlayer().getY());
+                    if(speedpower.getX() == player_X && speedpower.getY() == player_Y && !speedpower.isPowerTaken()){
+                        MusicTrack.POWERUP_TAKEN.play();
+                        speedpower.setPowerTaken(true);
+                        speedpower.destroy();
+                        player.setPlayerSpeed(player.getPlayerSpeed() + 0.3F);
                     }
                 }
         );
@@ -493,5 +524,9 @@ public class GameMap {
 
     public void setExit(Exit exit) {
         this.exit = exit;
+    }
+
+    public ArrayList<SpeedPowerUp> getSpeedIncreasePowerUps() {
+        return speedIncreasePowerUps;
     }
 }

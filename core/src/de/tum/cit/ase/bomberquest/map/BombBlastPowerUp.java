@@ -15,7 +15,7 @@ public class BombBlastPowerUp extends Exit {
     @Override
     public TextureRegion getCurrentAppearance() {
         if(!isPowerTaken()) {
-            return Textures.BRPowerUp;
+            return Textures.BR_POWERUP;
         }
         else{
             return null;

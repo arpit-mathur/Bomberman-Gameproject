@@ -92,14 +92,6 @@ public class Bomb implements Drawable {
             // Get the current frame based on elapsed time
             return explosionAnimation;
 
-            //if(currentBombRadius == 1) {
-            //    /// radius increases by POWER_UP
-            //    return Animations.BOMB_BLAST_DEFAULT.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
-            //}
-            //else{
-            //    /// Default bomb blast radius
-            //    return Animations.BOMB_BLAST_LONG.getKeyFrame(this.bombTimer - BOMB_EXPLOSION_TIME, false);
-            //}
         }
         /// Shows the ticking animation, looping as long as the bomb is ticking
         return Animations.BOMB_TICKING.getKeyFrame(this.bombTimer, true);

@@ -1,21 +1,26 @@
 package de.tum.cit.ase.bomberquest.map;
 
+
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-public class ConcurrentBombPowerUp extends Exit {
-    private boolean powerTaken;
+public class SpeedPowerUp extends ConcurrentBombPowerUp{
 
-    public ConcurrentBombPowerUp(World world, float x, float y){
-        super(world,x,y);
-        this.powerTaken = false;
+    private boolean isPowerUpTaken;
+
+
+    public SpeedPowerUp(World world, float x, float y) {
+        super(world, x, y);
+        this.isPowerUpTaken = false;
+
     }
 
     @Override
     public TextureRegion getCurrentAppearance() {
         if(!isPowerTaken()) {
-            return Textures.CB_POWERUP;
+            return Textures.SPEEDPOWERUP;
         }
         else{
             return null;
@@ -23,10 +28,12 @@ public class ConcurrentBombPowerUp extends Exit {
     }
 
     public boolean isPowerTaken() {
-        return powerTaken;
+        return isPowerUpTaken;
     }
 
     public void setPowerTaken(boolean powerTaken) {
-        this.powerTaken = powerTaken;
+        this.isPowerUpTaken= powerTaken;
     }
+
+
 }
