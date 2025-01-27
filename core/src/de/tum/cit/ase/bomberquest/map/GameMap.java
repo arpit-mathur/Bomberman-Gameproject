@@ -194,6 +194,7 @@ public class GameMap {
                 power.setPowerTaken(true);
                 power.destroy();
                 Bomb.incrementMaxConcurrentBombs();
+
             }
         }
         );
