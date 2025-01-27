@@ -195,5 +195,20 @@ public class Animations {
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 12)
     );
 
+    public static final Animation<TextureRegion> ENEMY_MOVING_RIGHT = new Animation<>(0.25f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 1),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 2),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 3),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 2),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 1)
+    );
+    public static final Animation<TextureRegion> ENEMY_MOVING_LEFT = new Animation<>(0.25f,
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 4),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 5),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 6),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 5),
+            SpriteSheet.ORIGINAL_OBJECTS.at(16, 4)
+    );
+
 
 }

@@ -45,6 +45,7 @@ public class PauseScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
                 game.goToGame();
+                MusicTrack.GAME_PAUSE.play();
             }
         });
 

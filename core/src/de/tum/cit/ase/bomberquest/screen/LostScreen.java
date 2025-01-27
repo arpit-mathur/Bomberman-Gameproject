@@ -62,6 +62,7 @@ public class LostScreen implements Screen{
         goToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                MusicTrack.GAME_OVER.stop();
                 game.goToMenu();
             }
         });
