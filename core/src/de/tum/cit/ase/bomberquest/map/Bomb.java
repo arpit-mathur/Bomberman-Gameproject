@@ -168,6 +168,7 @@ public class Bomb implements Drawable {
     public void setSensor(boolean isSensor) {
         for (Fixture fixture : hitbox.getFixtureList()) {
             fixture.setSensor(isSensor);
+
         }
     }
 

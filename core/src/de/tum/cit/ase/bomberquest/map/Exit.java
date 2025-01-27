@@ -28,6 +28,7 @@ public class Exit implements Drawable {
 
         // Since the hitbox never moves, and we never need to change it, we don't need to store a reference to it.
         this.hitbox = createHitbox(world);
+
     }
     
     /**
@@ -49,7 +50,7 @@ public class Exit implements Drawable {
         // Make the polygon a square with a side length of 1 tile.
         box.setAsBox(0.5f, 0.5f);
         // Attach the shape to the body as a fixture.
-        body.createFixture(box, 1.0f).setSensor(true);
+        body.createFixture(box, 1.0f);
         // We're done with the shape, so we should dispose of it to free up memory.
         box.dispose();
         // Set the chest as the user data of the body so we can look up the chest from the body later.
@@ -75,5 +76,18 @@ public class Exit implements Drawable {
     @Override
     public void destroy() {
         this.hitbox.setActive(false);
+    }
+
+    public void setSensor(boolean isSensor) {
+        for (Fixture fixture : hitbox.getFixtureList()) {
+            fixture.setSensor(isSensor);
+        }
+    }
+
+    public Boolean getSensor() {
+        for (Fixture fixture : hitbox.getFixtureList()) {
+            return fixture.isSensor();
+        }
+        return null;
     }
 }
