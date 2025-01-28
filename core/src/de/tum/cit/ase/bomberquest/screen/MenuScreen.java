@@ -117,7 +117,7 @@ public class MenuScreen implements Screen {
 
 
         Label challengeLabel = new Label("No Turning Back! Press ENTER!", game.getSkin());
-        challengeLabel.setFontScale(1.3f);
+        challengeLabel.setFontScale(1.2f);
         table.add(challengeLabel).padTop(40).row();
 
         Slider volumeSlider = new Slider(0,1,0.1f,false,game.getSkin());
@@ -130,13 +130,25 @@ public class MenuScreen implements Screen {
                 MusicTrack.setVolume(value);
             }
         });
-        // Add label for volume
+
+        /// Volume Label and slider
         Table volumeTable = new Table();
         Label volumeLabel = new Label("Volume:", game.getSkin());
         volumeLabel.setFontScale(1.2f);
         volumeTable.add(volumeLabel).padRight(40);
         volumeTable.add(volumeSlider).width(200);
         table.add(volumeTable).padTop(20).row();
+
+        /// Exit button to Quit whole application
+        TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
+        table.add(exitButton).padTop(80).width(300).row();
+
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit(); // Exit the game
+            }
+        });
     }
 
     /**
