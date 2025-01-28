@@ -30,7 +30,7 @@ public class LostScreen implements Screen{
     public LostScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
-        camera.zoom = 1.6f; // Set camera zoom for a closer view
+        camera.zoom = 1.5f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 
@@ -40,11 +40,14 @@ public class LostScreen implements Screen{
 
         // Add a label as a title
         table.add(new Label("Game Over", game.getSkin(), "title")).padBottom(80).row();
-        table.add(new Label("Better Luck Next Time", game.getSkin())).padBottom(40).row();
+
+        Label message = new Label("Oops, Did You Just Lose?", game.getSkin());
+        message.setFontScale(1.3f);
+        table.add(message).padBottom(30).row();
 
 
-        TextButton resumeButton = new TextButton("Restart", game.getSkin());
-        table.add(resumeButton).width(300).row();
+        TextButton resumeButton = new TextButton("Comeback Time!", game.getSkin());
+        table.add(resumeButton).width(350).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -82,6 +85,16 @@ public class LostScreen implements Screen{
             }
         });
 
+        /// Exit button to Quit whole application
+        TextButton exitButton = new TextButton("Time to Go Cry!", game.getSkin());
+        table.add(exitButton).padTop(100).width(350).row();
+
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit(); // Exit the game
+            }
+        });
     }
 
     @Override

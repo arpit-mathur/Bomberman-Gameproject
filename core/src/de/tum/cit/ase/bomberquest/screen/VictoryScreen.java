@@ -39,7 +39,7 @@ public class VictoryScreen implements Screen{
 
         // Add a label as a title
         table.add(new Label("You WON :)", game.getSkin(), "title")).padBottom(80).row();
-        table.add(new Label("You are a GigaChad", game.getSkin())).padBottom(40).row();
+        table.add(new Label("I Think You’re the Chosen One!", game.getSkin())).padBottom(40).row();
 
 
         TextButton resumeButton = new TextButton("PlayAgain!", game.getSkin());
@@ -79,6 +79,16 @@ public class VictoryScreen implements Screen{
             }
         });
 
+        /// Exit button to Quit whole application
+        TextButton exitButton = new TextButton("Peace out!", game.getSkin());
+        table.add(exitButton).padTop(80).width(300).row();
+
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit(); // Exit the game
+            }
+        });
 
     }
 
