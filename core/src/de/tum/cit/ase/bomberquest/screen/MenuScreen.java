@@ -55,7 +55,7 @@ public class MenuScreen implements Screen {
 
         // Create and add a button to go to the game screen
         TextButton goToGameButton = new TextButton("Start", game.getSkin());
-        table.add(goToGameButton).width(220).row();
+        table.add(goToGameButton).width(370).row();
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -69,7 +69,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
-        table.add(loadAChallenge).width(270).row();
+        table.add(loadAChallenge).width(370).row();
         loadAChallenge.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -84,7 +84,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton multiPlayer = new TextButton("Multiplayer", game.getSkin());
-        table.add(multiPlayer).width(320).row();
+        table.add(multiPlayer).width(370).row();
         multiPlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -115,6 +115,16 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
+        table.add(exitButton).width(370).row();
+
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit(); // Exit the game
+            }
+        });
+
 
         Label challengeLabel = new Label("No Turning Back! Press ENTER!", game.getSkin());
         challengeLabel.setFontScale(1.2f);
@@ -138,17 +148,6 @@ public class MenuScreen implements Screen {
         volumeTable.add(volumeLabel).padRight(40);
         volumeTable.add(volumeSlider).width(200);
         table.add(volumeTable).padTop(20).row();
-
-        /// Exit button to Quit whole application
-        TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
-        table.add(exitButton).padTop(80).width(300).row();
-
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit(); // Exit the game
-            }
-        });
     }
 
     /**
