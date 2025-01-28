@@ -34,9 +34,11 @@ public class BomberQuestGame extends Game {
     /** The game's UI skin. This is used to style the game's UI elements. */
     private Skin skin;
 
-    private boolean isMultiLevelSelected;
+    private boolean isMultiLevelSelected = false;
 
-    private boolean isMultiPlayerSelected;
+    private boolean isMultiPlayerSelected = false;
+
+   private boolean isPersonalMapSelected = false;
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
@@ -174,6 +176,18 @@ public class BomberQuestGame extends Game {
         this.map = new GameMap(this, coordinatesAndObjects);
         MusicTrack.MENU_BGM.stop();
         this.setScreen(new GameScreen(this));
+
+    }
+
+    public void loadTheSelectedMapAgain(HashMap<String, String> coordinatesAndObjects){
+
+            isMultiLevelSelected = false;
+//            this.coordinatesAndObjects.clear();
+            isMultiPlayerSelected = false;
+            // Initialize the GameMap object with default map
+            this.map = new GameMap(this, coordinatesAndObjects);
+            MusicTrack.MENU_BGM.stop();
+            this.setScreen(new GameScreen(this));
 
     }
 
@@ -326,6 +340,7 @@ public class BomberQuestGame extends Game {
             @Override
             public void onFileChosen(FileHandle file) {
                 isMultiPlayerSelected = false;
+                isPersonalMapSelected = true;
                 //read the properties file, which will give us the output in one line with "\n".
                 String EntireText = file.readString();
                 //Then we split the map properly, and we end up with our proper file as you can see right now in the map properties folder and store it into the array
@@ -393,5 +408,13 @@ public class BomberQuestGame extends Game {
 
     public void setMultiPlayerSelected(boolean multiPlayerSelected) {
         isMultiPlayerSelected = multiPlayerSelected;
+    }
+
+    public boolean isPersonalMapSelected() {
+        return isPersonalMapSelected;
+    }
+
+    public void setMap(GameMap map) {
+        this.map = map;
     }
 }

@@ -308,6 +308,7 @@ public class GameMap {
 
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
+
                 float player2X = Math.round(getPlayer().getX());
                 float player2Y = Math.round(getPlayer().getY());
 

@@ -56,7 +56,14 @@ public class LostScreen implements Screen{
                 Bomb.setCurrentBombRadius(1);
                 if(game.isMultiLevelSelected()){
                     game.loadChallenge();
-                }else{
+
+                } else if (game.isMultiPlayerSelected()) {
+                    game.loadMultiplayer();
+
+                } else if (game.isPersonalMapSelected()) {
+                  game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
+
+                } else {
                 game.loadDefaultMap();
                 }
             }
