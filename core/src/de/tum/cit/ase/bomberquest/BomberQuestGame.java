@@ -232,6 +232,7 @@ public class BomberQuestGame extends Game {
     }
 
     public void goToVictoryScreen(){
+        Hud.setTimerPaused(true);
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
         MusicTrack.PLAYER_MOVE1.stop();

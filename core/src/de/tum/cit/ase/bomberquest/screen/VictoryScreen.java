@@ -29,7 +29,7 @@ public class VictoryScreen implements Screen{
     public VictoryScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
-        camera.zoom = 1.6f; // Set camera zoom for a closer view
+        camera.zoom = 1.5f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 
@@ -39,10 +39,12 @@ public class VictoryScreen implements Screen{
 
         // Add a label as a title
         table.add(new Label("You WON :)", game.getSkin(), "title")).padBottom(80).row();
-        table.add(new Label("I Think You’re the Chosen One!", game.getSkin())).padBottom(40).row();
+        Label message = new Label("I Think You are the Chosen One!", game.getSkin());
+        message.setFontScale(1.5f);
+        table.add(message).padBottom(40).row();
 
 
-        TextButton resumeButton = new TextButton("PlayAgain!", game.getSkin());
+        TextButton resumeButton = new TextButton("One More!", game.getSkin());
         table.add(resumeButton).width(250).row();
         resumeButton.addListener(new ChangeListener() {
             @Override
@@ -80,7 +82,7 @@ public class VictoryScreen implements Screen{
         });
 
         /// Exit button to Quit whole application
-        TextButton exitButton = new TextButton("Peace out!", game.getSkin());
+        TextButton exitButton = new TextButton("Bella Ciao!", game.getSkin());
         table.add(exitButton).padTop(80).width(300).row();
 
         exitButton.addListener(new ChangeListener() {

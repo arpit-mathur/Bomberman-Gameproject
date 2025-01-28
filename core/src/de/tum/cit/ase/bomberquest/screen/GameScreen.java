@@ -40,15 +40,12 @@ public class GameScreen implements Screen {
     /// for the width and height of the game window.
     public static int viewWidth, viewHeight;
 
-    private static boolean gameLost;
     private static boolean gameWon;
     private final BomberQuestGame game;
     private final SpriteBatch spriteBatch;
     private final GameMap map;
     private final Hud hud;
     private final OrthographicCamera mapCamera;
-    private CollisionDetecter collisionDetecter;
-
     private final Stage stage;
     /// The Level increases as the player completes challenges
     private static int level;
@@ -67,14 +64,11 @@ public class GameScreen implements Screen {
         // Create and configure the camera for the game view
         this.mapCamera = new OrthographicCamera();
         this.mapCamera.setToOrtho(false);
-//
-//        this.collisionDetecter = map.getCollisionDetecter();
         /// Initialising
         viewWidth = Gdx.graphics.getWidth();
         viewHeight = Gdx.graphics.getHeight();
-        gameLost = false;
         Viewport viewport = new ScreenViewport(mapCamera); // Create a viewport with the camera
-        stage = new Stage(viewport, game.getSpriteBatch());
+        this.stage = new Stage(viewport, game.getSpriteBatch());
         level = 1;
     }
 
@@ -85,7 +79,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         // Check for escape key press to go back to the menu
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) || gameLost) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             game.goToMenu();
             ///We need to dispose the bloody screen properly. In order to load a new map properly.
 
@@ -162,8 +156,6 @@ public class GameScreen implements Screen {
             draw(spriteBatch,segment);
         }
 
-
-
         for(ConcurrentBombPowerUp powerUp : map.getConcurrentBombPowerUps()){
             if(powerUp!= null){
                 draw(spriteBatch, powerUp);
@@ -176,6 +168,13 @@ public class GameScreen implements Screen {
             }
         }
 
+        for(SpeedPowerUp power: map.getSpeedIncreasePowerUps()){
+            if(power != null){
+                draw(spriteBatch, power);
+            }
+        }
+
+        draw(spriteBatch, map.getExit());
 
         if(!map.getBombs().isEmpty()) {
             for(Bomb bomb : map.getBombs()){
@@ -198,15 +197,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-        for(SpeedPowerUp power: map.getSpeedIncreasePowerUps()){
-            if(power != null){
-                draw(spriteBatch, power);
-            }
-        }
-
-
-        draw(spriteBatch, map.getExit());
 
         if(game.isMultiPlayerSelected()){
 
@@ -296,20 +286,12 @@ public class GameScreen implements Screen {
         hud.resize(width, height);
     }
 
-    public static boolean isGameLost() {
-        return gameLost;
-    }
-
     public static boolean isGameWon() {
         return gameWon;
     }
 
     public static void setGameWon(boolean gameWon) {
         GameScreen.gameWon = gameWon;
-    }
-
-    public static void setGameLost(boolean gameLost) {
-        GameScreen.gameLost = gameLost;
     }
 
     // Unused methods from the Screen interface
