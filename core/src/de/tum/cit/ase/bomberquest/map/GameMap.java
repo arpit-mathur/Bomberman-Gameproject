@@ -224,12 +224,20 @@ public class GameMap {
                 this.player2.setSensor(false);
             }
         }
-
-        if (!this.enemies.isEmpty()) {
-            for (Enemy enemy : this.getEnemies()){
-                enemy.tick(player.getX(), player.getY(), frameTime);
+        if(game.isMultiPlayerSelected()){
+            if (!this.enemies.isEmpty()) {
+                for (Enemy enemy : this.getEnemies()){
+                    enemy.tick(player.getX(), player.getY(), player2.getX(), player2.getY(), frameTime);
+                }
+            }
+        }else {
+            if (!this.enemies.isEmpty()) {
+                for (Enemy enemy : this.getEnemies()){
+                    enemy.tick(player.getX(), player.getY(), frameTime);
+                }
             }
         }
+
         if(!this.bombs.isEmpty()) {
             getBombs()
                     .parallelStream()

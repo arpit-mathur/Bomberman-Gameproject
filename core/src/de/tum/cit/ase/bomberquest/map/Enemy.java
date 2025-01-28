@@ -104,6 +104,49 @@ public class Enemy implements Drawable {
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
 
+    public void tick(float x, float y, float x2, float y2, float frameTime) {
+        this.elapsedTime += frameTime;
+        ///This code is responsible for the movement of the enemy.
+
+        float speed = 2.0f;
+        ///Once they are dead
+        if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
+            xVelocity = 0;
+            yVelocity = 0;
+
+        } else if (Math.round(x2) == Math.round(this.getX()) && Math.round(y2) == Math.round(this.getY())) {
+            xVelocity = 0;
+            yVelocity = 0;
+
+        } else if(Math.round(y) == Math.round(this.getY()) || Math.round(y2) == Math.round(this.getY())){
+            if(x <= this.getX() || x2 <= this.getX()) {
+
+                xVelocity = -speed;
+                yVelocity = 0;
+            }else{
+                xVelocity = speed;
+                yVelocity = 0;
+            }
+        }
+        else if(Math.round(x) == Math.round(this.getX()) || Math.round(x2) == Math.round(this.getX())){
+            ///We are kind of setting direction in it
+            if(y <= this.getY()) {
+                xVelocity = 0;
+                yVelocity = -speed;
+
+            }else{
+                xVelocity = 0;
+                yVelocity = speed;
+            }
+        }
+        else {
+            xVelocity = (float)Math.sin(this.elapsedTime) * speed;
+            yVelocity = (float)Math.cos(this.elapsedTime) * speed;
+        }
+
+        this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+    }
+
     @Override
     public TextureRegion getCurrentAppearance() {
         if (isDestroyed) {

@@ -235,17 +235,25 @@ public class GameScreen implements Screen {
                 draw(spriteBatch, enemy);
             }
         }
-        if(map.getPlayer().isDeathAnimationFinished()){
-            game.goToLostScreen();
-            ///We need a different Screen if player 1 dies
-        } else {
-            if(game.isMultiPlayerSelected()){
-                draw(spriteBatch, map.getPlayer());
-                draw(spriteBatch, map.getPlayer2());
+
+
+
+        if(game.isMultiPlayerSelected()){
+            if(map.getPlayer().isDeathAnimationFinished() && map.getPlayer2().isDeathAnimationFinished()){
+                game.goToLostScreen();
+
+            } else {
+                ///Idk how I am not getting null pointer after one player dies, but it works, soo
+                    draw(spriteBatch, map.getPlayer());
+                    draw(spriteBatch, map.getPlayer2());
+            }
+
+        } if(!game.isMultiPlayerSelected()) {
+            if(map.getPlayer().isDeathAnimationFinished()){
+                game.goToLostScreen();
             } else {
                 draw(spriteBatch, map.getPlayer());
             }
-
         }
 
 
