@@ -55,7 +55,7 @@ public class MenuScreen implements Screen {
 
         // Create and add a button to go to the game screen
         TextButton goToGameButton = new TextButton("Start", game.getSkin());
-        table.add(goToGameButton).width(370).row();
+        table.add(goToGameButton).width(470).row();
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -69,7 +69,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
-        table.add(loadAChallenge).width(370).row();
+        table.add(loadAChallenge).width(470).row();
         loadAChallenge.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -84,7 +84,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton multiPlayer = new TextButton("Multiplayer", game.getSkin());
-        table.add(multiPlayer).width(370).row();
+        table.add(multiPlayer).width(470).row();
         multiPlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -104,7 +104,7 @@ public class MenuScreen implements Screen {
          * To choose a Map, the user needs a button, that button needs to open the filechooser window.
          */
         TextButton goToFileChooserButton = new TextButton("Choose your Map", game.getSkin());
-        table.add(goToFileChooserButton).width(370).row();
+        table.add(goToFileChooserButton).width(470).row();
         goToFileChooserButton.addListener(new ChangeListener() {
 
             @Override
@@ -128,7 +128,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
-        table.add(exitButton).width(370).row();
+        table.add(exitButton).width(470).row();
 
         exitButton.addListener(new ChangeListener() {
             @Override

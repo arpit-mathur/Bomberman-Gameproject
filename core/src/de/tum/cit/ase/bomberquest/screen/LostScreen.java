@@ -66,8 +66,10 @@ public class LostScreen implements Screen{
                 } else if (game.isPersonalMapSelected()) {
                   game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
+                } else if(game.isMulitLevelMadness()){
+                    game.multiLevelMaps();
                 } else {
-                game.loadDefaultMap();
+                    game.loadDefaultMap();
                 }
             }
         });
