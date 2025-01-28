@@ -310,6 +310,8 @@ public class GameMap {
 
     private List<ExplosionSegment> segmentsOfExplosion(float x, float y, float radius) {
         List<ExplosionSegment> newSegments = new ArrayList<>();
+        newSegments.add(new ExplosionSegment(Math.round(x), Math.round(y), 0, 0, false));
+        destroySegmentObjects(x, y); // Destroy objects at the bomb's tile first
 
         // Directions for up, down, left, right
         int[][] directions = {
