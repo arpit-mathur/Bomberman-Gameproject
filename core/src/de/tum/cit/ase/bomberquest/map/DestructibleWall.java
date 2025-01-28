@@ -79,8 +79,9 @@ public class DestructibleWall implements Drawable {
             return Textures.REDWALLS;
         } else if (BomberQuestGame.level == 2) {
             return Textures.BLUEWALLS;
+        } else {
+            return Textures.DESTRUCTIBLEWALL;
         }
-        return Textures.DESTRUCTIBLEWALL;
     }
 
     @Override

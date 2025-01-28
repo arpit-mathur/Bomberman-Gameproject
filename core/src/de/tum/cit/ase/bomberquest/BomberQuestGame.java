@@ -245,6 +245,7 @@ public class BomberQuestGame extends Game {
         isMultiLevelSelected = false;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = true;
+        isMulitLevelMadness = false;
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");

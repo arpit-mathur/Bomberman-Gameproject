@@ -175,7 +175,8 @@ public class Enemy implements Drawable {
 
                 } else if(BomberQuestGame.level == 3){
                     return Animations.RED_ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
-                }
+
+                } return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
 
             } else{
                 if(BomberQuestGame.level == 1){
@@ -188,7 +189,7 @@ public class Enemy implements Drawable {
                 }
             }
             ///I Dont think we are gonna reach this statement
-        } return null;
+        } return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
     }
 
     @Override

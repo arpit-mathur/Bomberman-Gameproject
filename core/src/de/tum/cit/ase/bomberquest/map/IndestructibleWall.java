@@ -61,7 +61,11 @@ public class IndestructibleWall implements Drawable {
         } else if (BomberQuestGame.level == 2) {
             return Textures.BlUE_INDESTRUCTIBLE_WALLS;
 
-        } return Textures.REDINDESTRUCTIBLEWALLS;
+        } else if (BomberQuestGame.level == 3) {
+            return Textures.REDINDESTRUCTIBLEWALLS;
+
+        } return Textures.INDESTRUCTIBLEWALL;
+
     }
 
     @Override
