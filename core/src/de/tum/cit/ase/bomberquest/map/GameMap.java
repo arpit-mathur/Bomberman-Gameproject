@@ -105,25 +105,30 @@ public class GameMap {
                 float exitX = wallForExit.getX();
                 float exitY = wallForExit.getY();
                 this.exit = new Exit(world, exitX, exitY);
+            }
 
-                for(int i = 0; i < destructibleWalls.size(); i++){
-                    Random random1 = new Random();
-                    int wall3 = random1.nextInt(destructibleWalls.size());
-                    float indexOfActualBreakableWall = i + 17 * wall3/3 ;
+        }
 
-                    int roundedIndex = Math.round(indexOfActualBreakableWall);
+        if(!destructibleWalls.isEmpty()){
+            for(int i = 0; i < destructibleWalls.size(); i++){
+                Random random1 = new Random();
+                int wall3 = random1.nextInt(destructibleWalls.size());
+                float floatIndex = i + 17 * wall3/3 ;
 
-                    if(roundedIndex < destructibleWalls.size() && roundedIndex >= 0){
-                        DestructibleWall wall1=  destructibleWalls.get(roundedIndex);
-                        float speedPowerUpX = wall1.getX();
-                        float speedPowerUpY = wall1.getY();
-                        this.speedIncreasePowerUps.add(new SpeedPowerUp(world, speedPowerUpX, speedPowerUpY));
-                    }
+                int indexOfWall = Math.round(floatIndex);
 
+                if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
+                    DestructibleWall wall1=  destructibleWalls.get(indexOfWall);
+                    float speedPowerUpX = wall1.getX();
+                    float speedPowerUpY = wall1.getY();
+                    this.speedIncreasePowerUps.add(new SpeedPowerUp(world, speedPowerUpX, speedPowerUpY));
                 }
-
             }
         }
+
+
+
+
 
         /// +1 as an account for Index
         this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
