@@ -62,6 +62,8 @@ public class GameMap {
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
     private ArrayList<BombBlastPowerUp> bombBlastPowerUp;
     private ArrayList<SpeedPowerUp> speedIncreasePowerUps;
+    private ArrayList<DestructibleWall> availableDestructibleWalls;
+
 
 
     private final ArrayList<Bomb> bombs;
@@ -94,7 +96,9 @@ public class GameMap {
         this.bombBlastPowerUp = new ArrayList<>();
         this.speedIncreasePowerUps = new ArrayList<>();
         this.enemies = new ArrayList<>();
+        this.availableDestructibleWalls = new ArrayList<>();
         parseKeyValueToBuild(coordinatesAndObjects);
+        this.availableDestructibleWalls.addAll(destructibleWalls);
 
         if(getExit() == null) {
             /// This code will be executed if there is no Exit in the map file
@@ -102,6 +106,7 @@ public class GameMap {
                 Random random = new Random();
                 int wallno = random.nextInt(destructibleWalls.size());
                 DestructibleWall wallForExit = destructibleWalls.get(wallno);
+//                destructibleWalls.remove(wallno);
                 float exitX = wallForExit.getX();
                 float exitY = wallForExit.getY();
                 this.exit = new Exit(world, exitX, exitY);
@@ -109,11 +114,35 @@ public class GameMap {
 
         }
 
+//        Random ranPowerUpCount = new Random();
+
+//        int powerUpCount = availableDestructibleWalls.size()/(ranPowerUpCount.nextInt(1)+1);
+//
+//        for(int i = 0; i <= powerUpCount; i++){
+//            Random random69 = new Random();
+//            int powerUpWallIndex = random69.nextInt(availableDestructibleWalls.size());
+//            DestructibleWall powerUpWall = availableDestructibleWalls.get(powerUpWallIndex);
+//            availableDestructibleWalls.remove(powerUpWall);
+//
+//            double random = Math.random(); //random from 0 to 1
+//
+//            if(random <= 0.33){
+//                this.speedIncreasePowerUps.add(new SpeedPowerUp(world, powerUpWall.getX(), powerUpWall.getY()));
+//            }
+//            if(random> 0.33 && random <= 0.66){
+//                this.bombBlastPowerUp.add(new BombBlastPowerUp(world, powerUpWall.getX(), powerUpWall.getY()));
+//            }
+//            if(random > 0.66){
+//                this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, powerUpWall.getX(), powerUpWall.getY()));
+//            }
+//        }
+
+
         if(!destructibleWalls.isEmpty()){
             for(int i = 0; i < destructibleWalls.size(); i++){
                 Random random1 = new Random();
                 int wall3 = random1.nextInt(destructibleWalls.size());
-                float floatIndex = i + 17 * wall3/3 ;
+                float floatIndex = i + 17 * wall3/3;
 
                 int indexOfWall = Math.round(floatIndex);
 
@@ -121,14 +150,43 @@ public class GameMap {
                     DestructibleWall wall1=  destructibleWalls.get(indexOfWall);
                     float speedPowerUpX = wall1.getX();
                     float speedPowerUpY = wall1.getY();
+//                    availableDestructibleWalls.remove(wall1);
                     this.speedIncreasePowerUps.add(new SpeedPowerUp(world, speedPowerUpX, speedPowerUpY));
                 }
             }
+            if(bombBlastPowerUp.isEmpty()){
+                for(int i = 0; i < destructibleWalls.size(); i++){
+                    Random random1 = new Random();
+                    int number = random1.nextInt(destructibleWalls.size());
+                    float floatIndex = i + 14 * number/5 ;
+
+                    int indexOfWall = Math.round(floatIndex);
+
+                    if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
+                        DestructibleWall wall1=  destructibleWalls.get(indexOfWall);
+                        float BBPowerUpX = wall1.getX();
+                        float BBPowerUpY = wall1.getY();
+                        this.bombBlastPowerUp.add(new BombBlastPowerUp(world, BBPowerUpX, BBPowerUpY));
+                    }
+                }
+            }
+            if(concurrentBombPowerUps.isEmpty()){
+                for(int i = 0; i < destructibleWalls.size(); i++){
+                    Random random1 = new Random();
+                    int number = random1.nextInt(destructibleWalls.size());
+                    float floatIndex = i + 12 * number/2 ;
+
+                    int indexOfWall = Math.round(floatIndex);
+
+                    if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
+                        DestructibleWall wall1=  destructibleWalls.get(indexOfWall);
+                        float CBowerUpX = wall1.getX();
+                        float CBPowerUpY = wall1.getY();
+                        this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, CBowerUpX, CBPowerUpY));
+                    }
+                }
+            }
         }
-
-
-
-
 
         /// +1 as an account for Index
         this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
