@@ -408,6 +408,9 @@ public class GameMap {
         // Player Demise
         if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
             getPlayer().setDead(true);
+
+        } else if((Math.round(getPlayer2().getX()) == x && Math.round(getPlayer2().getY()) == y && !getPlayer2().isDead())) {
+            getPlayer2().setDead(true);
         }
     }
     /**
@@ -562,4 +565,5 @@ public class GameMap {
     public void setPlayer2(Player2 player2) {
         this.player2 = player2;
     }
+
 }
