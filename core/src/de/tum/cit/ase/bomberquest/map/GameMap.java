@@ -240,6 +240,7 @@ public class GameMap {
                         this.exit = new Exit(world, x, y);
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
                     }
+
                     case "5" -> {
                         this.concurrentBombPowerUps.add(new ConcurrentBombPowerUp(world, x, y));
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
