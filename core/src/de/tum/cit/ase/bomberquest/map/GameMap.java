@@ -188,6 +188,7 @@ public class GameMap {
             }
         }
 
+
         /// +1 as an account for Index
         this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
         for (int i = 0; i < flowers.length; i++) {
