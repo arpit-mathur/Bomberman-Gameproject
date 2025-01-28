@@ -2,6 +2,7 @@ package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
@@ -55,7 +56,12 @@ public class IndestructibleWall implements Drawable {
 
     @Override
     public TextureRegion getCurrentAppearance() {
-        return Textures.INDESTRUCTIBLEWALL;
+        if(BomberQuestGame.level == 1){
+            return Textures.INDESTRUCTIBLEWALL;
+        } else if (BomberQuestGame.level == 2) {
+            return Textures.BlUE_INDESTRUCTIBLE_WALLS;
+
+        } return Textures.REDINDESTRUCTIBLEWALLS;
     }
 
     @Override

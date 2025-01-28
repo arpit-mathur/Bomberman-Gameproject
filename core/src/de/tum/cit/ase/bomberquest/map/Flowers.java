@@ -1,6 +1,7 @@
 package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.Textures;
@@ -19,10 +20,17 @@ public class Flowers implements Drawable {
         this.x = x;
         this.y = y;
     }
-
     @Override
     public TextureRegion getCurrentAppearance() {
+        if(BomberQuestGame.level == 2){
+            return Textures.BLUEFLOWERS;
+
+        } else if(BomberQuestGame.level == 3){
+            return Textures.REDFLOWERS;
+        }
         return Textures.FLOWERS;
+
+
     }
     
     @Override

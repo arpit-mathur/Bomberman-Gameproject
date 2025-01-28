@@ -2,6 +2,7 @@ package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 
@@ -150,21 +151,44 @@ public class Enemy implements Drawable {
     @Override
     public TextureRegion getCurrentAppearance() {
         if (isDestroyed) {
-            /// Play the Enemy Demise animation
-            TextureRegion enemyDemise = Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
-            /// Check if the animation has finished
-            if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
+
+            if(BomberQuestGame.level == 2){
+                return Animations.BLUE_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+
+            } else if(BomberQuestGame.level == 1) {
+                return Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+
+            } else if (BomberQuestGame.level == 3) {
+                return Animations.RED_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+
+            } else if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
                 return null; ///return null as wall is destroyed
             }
-            return enemyDemise;
+
         }else {
             if(xVelocity >= 0) {
-                return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+                if(BomberQuestGame.level == 1){
+                    return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+
+                } else if(BomberQuestGame.level == 2){
+                    return Animations.BLUE_ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+
+                } else if(BomberQuestGame.level == 3){
+                    return Animations.RED_ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+                }
+
+            } else{
+                if(BomberQuestGame.level == 1){
+                    return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+                } else if (BomberQuestGame.level == 2) {
+                    return Animations.BLUE_ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+
+                } else if(BomberQuestGame.level == 3){
+                    return Animations.RED_ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+                }
             }
-            else{
-                return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
-            }
-        }
+            ///I Dont think we are gonna reach this statement
+        } return null;
     }
 
     @Override

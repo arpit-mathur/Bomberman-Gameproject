@@ -351,7 +351,7 @@ public class GameMap {
 
         float player_X1 = Math.round(getPlayer().getX());
         float player_Y1 = Math.round(getPlayer().getY());
-        if(getRemainingEnemies() == 0) {
+        if(getRemainingEnemies() > 0) {
             if (game.isMultiLevelSelected()) {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                     game.resetHud();
@@ -360,7 +360,38 @@ public class GameMap {
                     MusicTrack.ENEMIES_CLEAR.play();
                     MusicTrack.Level_THEME3.play();
                     game.loadDefaultMap();
+
                 }
+            } else if (game.isMulitLevelMadness()) {
+                if(BomberQuestGame.level == 1){
+                    if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                        game.resetHud();
+                        MusicTrack.Level_THEME.stop();
+                        MusicTrack.Level_THEME2.play();
+                        BomberQuestGame.level = 2;
+                        game.level2Map();
+
+                    }
+                } else if(BomberQuestGame.level == 2){
+                    if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                        game.resetHud();
+                        MusicTrack.Level_THEME.stop();
+                        MusicTrack.Level_THEME2.play();
+                        BomberQuestGame.level = 3;
+                        game.level3Map();
+
+                    }
+                } else if(BomberQuestGame.level == 3){
+                    if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                        game.resetHud();
+                        MusicTrack.Level_THEME.stop();
+                        MusicTrack.Level_THEME2.play();
+                        BomberQuestGame.level = 3;
+                        game.goToVictoryScreen();
+
+                    }
+                }
+
             } else {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                     GameScreen.setGameWon(true);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.Textures;
@@ -73,6 +74,11 @@ public class DestructibleWall implements Drawable {
                 return null; ///return null as wall is destroyed
             }
             return destroyWall;
+
+        } else if(BomberQuestGame.level == 3){
+            return Textures.REDWALLS;
+        } else if (BomberQuestGame.level == 2) {
+            return Textures.BLUEWALLS;
         }
         return Textures.DESTRUCTIBLEWALL;
     }

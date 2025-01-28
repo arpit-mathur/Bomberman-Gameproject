@@ -115,6 +115,18 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton multiLevelMaps = new TextButton("Enter Multilevel Madness", game.getSkin());
+        table.add(multiLevelMaps).width(470).row();
+        multiLevelMaps.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.resetHud();
+                game.multiLevelMaps();
+            }
+        });
+
         TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
         table.add(exitButton).width(370).row();
 

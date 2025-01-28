@@ -39,6 +39,10 @@ public class BomberQuestGame extends Game {
     private boolean isMultiPlayerSelected = false;
 
    private boolean isPersonalMapSelected = false;
+
+    private boolean isMulitLevelMadness = false;
+
+    public static int level;
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
@@ -149,6 +153,89 @@ public class BomberQuestGame extends Game {
         this.map = new GameMap(this, coordinatesAndObjects);
         MusicTrack.MENU_BGM.stop();
         MusicTrack.Level_THEME.play();
+        this.setScreen(new GameScreen(this));
+    }
+
+    public void multiLevelMaps(){
+
+
+        /// By the same logic as in doYourMagic()
+        isMultiLevelSelected = false;
+        isMulitLevelMadness = true;
+//            coordinatesAndObjects.clear();
+        isMultiPlayerSelected = false;
+        this.level = 1;
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map_G.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear();// Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+        MusicTrack.MENU_BGM.stop();
+        this.setScreen(new GameScreen(this));
+    }
+
+    public void level2Map(){
+
+        /// By the same logic as in doYourMagic()
+        isMulitLevelMadness = true;
+        coordinatesAndObjects.clear();
+        isMultiPlayerSelected = false;
+        this.level = 2;
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map_B.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear();// Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+        MusicTrack.MENU_BGM.stop();
+        this.setScreen(new GameScreen(this));
+    }
+
+    public void level3Map(){
+
+        /// By the same logic as in doYourMagic()
+        isMulitLevelMadness = true;
+        coordinatesAndObjects.clear();
+        isMultiPlayerSelected = false;
+        this.level = 3;
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map_R.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear();// Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+        MusicTrack.MENU_BGM.stop();
         this.setScreen(new GameScreen(this));
     }
 
@@ -417,5 +504,20 @@ public class BomberQuestGame extends Game {
 
     public void setMap(GameMap map) {
         this.map = map;
+    }
+    public boolean isMulitLevelMadness() {
+        return isMulitLevelMadness;
+    }
+
+    public void setMulitLevelMadness(boolean mulitLevelMadness) {
+        isMulitLevelMadness = mulitLevelMadness;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

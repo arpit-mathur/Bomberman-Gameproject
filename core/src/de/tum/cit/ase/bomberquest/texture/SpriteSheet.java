@@ -22,7 +22,9 @@ public enum SpriteSheet {
     /// Size of bomb with bigger radius is 80x80
     BOMB_BLAST_LONG("original-bomberman.png", 80, 80),
     /// Size of bomb with default radius is 48x48
-    BOMB_BLAST_SHORT("original-bomberman.png", 48, 48);
+    BOMB_BLAST_SHORT("original-bomberman.png", 48, 48),
+
+    ACTUAL_BASIC_TILES("basictiles.png", 16, 16);
 
     private final Texture spritesheet;
     private final int width;
