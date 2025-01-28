@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
-import de.tum.cit.ase.bomberquest.screen.Hud;
 
 import java.util.*;
 import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
@@ -295,55 +294,11 @@ public class GameMap {
                     MusicTrack.BOMB_EXPLOSION.play();
                     float explosionRadius = Bomb.getCurrentBombRadius();
 
-
-                    // Generate explosion segments
-                    List<ExplosionSegment> newSegments = createExplosionSegments(bombX, bombY, explosionRadius);
-
+                    /// Creates the explosion animation for each segment of the bomb
+                    ///and destroys the destroyable objects in that segment
+                    List<ExplosionSegment> newSegments = segmentsOfExplosion(bombX, bombY, explosionRadius);
                     segments.addAll(newSegments);
 
-                    /// used parallel streams for concurrent processes
-                    getDestructibleWalls()
-                            .parallelStream()
-                            .forEach(wall -> {
-                                // Check if the wall is aligned with the bomb in either X or Y direction
-                                boolean isAlignedX = wall.getX() == bombX && Math.abs(wall.getY() - bombY) <= explosionRadius;
-                                boolean isAlignedY = wall.getY() == bombY && Math.abs(wall.getX() - bombX) <= explosionRadius;
-
-                                // Destroy only if it's in the explosion radius and aligned with the bomb
-                                if ((isAlignedX || isAlignedY) && !wall.isDestroyed()) {
-                                    wall.destroy();
-                                }
-                            });
-
-                    getEnemies()
-                            .forEach(enemy -> {
-                                // Round enemy's coordinates to integers
-                                float enemyX = Math.round(enemy.getX());
-                                float enemyY = Math.round(enemy.getY());
-
-                                // Check if the enemy is aligned with the bomb in either X or Y direction
-                                boolean isAlignedX = enemyX == bombX && Math.abs(enemyY - bombY) <= explosionRadius;
-                                boolean isAlignedY = enemyY == bombY && Math.abs(enemyX - bombX) <= explosionRadius;
-
-                                // Destroy the enemy only if it's within the explosion radius and aligned with the bomb
-                                if ((isAlignedX || isAlignedY) && !enemy.isDestroyed()) {
-                                    enemy.destroy();
-                                }
-                            });
-
-                    ///  Applying the same logic for players death
-                    // Round enemy's coordinates to integers
-                    float playernewX = Math.round(getPlayer().getX());
-                    float playernewY = Math.round(getPlayer().getY());
-
-                    // Check if the enemy is aligned with the bomb in either X or Y direction
-                    boolean isAlignedpX = playernewX == bombX && Math.abs(playernewY - bombY) <= explosionRadius;
-                    boolean isAlignedpY = playernewY == bombY && Math.abs(playernewX - bombX) <= explosionRadius;
-
-                    // Destroy the enemy only if it's within the explosion radius and aligned with the bomb
-                    if ((isAlignedpX || isAlignedpY) && !getPlayer().isDead()) {
-                        getPlayer().setDead(true);
-                    }
                     bomb.setBombActive(false);
                     bomb.destroy();
                     Bomb.decrementActiveBombs();
@@ -353,10 +308,10 @@ public class GameMap {
         doPhysicsStep(frameTime);
     }
 
-    private List<ExplosionSegment> createExplosionSegments(float x, float y, float radius) {
+    private List<ExplosionSegment> segmentsOfExplosion(float x, float y, float radius) {
         List<ExplosionSegment> newSegments = new ArrayList<>();
 
-        // Directions: {dx, dy} for up, down, left, right
+        // Directions for up, down, left, right
         int[][] directions = {
                 {0, 1},
                 {0, -1},
@@ -368,24 +323,54 @@ public class GameMap {
             for (int i = 1; i <= radius; i++) {
                 float segmentX = x + dir[0] * i;
                 float segmentY = y + dir[1] * i;
+                /// if there is an Indestructible wall at a segment the loop breaks
+                /// that means it will not create any bomb segment beyond the wall
+                if (isIndestructibleWallAt(segmentX, segmentY)) {
+                    break;
+                }
 
-                // Check for collisions with walls
-                boolean isBlocked = isWallAt(segmentX, segmentY);
-                boolean isEnd = isBlocked || i == radius;
+                // Create an explosion segment
+                boolean isEndSegment = (i == radius);
+                segments.add(new ExplosionSegment(
+                        Math.round(segmentX),
+                        Math.round(segmentY),
+                        dir[0], dir[1], isEndSegment
+                ));
 
-                // Add the segment with direction and end-line status
-                newSegments.add(new ExplosionSegment(Math.round(segmentX), Math.round(segmentY), dir[0], dir[1], isEnd));
-
-                if (isBlocked) break;
+                destroySegmentObjects(segmentX,segmentY);
             }
         }
+
+        newSegments.add(new ExplosionSegment(Math.round(x), Math.round(y), 0, 0, false));
         return newSegments;
     }
 
-    private boolean isWallAt(float x, float y) {
+    private boolean isIndestructibleWallAt(float x, float y) {
         return indestructibleWalls.stream().anyMatch(w -> w.getX() == x && w.getY() == y);
     }
 
+    private void destroySegmentObjects(float x, float y) {
+        //Destroy all the destructible walls
+        getDestructibleWalls()
+                .parallelStream()
+                .forEach(wall -> {
+                    if (wall.getX() == x && wall.getY() == y && !wall.isDestroyed()) {
+                        wall.destroy();
+                    }
+                });
+
+        // Destroy enemies
+        getEnemies().forEach(enemy -> {
+            if (Math.round(enemy.getX()) == x && Math.round(enemy.getY()) == y && !enemy.isDestroyed()) {
+                enemy.destroy();
+            }
+        });
+
+        // Player Demise
+        if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
+            getPlayer().setDead(true);
+        }
+    }
     /**
      * Performs as many physics steps as necessary to catch up to the given frame time.
      * This will update the Box2D world by the given time step.
