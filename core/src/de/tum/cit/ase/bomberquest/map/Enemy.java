@@ -71,7 +71,7 @@ public class Enemy implements Drawable {
         this.elapsedTime += frameTime;
         ///This code is responsible for the movement of the enemy.
 
-        float speed = 2.0f;
+        float speed = 2.3f;
         if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
             xVelocity = 0;
             yVelocity = 0;

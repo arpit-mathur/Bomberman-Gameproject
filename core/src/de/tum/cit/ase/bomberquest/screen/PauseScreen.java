@@ -27,7 +27,7 @@ public class PauseScreen implements Screen {
     public PauseScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
-        camera.zoom = 1.4f; // Set camera zoom for a closer view
+        camera.zoom = 1.6f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 

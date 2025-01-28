@@ -13,8 +13,6 @@ import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
 
 public class Player2 extends Player{
 
-
-
     public Player2(World world, float x, float y) {
         super(world, x, y);
         this.isDead = false;

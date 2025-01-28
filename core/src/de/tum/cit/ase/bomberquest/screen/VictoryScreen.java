@@ -29,7 +29,7 @@ public class VictoryScreen implements Screen{
     public VictoryScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
-        camera.zoom = 1.4f; // Set camera zoom for a closer view
+        camera.zoom = 1.6f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 
@@ -54,7 +54,18 @@ public class VictoryScreen implements Screen{
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
-                game.loadDefaultMap();
+                if(game.isMultiLevelSelected()){
+                    game.loadChallenge();
+
+                } else if (game.isMultiPlayerSelected()) {
+                    game.loadMultiplayer();
+
+                } else if (game.isPersonalMapSelected()) {
+                    game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
+
+                } else {
+                    game.loadDefaultMap();
+                }
             }
         });
 
@@ -86,7 +97,18 @@ public class VictoryScreen implements Screen{
             Bomb.setActiveBombs(0);
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
-            game.loadDefaultMap();
+            if(game.isMultiLevelSelected()){
+                game.loadChallenge();
+
+            } else if (game.isMultiPlayerSelected()) {
+                game.loadMultiplayer();
+
+            } else if (game.isPersonalMapSelected()) {
+                game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
+
+            } else {
+                game.loadDefaultMap();
+            }
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);

@@ -28,12 +28,11 @@ public class Player implements Drawable {
 
     protected TextureRegion facing;
 
-    protected float playerSpeed;
+    protected float playerSpeed = 3.2f;
 
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.facing = SpriteSheet.ORIGINAL_OBJECTS.at(2,2);
-        this.playerSpeed = 3.2f;
     }
 
     /**
@@ -194,7 +193,7 @@ public class Player implements Drawable {
     }
 
     public float getPlayerSpeed() {
-        return playerSpeed;
+        return Math.round(playerSpeed * 10) / 10.0f;
     }
 
     public void setPlayerSpeed(float playerSpeed) {

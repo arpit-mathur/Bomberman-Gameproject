@@ -285,7 +285,9 @@ public class GameMap {
                         MusicTrack.POWERUP_TAKEN.play();
                         speedpower.setPowerTaken(true);
                         speedpower.destroy();
-                        player.setPlayerSpeed(player.getPlayerSpeed() + 0.3F);
+                        if(player.getPlayerSpeed() < 5.0f){
+                        player.setPlayerSpeed(player.getPlayerSpeed() + 0.3f);
+                        }
                     }
                 }
         );

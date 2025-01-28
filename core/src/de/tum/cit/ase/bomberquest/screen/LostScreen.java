@@ -30,7 +30,7 @@ public class LostScreen implements Screen{
     public LostScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
-        camera.zoom = 1.4f; // Set camera zoom for a closer view
+        camera.zoom = 1.6f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 
@@ -74,6 +74,9 @@ public class LostScreen implements Screen{
         goToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
                 MusicTrack.GAME_OVER.stop();
                 game.goToMenu();
             }
@@ -98,7 +101,14 @@ public class LostScreen implements Screen{
             Bomb.setCurrentBombRadius(1);
             if(game.isMultiLevelSelected()){
                 game.loadChallenge();
-            }else{
+
+            } else if (game.isMultiPlayerSelected()) {
+                game.loadMultiplayer();
+
+            } else if (game.isPersonalMapSelected()) {
+                game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
+
+            } else {
                 game.loadDefaultMap();
             }
         }

@@ -49,7 +49,9 @@ public class MenuScreen implements Screen {
         stage.addActor(table); // Add the table to the stage
 
         // Add a label as a title
-        table.add(new Label("Bomber_Quest", game.getSkin(), "title")).padBottom(80).row();
+        Label titleLabel = new Label("Bomber_Quest", game.getSkin(), "title");
+        titleLabel.setFontScale(1.3f);
+        table.add(titleLabel).padBottom(80).row();
 
         // Create and add a button to go to the game screen
         TextButton goToGameButton = new TextButton("Start", game.getSkin());
@@ -67,7 +69,7 @@ public class MenuScreen implements Screen {
         });
 
         TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
-        table.add(loadAChallenge).width(300).row();
+        table.add(loadAChallenge).width(270).row();
         loadAChallenge.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -81,23 +83,8 @@ public class MenuScreen implements Screen {
             }
         });
 
-        /** (Aryan)
-         * To choose a Map, the user needs a button, that button needs to open the filechooser window.
-         */
-        TextButton goToFileChooserButton = new TextButton("Choose your Map", game.getSkin());
-        table.add(goToFileChooserButton).width(350).row();
-        goToFileChooserButton.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                ///This method will open the filechooser window
-                game.resetHud();
-                game.LoadFileChooser();
-            }
-        });
-
         TextButton multiPlayer = new TextButton("Multiplayer", game.getSkin());
-        table.add(multiPlayer).width(300).row();
+        table.add(multiPlayer).width(320).row();
         multiPlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -113,8 +100,25 @@ public class MenuScreen implements Screen {
             }
         });
 
-        Label tipLabel = new Label("Press ENTER for Quick Start", game.getSkin());
-        table.add(tipLabel).padTop(40).row();
+        /** (Aryan)
+         * To choose a Map, the user needs a button, that button needs to open the filechooser window.
+         */
+        TextButton goToFileChooserButton = new TextButton("Choose your Map", game.getSkin());
+        table.add(goToFileChooserButton).width(370).row();
+        goToFileChooserButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.resetHud();
+                game.LoadFileChooser();
+            }
+        });
+
+
+        Label challengeLabel = new Label("No Turning Back! Press ENTER!", game.getSkin());
+        challengeLabel.setFontScale(1.3f);
+        table.add(challengeLabel).padTop(40).row();
 
         Slider volumeSlider = new Slider(0,1,0.1f,false,game.getSkin());
         volumeSlider.setAnimateDuration(0.6f);
@@ -128,11 +132,10 @@ public class MenuScreen implements Screen {
         });
         // Add label for volume
         Table volumeTable = new Table();
-        Label volumeLabel = new Label("Volume", game.getSkin());
-        volumeLabel.setFontScale(1.1f);
+        Label volumeLabel = new Label("Volume:", game.getSkin());
+        volumeLabel.setFontScale(1.2f);
         volumeTable.add(volumeLabel).padRight(40);
-        volumeTable.add(volumeSlider).width(300);
-
+        volumeTable.add(volumeSlider).width(200);
         table.add(volumeTable).padTop(20).row();
     }
 
@@ -149,7 +152,7 @@ public class MenuScreen implements Screen {
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
             MusicTrack.Level_THEME.play();
-            game.loadDefaultMap();
+            game.loadChallenge();
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);

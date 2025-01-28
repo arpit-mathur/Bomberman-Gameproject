@@ -62,14 +62,38 @@ public class Hud {
         // Draw the HUD elements
         font.setColor(Color.WHITE);
         font.draw(spriteBatch, "Press Esc to Pause!", 10, 30);
-        font.setColor(Color.GOLD);
+
+        /// Bomb Radius
+        if (Bomb.getCurrentBombRadius() == 8) {
+            font.setColor(Color.GREEN);
+        } else {
+            font.setColor(Color.YELLOW);
+        }
         font.draw(spriteBatch, "Bomb Blast Radius: "+ Bomb.getCurrentBombRadius(), 10, Gdx.graphics.getHeight() - 10);
 
+        /// Concurrent Bombs
+        if (Bomb.getMaxConcurrentBombs() == 8) {
+            font.setColor(Color.GREEN);
+        } else {
+            font.setColor(Color.YELLOW);
+        }
         font.draw(spriteBatch, "Max Concurrent Bombs: "+ Bomb.getMaxConcurrentBombs(),10, Gdx.graphics.getHeight() - 45);
 
+        /// Remaining Enemies
+        if (game.getMap().getRemainingEnemies() == 0) {
+            font.setColor(Color.GREEN);
+        } else {
+            font.setColor(Color.YELLOW);
+        }
         font.draw(spriteBatch, "Remaining Enemies: "+ game.getMap().getRemainingEnemies(),10, Gdx.graphics.getHeight() - 80);
 
-        font.draw(spriteBatch, "Current Speed: "+ game.getMap().getPlayer().getPlayerSpeed(),10, Gdx.graphics.getHeight() - 113);
+        ///Player Speed
+        if (game.getMap().getPlayer().getPlayerSpeed() == 5.0f) {
+            font.setColor(Color.GREEN);
+        } else {
+            font.setColor(Color.YELLOW);
+        }
+        font.draw(spriteBatch, "Current Speed: "+ game.getMap().getPlayer().getPlayerSpeed(),10, Gdx.graphics.getHeight() - 115);
 
         if(game.getMap().getRemainingEnemies()==0 && !isEnemyClearSoundPlayed()){
             MusicTrack.ENEMIES_CLEAR.play();
@@ -78,12 +102,12 @@ public class Hud {
             enemyClearSoundPlayed = true;
         }
         font.setColor(Color.GREEN);
-        if(remainingTime == 70){
+        if(remainingTime <= 70 && !timerPaused){
             MusicTrack.Level_THEME.stop();
             MusicTrack.Level_THEME2.play();
         }
         if(remainingTime < 70 && remainingTime >20){
-            font.setColor(Color.GOLD);
+            font.setColor(Color.YELLOW);
         } else if(remainingTime <= 20 && remainingTime > 0){
             font.setColor(Color.RED);
         } else if (remainingTime == 0) {
