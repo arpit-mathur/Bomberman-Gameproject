@@ -97,19 +97,26 @@ public class MenuScreen implements Screen {
         });
 
         Label tipLabel = new Label("Press ENTER for Quick Start", game.getSkin());
-        table.add(tipLabel).padTop(30).row();
+        table.add(tipLabel).padTop(40).row();
 
         Slider volumeSlider = new Slider(0,1,0.1f,false,game.getSkin());
-        volumeSlider.setAnimateDuration(0.8f);
-        volumeSlider.setVisualPercent(0.6f);
-//        volumeSlider.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent changeEvent, Actor actor) {
-//                ///This method will open the filechooser window
-//
-//            }
-//        });
-        table.add(volumeSlider).padTop(30).row();
+        volumeSlider.setAnimateDuration(0.6f);
+        volumeSlider.setVisualPercent(MusicTrack.getVolume());
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                float value = volumeSlider.getValue();
+                MusicTrack.setVolume(value);
+            }
+        });
+        // Add label for volume
+        Table volumeTable = new Table();
+        Label volumeLabel = new Label("Volume", game.getSkin());
+        volumeLabel.setFontScale(1.1f);
+        volumeTable.add(volumeLabel).padRight(40);
+        volumeTable.add(volumeSlider).width(300);
+
+        table.add(volumeTable).padTop(20).row();
     }
 
     /**

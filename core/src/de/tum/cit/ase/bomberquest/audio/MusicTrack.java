@@ -13,27 +13,28 @@ import com.badlogic.gdx.audio.Music;
  */
 public enum MusicTrack {
 
-    MENU_BGM("MenuBGM.mp3", 0.15f,false),
-    PLAYER_MOVE1("Player_moving1.mp3", 0.15f,true),
-    PLAYER_MOVE2("Player_moving2.mp3", 0.15f,true),
-    Level_THEME("Level-Theme.mp3", 0.15f,false),
-    Level_THEME2("Level-Theme2.mp3", 0.15f,false),
-    LEVEL_COMPLETED("Level-Completed.mp3", 0.15f,false),
-    PLAYER_DEMISE("Player_Demise.mp3", 0.15f,false),
-    BOMB_PLANT("Bomb_plantsfx.mp3",0.15f,false),
-    BOMB_EXPLOSION("Bomb_explosionsfx.mp3",0.15f,false),
-    POWERUP_TAKEN("PowerUpsfx.mp3",0.15f,false),
-    GAME_PAUSE("GamePauseSFX.mp3",0.15f,false),
-    GAME_OVER("GameOver.mp3",0.15f,false),
-    ENEMIES_CLEAR("Enemiesclear.mp3",0.15f,false);
+    MENU_BGM("MenuBGM.mp3",false),
+    PLAYER_MOVE1("Player_moving1.mp3",true),
+    PLAYER_MOVE2("Player_moving2.mp3",true),
+    Level_THEME("Level-Theme.mp3",false),
+    Level_THEME2("Level-Theme2.mp3",false),
+    LEVEL_COMPLETED("Level-Completed.mp3",false),
+    PLAYER_DEMISE("Player_Demise.mp3",false),
+    BOMB_PLANT("Bomb_plantsfx.mp3",false),
+    BOMB_EXPLOSION("Bomb_explosionsfx.mp3",false),
+    POWERUP_TAKEN("PowerUpsfx.mp3",false),
+    GAME_PAUSE("GamePauseSFX.mp3",false),
+    GAME_OVER("GameOver.mp3",false),
+    ENEMIES_CLEAR("Enemiesclear.mp3",false);
 
     /** The music file owned by this variant. */
     private final Music music;
+    private static float volume = 0.15f;
 
-    MusicTrack(String fileName, float volume, boolean loop) {
+    MusicTrack(String fileName, boolean loop) {
         this.music = Gdx.audio.newMusic(Gdx.files.internal("audio/" + fileName));
         this.music.setLooping(loop);
-        this.music.setVolume(volume);
+        this.music.setVolume(0.15f);
     }
 
     /**
@@ -45,5 +46,20 @@ public enum MusicTrack {
     }
     public void stop() {
         this.music.stop();
+    }
+
+    public static void setVolume(float newVolume) {
+        volume = newVolume;
+        // Update all music tracks with new volume
+        for (MusicTrack track : MusicTrack.values()) {
+            track.updateVolume();
+        }
+    }
+    private void updateVolume() {
+        this.music.setVolume(volume);
+    }
+
+    public static float getVolume() {
+        return volume;
     }
 }

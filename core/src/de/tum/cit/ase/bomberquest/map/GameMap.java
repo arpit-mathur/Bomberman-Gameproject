@@ -235,7 +235,7 @@ public class GameMap {
                 }
         );
 
-        speedIncreasePowerUps.forEach(speedpower -> {
+        getSpeedIncreasePowerUps().forEach(speedpower -> {
                     float player_X = Math.round(getPlayer().getX());
                     float player_Y = Math.round(getPlayer().getY());
                     if(speedpower.getX() == player_X && speedpower.getY() == player_Y && !speedpower.isPowerTaken()){
@@ -252,6 +252,7 @@ public class GameMap {
         if(getRemainingEnemies() == 0) {
             if (game.isMultiLevelSelected()) {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
+                    game.resetHud();
                     MusicTrack.Level_THEME.stop();
                     MusicTrack.Level_THEME2.play();
                     game.loadDefaultMap();
