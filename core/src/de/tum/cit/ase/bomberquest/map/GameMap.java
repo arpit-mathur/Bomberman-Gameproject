@@ -315,12 +315,19 @@ public class GameMap {
                 float bombY = Math.round(bomb.getY());
 
                 /// Check if the player has moved away from the bomb
+            if(game.isMultiPlayerSelected()){
                 if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
                 if ((player2X != bombX || player2Y != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
+
+            } else if((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
+                bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
+            }
+
+
 
 
                 /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
@@ -406,12 +413,20 @@ public class GameMap {
         });
 
         // Player Demise
-        if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
-            getPlayer().setDead(true);
+        if(game.isMultiPlayerSelected()){
+            if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
+                getPlayer().setDead(true);
 
-        } else if((Math.round(getPlayer2().getX()) == x && Math.round(getPlayer2().getY()) == y && !getPlayer2().isDead())) {
-            getPlayer2().setDead(true);
+            } else if((Math.round(getPlayer2().getX()) == x && Math.round(getPlayer2().getY()) == y && !getPlayer2().isDead())) {
+                getPlayer2().setDead(true);
+            }
+        } else{
+            if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
+                getPlayer().setDead(true);
+
+            }
         }
+
     }
     /**
      * Performs as many physics steps as necessary to catch up to the given frame time.

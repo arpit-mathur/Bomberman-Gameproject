@@ -40,7 +40,7 @@ public class MenuScreen implements Screen {
         this.game = game;
         GameScreen.setGameWon(false);
         var camera = new OrthographicCamera();
-        camera.zoom = 1.4f; // Set camera zoom for a closer view
+        camera.zoom = 1.6f; // Set camera zoom for a closer view
         Viewport viewport = new ScreenViewport(camera); // Create a viewport with the camera
         stage = new Stage(viewport, game.getSpriteBatch()); // Create a stage for UI elements
 
