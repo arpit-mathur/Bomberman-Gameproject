@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         this.spriteBatch = game.getSpriteBatch();
         this.map = game.getMap();
 
-        this.hud = new Hud(spriteBatch, game.getSkin().getFont("font"),game);
+        this.hud = game.getHud();
         // Create and configure the camera for the game view
         this.mapCamera = new OrthographicCamera();
         this.mapCamera.setToOrtho(false);

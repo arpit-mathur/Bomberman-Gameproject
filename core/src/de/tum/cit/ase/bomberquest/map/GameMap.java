@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
+import de.tum.cit.ase.bomberquest.screen.Hud;
 
 import java.util.*;
 import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
@@ -218,7 +219,6 @@ public class GameMap {
                 power.setPowerTaken(true);
                 power.destroy();
                 Bomb.incrementMaxConcurrentBombs();
-
             }
         }
         );

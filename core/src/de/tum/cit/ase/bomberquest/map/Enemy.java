@@ -76,9 +76,18 @@ public class Enemy implements Drawable {
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
         ///These things are responsible for the movement of the enemy.
-        float xVelocity = (float) Math.sin(this.elapsedTime) * 2;
-        float yVelocity = (float) Math.cos(this.elapsedTime) * 2;
-        this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+        if (elapsedTime % 2 < frameTime) {
+            float randomAngle = (float) (Math.random() * 2 * Math.PI);
+            float speed = 2.0f;
+            float xVelocity = (float) Math.cos(randomAngle) * speed;
+            float yVelocity = (float) Math.sin(randomAngle) * speed;
+
+            // Apply velocity only if it differs significantly from the current velocity
+            if (Math.abs(hitbox.getLinearVelocity().x - xVelocity) > 0.1f ||
+                    Math.abs(hitbox.getLinearVelocity().y - yVelocity) > 0.1f) {
+                this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+            }
+        }
     }
 
 

@@ -44,8 +44,8 @@ public class PauseScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ///Clicking on This button does not work because we are already in the gameScreen?But pressing enter does work.
+                Hud.setTimerPaused(false);
                 game.goToGame();
-                MusicTrack.GAME_PAUSE.play();
             }
         });
 
@@ -70,6 +70,7 @@ public class PauseScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            Hud.setTimerPaused(false);
             game.goToGame();
         }
        float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);

@@ -48,6 +48,7 @@ public class LostScreen implements Screen{
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.resetHud();
                 MusicTrack.GAME_OVER.stop();
                 MusicTrack.Level_THEME.play();
                 Bomb.setActiveBombs(0);
@@ -78,6 +79,7 @@ public class LostScreen implements Screen{
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            game.resetHud();
             MusicTrack.GAME_OVER.stop();
             MusicTrack.Level_THEME.play();
             Bomb.setActiveBombs(0);

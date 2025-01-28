@@ -57,6 +57,7 @@ public class MenuScreen implements Screen {
         goToGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.resetHud();
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
@@ -71,6 +72,7 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
+                game.resetHud();
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
@@ -89,6 +91,7 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
+                game.resetHud();
                 game.LoadFileChooser();
             }
         });
@@ -117,6 +120,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            game.resetHud();
             Bomb.setActiveBombs(0);
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);

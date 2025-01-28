@@ -26,22 +26,36 @@ public class Hud {
 
     private boolean enemyClearSoundPlayed;
 
+    private static int remainingTime;
+
+    private static boolean timerPaused;
+
+    private float elapsedTime;
+
+    private static final int TOTAL_TIME = 200; // Total time in seconds
+
     public Hud(SpriteBatch spriteBatch, BitmapFont font,BomberQuestGame game) {
         this.spriteBatch = spriteBatch;
         this.font = font;
         this.camera = new OrthographicCamera();
         this.game = game;
         this.enemyClearSoundPlayed = false;
+        this.elapsedTime =0;
+        timerPaused = false;
     }
 
     /**
      * Renders the HUD on the screen.
      * This uses a different OrthographicCamera so that the HUD is always fixed on the screen.
      */
-    float elapsedTime;
+
     public void render(float frameTime) {
         // Render from the camera's perspective
-        elapsedTime += frameTime;
+        if (!timerPaused) {
+            elapsedTime += frameTime;
+        }
+        int remainingTime = (int) (TOTAL_TIME - elapsedTime);
+
         spriteBatch.setProjectionMatrix(camera.combined);
         // Start drawing
         spriteBatch.begin();
@@ -61,9 +75,7 @@ public class Hud {
             MusicTrack.Level_THEME2.play();
             enemyClearSoundPlayed = true;
         }
-
         font.setColor(Color.GREEN);
-        int remainingTime = (int)(180 - this.elapsedTime);
         if(remainingTime == 70){
             MusicTrack.Level_THEME.stop();
             MusicTrack.Level_THEME2.play();
@@ -75,7 +87,13 @@ public class Hud {
         } else if (remainingTime == 0) {
             game.goToLostScreen();
         }
-        font.draw(spriteBatch, "Remaining Time : " + remainingTime, Gdx.graphics.getWidth()/2f - 170, Gdx.graphics.getHeight() - 10);
+        font.draw(spriteBatch, "Remaining Time: " + remainingTime, Gdx.graphics.getWidth() / 2f - 170, Gdx.graphics.getHeight() - 10);
+
+        if (remainingTime <= 0) {
+            game.goToLostScreen();
+        }
+
+
         // Finish drawing
         spriteBatch.end();
     }
@@ -96,5 +114,21 @@ public class Hud {
 
     public void setEnemyClearSoundPlayed(boolean enemyClearSoundPlayed) {
         this.enemyClearSoundPlayed = enemyClearSoundPlayed;
+    }
+
+    public static int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public static void setRemainingTime(int remainingTime) {
+        Hud.remainingTime = remainingTime;
+    }
+
+    public static boolean isTimerPaused() {
+        return timerPaused;
+    }
+
+    public static void setTimerPaused(boolean timerpaused) {
+        Hud.timerPaused = timerpaused;
     }
 }

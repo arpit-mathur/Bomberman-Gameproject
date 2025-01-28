@@ -47,6 +47,7 @@ public class VictoryScreen implements Screen{
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.resetHud();
                 GameScreen.setGameWon(false);
                 MusicTrack.GAME_OVER.stop();
                 MusicTrack.Level_THEME.play();

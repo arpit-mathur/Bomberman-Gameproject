@@ -54,6 +54,8 @@ public class BomberQuestGame extends Game {
      */
     private GameMap map;
 
+    private Hud hud;
+
 
     /**
      * Constructor for BomberQuestGame.
@@ -77,6 +79,8 @@ public class BomberQuestGame extends Game {
 
         // Load UI skin
         this.skin = new Skin(Gdx.files.internal("skin/craftacular/craftacular-ui.json"));
+
+        hud = new Hud(spriteBatch, getSkin().getFont("font"), this);
 
 //        // Load default map from "map-1.properties"
 //        loadDefaultMap();
@@ -141,9 +145,6 @@ public class BomberQuestGame extends Game {
 
     }
 
-
-
-
     /**
      * Switches to the menu screen.
      */
@@ -169,10 +170,12 @@ public class BomberQuestGame extends Game {
     public void goToPauseScreen(){
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
+        Hud.setTimerPaused(true);
         this.setScreen(new PauseScreen(this));
     }
 
     public void goToLostScreen(){
+        Hud.setTimerPaused(true);
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
         MusicTrack.PLAYER_MOVE1.stop();
@@ -213,6 +216,14 @@ public class BomberQuestGame extends Game {
     /** Returns the current map, if there is one. */
     public GameMap getMap() {
         return map;
+    }
+
+    public Hud getHud() {
+        return hud;
+    }
+
+    public void resetHud() {
+        hud = new Hud(spriteBatch, getSkin().getFont("font"), this);
     }
 
     /**
