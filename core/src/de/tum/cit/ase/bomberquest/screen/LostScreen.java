@@ -54,7 +54,11 @@ public class LostScreen implements Screen{
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
+                if(game.isMultiLevelSelected()){
+                    game.loadChallenge();
+                }else{
                 game.loadDefaultMap();
+                }
             }
         });
 
@@ -85,7 +89,11 @@ public class LostScreen implements Screen{
             Bomb.setActiveBombs(0);
             Bomb.setMaxConcurrentBombs(1);
             Bomb.setCurrentBombRadius(1);
-            game.loadDefaultMap();
+            if(game.isMultiLevelSelected()){
+                game.loadChallenge();
+            }else{
+                game.loadDefaultMap();
+            }
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);
