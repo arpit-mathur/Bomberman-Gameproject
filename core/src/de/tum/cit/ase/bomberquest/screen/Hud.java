@@ -69,6 +69,8 @@ public class Hud {
 
         font.draw(spriteBatch, "Remaining Enemies: "+ game.getMap().getRemainingEnemies(),10, Gdx.graphics.getHeight() - 80);
 
+        font.draw(spriteBatch, "Current Speed: "+ game.getMap().getPlayer().getPlayerSpeed(),10, Gdx.graphics.getHeight() - 113);
+
         if(game.getMap().getRemainingEnemies()==0 && !isEnemyClearSoundPlayed()){
             MusicTrack.ENEMIES_CLEAR.play();
             MusicTrack.Level_THEME.stop();

@@ -196,7 +196,7 @@ public class GameMap {
         }
         if (!this.enemies.isEmpty()) {
             for (Enemy enemy : this.getEnemies()){
-                enemy.tick(frameTime);
+                enemy.tick(player.getX(), player.getY(), frameTime);
             }
         }
         if(!this.bombs.isEmpty()) {

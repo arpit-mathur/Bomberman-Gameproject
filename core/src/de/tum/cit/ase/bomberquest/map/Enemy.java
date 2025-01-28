@@ -70,24 +70,48 @@ public class Enemy implements Drawable {
      * This doesn't actually move the player, but it tells the physics engine how the player should move next frame.
      * @param frameTime the time since the last frame.
      */
-    public void tick(float frameTime) {
+    public void tick(float x, float y, float frameTime) {
         this.elapsedTime += frameTime;
         // Make the player move in a circle with radius 2 tiles
         // You can change this to make the player move differently, e.g. in response to user input.
         // See Gdx.input.isKeyPressed() for keyboard input
         ///These things are responsible for the movement of the enemy.
-        if (elapsedTime % 2 < frameTime) {
-            float randomAngle = (float) (Math.random() * 2 * Math.PI);
-            float speed = 2.0f;
-            float xVelocity = (float) Math.cos(randomAngle) * speed;
-            float yVelocity = (float) Math.sin(randomAngle) * speed;
 
-            // Apply velocity only if it differs significantly from the current velocity
-            if (Math.abs(hitbox.getLinearVelocity().x - xVelocity) > 0.1f ||
-                    Math.abs(hitbox.getLinearVelocity().y - yVelocity) > 0.1f) {
-                this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+        float randomAngle = (float) (Math.random() * 2 * Math.PI);
+        float speed = 2.0f;
+
+        float xVelocity = (float) Math.cos(randomAngle) * speed;
+        float yVelocity = (float) Math.sin(randomAngle) * speed;
+        float xspeed = 2.0F;
+        float yspeed = 2.0F;
+
+
+        if((int) x == (int) this.getX()){
+            ///We are kind of setting adirection in it
+            float direction = (x-getX())/Math.abs(x-getX());
+            this.hitbox.setLinearVelocity(0f, direction*xspeed);
+
+        } else if((int) y == (int) this.getY()){
+            float direction = (y-getY())/Math.abs(y-getY());
+            this.hitbox.setLinearVelocity(direction*yspeed, 0f);
+        } else {
+
+            if (elapsedTime % 2 < frameTime) {
+                randomAngle = (float) (Math.random() * 2 * Math.PI);
+                speed = 2.0f;
+
+                xVelocity = (float) Math.cos(randomAngle) * speed;
+                yVelocity = (float) Math.sin(randomAngle) * speed;
+
+
+                // Apply velocity only if it differs significantly from the current velocity
+                if (Math.abs(hitbox.getLinearVelocity().x - xVelocity) > 0.1f ||
+                        Math.abs(hitbox.getLinearVelocity().y - yVelocity) > 0.1f) {
+                    this.hitbox.setLinearVelocity(xVelocity, yVelocity);
+                }
             }
         }
+
     }
 
 
@@ -102,7 +126,7 @@ public class Enemy implements Drawable {
             }
             return enemyDemise;
         }
-        return Animations.ENEMY_ANIMATION.getKeyFrame(this.elapsedTime, true);
+        return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
     }
 
     @Override
