@@ -18,6 +18,7 @@ public enum MusicTrack {
     PLAYER_MOVE2("Player_moving2.mp3",true),
     Level_THEME("Level-Theme.mp3",false),
     Level_THEME2("Level-Theme2.mp3",false),
+    Level_THEME3("Level-Theme3.mp3",false),
     LEVEL_COMPLETED("Level-Completed.mp3",false),
     PLAYER_DEMISE("Player_Demise.mp3",false),
     BOMB_PLANT("Bomb_plantsfx.mp3",false),

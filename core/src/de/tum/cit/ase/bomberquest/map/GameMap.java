@@ -224,14 +224,11 @@ public class GameMap {
 
                 switch (object) {
                     case "0" -> this.indestructibleWalls.add(new IndestructibleWall(world, x, y));
-                    case "1" -> {
-                        this.destructibleWalls.add(new DestructibleWall(world, x, y));
-
-                    }
+                    case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
                     case "2" -> {
                         if(game.isMultiPlayerSelected()){
-                            this.player = new Player(world, x, y);
-                            this.player2 = new Player2(world, x, y);
+                            this.player = new Player(world, x, y+1);
+                            this.player2 = new Player2(world, x, y-1);
                         } else {
                             this.player = new Player(world, x, y);
                         }
@@ -254,7 +251,7 @@ public class GameMap {
 
 
             }catch (Exception e){
-                System.err.println("Invalid coordinate format: " + key);
+                System.err.println("Error while parsing the Map file");
             }
         }
     }
@@ -359,7 +356,9 @@ public class GameMap {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                     game.resetHud();
                     MusicTrack.Level_THEME.stop();
-                    MusicTrack.Level_THEME2.play();
+                    MusicTrack.Level_THEME2.stop();
+                    MusicTrack.ENEMIES_CLEAR.play();
+                    MusicTrack.Level_THEME3.play();
                     game.loadDefaultMap();
                 }
             } else {
