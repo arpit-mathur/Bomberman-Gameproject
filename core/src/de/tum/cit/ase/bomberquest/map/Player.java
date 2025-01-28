@@ -17,18 +17,18 @@ import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
 public class Player implements Drawable {
 
     /** Total time elapsed since the game started. We use this for calculating the player movement and animating it. */
-    private float elapsedTime;
+    protected float elapsedTime;
 
     /** The Box2D hitbox of the player, used for position and collision detection. */
-    private final Body hitbox;
+    protected final Body hitbox;
 
-    private boolean isDead = false;
+    protected boolean isDead = false;
 
-    private boolean isDeathAnimationFinished = false;
+    protected boolean isDeathAnimationFinished = false;
 
-    private TextureRegion facing;
+    protected TextureRegion facing;
 
-    private float playerSpeed;
+    protected float playerSpeed;
 
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
@@ -216,5 +216,12 @@ public class Player implements Drawable {
     public void setDeathAnimationFinished(boolean deathAnimationFinished) {
         isDeathAnimationFinished = deathAnimationFinished;
     }
+    public void setSensor(boolean isSensor) {
+        for (Fixture fixture : hitbox.getFixtureList()) {
+            fixture.setSensor(isSensor);
+
+        }
+    }
+
 }
 

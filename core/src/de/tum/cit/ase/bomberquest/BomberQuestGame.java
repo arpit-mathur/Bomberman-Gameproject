@@ -35,6 +35,8 @@ public class BomberQuestGame extends Game {
     private Skin skin;
 
     private boolean isMultiLevelSelected;
+
+    private boolean isMultiPlayerSelected;
     /**
      * The file chooser for loading map files from the user's computer.
      * This will give you access to a {@link com.badlogic.gdx.files.FileHandle} object,
@@ -82,6 +84,8 @@ public class BomberQuestGame extends Game {
 
         hud = new Hud(spriteBatch, getSkin().getFont("font"), this);
 
+        this.isMultiPlayerSelected = true;
+
 //        // Load default map from "map-1.properties"
 //        loadDefaultMap();
 
@@ -97,6 +101,7 @@ public class BomberQuestGame extends Game {
         /// By the same logic as in doYourMagic()
         isMultiLevelSelected = false;
         coordinatesAndObjects.clear();
+        isMultiPlayerSelected = false;
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
@@ -123,6 +128,7 @@ public class BomberQuestGame extends Game {
         /// By the same logic as in doYourMagic()
         isMultiLevelSelected = true;
         coordinatesAndObjects.clear();
+        isMultiPlayerSelected = false;
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-2.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
@@ -142,8 +148,35 @@ public class BomberQuestGame extends Game {
         MusicTrack.MENU_BGM.stop();
         MusicTrack.Level_THEME.play();
         this.setScreen(new GameScreen(this));
+    }
+
+    public void loadMultiplayer() {
+
+        /// By the same logic as in doYourMagic()
+        isMultiLevelSelected = false;
+        coordinatesAndObjects.clear();
+        isMultiPlayerSelected = true;
+        FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
+        String mapContent = defaultMapFile.readString();
+        String[] linesOfText = mapContent.split("\n");
+
+        coordinatesAndObjects.clear();// Clear any previous data
+        for (String line : linesOfText) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) {
+                continue;
+            }
+            String[] keyValue = line.split("=");
+            coordinatesAndObjects.put(keyValue[0].trim(), keyValue[1].trim());
+        }
+
+        // Initialize the GameMap object with default map
+        this.map = new GameMap(this, coordinatesAndObjects);
+        MusicTrack.MENU_BGM.stop();
+        this.setScreen(new GameScreen(this));
 
     }
+
 
     /**
      * Switches to the menu screen.
@@ -292,7 +325,7 @@ public class BomberQuestGame extends Game {
         NativeFileChooserCallback fileChooserCallback = new NativeFileChooserCallback() {
             @Override
             public void onFileChosen(FileHandle file) {
-
+                isMultiPlayerSelected = false;
                 //read the properties file, which will give us the output in one line with "\n".
                 String EntireText = file.readString();
                 //Then we split the map properly, and we end up with our proper file as you can see right now in the map properties folder and store it into the array
@@ -352,5 +385,13 @@ public class BomberQuestGame extends Game {
 
     public void setMultiLevelSelected(boolean multiLevelSelected) {
         isMultiLevelSelected = multiLevelSelected;
+    }
+
+    public boolean isMultiPlayerSelected() {
+        return isMultiPlayerSelected;
+    }
+
+    public void setMultiPlayerSelected(boolean multiPlayerSelected) {
+        isMultiPlayerSelected = multiPlayerSelected;
     }
 }

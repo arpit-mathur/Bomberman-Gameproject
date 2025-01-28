@@ -96,6 +96,23 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton multiPlayer = new TextButton("Multiplayer", game.getSkin());
+        table.add(multiPlayer).width(300).row();
+        multiPlayer.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                ///This method will open the filechooser window
+                game.setMultiPlayerSelected(true);
+                game.resetHud();
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
+                MusicTrack.Level_THEME.play();
+                game.loadMultiplayer();
+                ///we need game.loadMultiplayer();
+            }
+        });
+
         Label tipLabel = new Label("Press ENTER for Quick Start", game.getSkin());
         table.add(tipLabel).padTop(40).row();
 

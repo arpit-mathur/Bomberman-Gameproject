@@ -1,4 +1,3 @@
-
 package de.tum.cit.ase.bomberquest.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,9 +18,14 @@ public class Enemy implements Drawable {
     /** The Box2D hitbox of the player, used for position and collision detection. */
     private final Body hitbox;
 
+    private float xVelocity;
+    private float yVelocity;
+
     public Enemy(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.isDestroyed = false;
+        this.xVelocity=0;
+        this.yVelocity=0;
     }
 
     /**
@@ -32,19 +36,14 @@ public class Enemy implements Drawable {
      * @param startY The initial Y position.
      * @return The created body.
      */
+
     private Body createHitbox(World world, float startX, float startY) {
         // BodyDef is like a blueprint for the movement properties of the body.
-         BodyDef bodyDef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         // Dynamic bodies are affected by forces and collisions.
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         // Set the initial position of the body.
         bodyDef.position.set(startX, startY);
-//        bodyDef.awake = true;
-//        bodyDef.fixedRotation = true;
-//        bodyDef.bullet = true;
-//        bodyDef.active = true;
-//        bodyDef.angularDamping = 45.0f;
-//        bodyDef.angularVelocity = 2.0f;
         // Create the body in the world using the body definition.
         Body body = world.createBody(bodyDef);
         // Now we need to give the body a shape so the physics engine knows how to collide with it.
@@ -56,13 +55,10 @@ public class Enemy implements Drawable {
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
         body.createFixture(circle, 1.0f);
-
-//        enemy.setSensor(false);
         // We're done with the shape, so we should dispose of it to free up memory.
         circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
         body.setUserData(this);
-
         return body;
     }
 
@@ -70,50 +66,43 @@ public class Enemy implements Drawable {
      * This doesn't actually move the player, but it tells the physics engine how the player should move next frame.
      * @param frameTime the time since the last frame.
      */
+
     public void tick(float x, float y, float frameTime) {
         this.elapsedTime += frameTime;
-        // Make the player move in a circle with radius 2 tiles
-        // You can change this to make the player move differently, e.g. in response to user input.
-        // See Gdx.input.isKeyPressed() for keyboard input
-        ///These things are responsible for the movement of the enemy.
+        ///This code is responsible for the movement of the enemy.
 
-        float randomAngle = (float) (Math.random() * 2 * Math.PI);
         float speed = 2.0f;
-
-        float xVelocity = (float) Math.cos(randomAngle) * speed;
-        float yVelocity = (float) Math.sin(randomAngle) * speed;
-        float xspeed = 2.0F;
-        float yspeed = 2.0F;
-
-
-        if((int) x == (int) this.getX()){
-            ///We are kind of setting adirection in it
-            float direction = (x-getX())/Math.abs(x-getX());
-            this.hitbox.setLinearVelocity(0f, direction*xspeed);
-
-        } else if((int) y == (int) this.getY()){
-            float direction = (y-getY())/Math.abs(y-getY());
-            this.hitbox.setLinearVelocity(direction*yspeed, 0f);
-        } else {
-
-            if (elapsedTime % 2 < frameTime) {
-                randomAngle = (float) (Math.random() * 2 * Math.PI);
-                speed = 2.0f;
-
-                xVelocity = (float) Math.cos(randomAngle) * speed;
-                yVelocity = (float) Math.sin(randomAngle) * speed;
-
-
-                // Apply velocity only if it differs significantly from the current velocity
-                if (Math.abs(hitbox.getLinearVelocity().x - xVelocity) > 0.1f ||
-                        Math.abs(hitbox.getLinearVelocity().y - yVelocity) > 0.1f) {
-                    this.hitbox.setLinearVelocity(xVelocity, yVelocity);
-                }
+        if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
+            xVelocity = 0;
+            yVelocity = 0;
+        }
+        else if(Math.round(y) == Math.round(this.getY())){
+            ///We are kind of setting direction in it
+            if(x <= this.getX()) {
+                xVelocity = -speed;
+                yVelocity = 0;
+            }else{
+                xVelocity = speed;
+                yVelocity = 0;
             }
         }
+        else if(Math.round(x) == Math.round(this.getX())){
+            ///We are kind of setting direction in it
+            if(y <= this.getY()) {
+                xVelocity = 0;
+                yVelocity = -speed;
+            }else{
+                xVelocity = 0;
+                yVelocity = speed;
+            }
+        }
+        else {
+            xVelocity = (float)Math.sin(this.elapsedTime) * speed;
+            yVelocity = (float)Math.cos(this.elapsedTime) * speed;
+        }
 
+        this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
-
 
     @Override
     public TextureRegion getCurrentAppearance() {
@@ -125,8 +114,14 @@ public class Enemy implements Drawable {
                 return null; ///return null as wall is destroyed
             }
             return enemyDemise;
+        }else {
+            if(xVelocity >= 0) {
+                return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+            }
+            else{
+                return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+            }
         }
-        return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
     }
 
     @Override
@@ -169,4 +164,3 @@ public class Enemy implements Drawable {
         isDestroyed = destroyed;
     }
 }
-

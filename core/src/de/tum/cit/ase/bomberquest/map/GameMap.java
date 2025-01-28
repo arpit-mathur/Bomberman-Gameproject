@@ -48,6 +48,9 @@ public class GameMap {
     private int mapMaxX, mapMaxY;
     // Game objects
     private Player player;
+
+    private Player2 player2;
+
     private ArrayList<Enemy> enemies;
 
     private final Flowers[][] flowers;
@@ -77,9 +80,9 @@ public class GameMap {
         this.world = new World(Vector2.Zero, true);
         this.collisionDetecter = new CollisionDetecter();
         this.world.setContactListener(collisionDetecter);
-
         this.bombs = new ArrayList<>();
-        this.player = getPlayer();
+//        this.player = getPlayer();
+//        this.player2 = getPlayer2();
 
         this.mapMaxX = 0;
         this.mapMaxY =0;
@@ -161,7 +164,14 @@ public class GameMap {
                         this.destructibleWalls.add(new DestructibleWall(world, x, y));
 
                     }
-                    case "2" -> this.player = new Player(world, x, y);
+                    case "2" -> {
+                        if(game.isMultiPlayerSelected()){
+                            this.player = new Player(world, x, y);
+                            this.player2 = new Player2(world, x, y);
+                        } else {
+                            this.player = new Player(world, x, y);
+                        }
+                    }
                     case "3" -> this.enemies.add(new Enemy(world, x, y));
                     case "4" -> {
                         this.exit = new Exit(world, x, y);
@@ -192,8 +202,29 @@ public class GameMap {
     public void tick(float frameTime) {
 
         if(this.player !=null) {
+            float playerX = Math.round(getPlayer().getX());
+            float playerY = Math.round(getPlayer().getY());
+            float player2X = Math.round(getPlayer().getX());
+            float player2Y = Math.round(getPlayer().getY());
             this.player.tick(frameTime);
+
+            if ((playerX != player2X || playerY != player2Y)){
+                this.player.setSensor(false);
+            }
+
         }
+
+        if(this.player2 != null){
+            this.player2.tick(frameTime);
+            float playerX = Math.round(getPlayer().getX());
+            float playerY = Math.round(getPlayer().getY());
+            float player2X = Math.round(getPlayer().getX());
+            float player2Y = Math.round(getPlayer().getY());
+            if ((playerX != player2X || playerY != player2Y)){
+                this.player2.setSensor(false);
+            }
+        }
+
         if (!this.enemies.isEmpty()) {
             for (Enemy enemy : this.getEnemies()){
                 enemy.tick(player.getX(), player.getY(), frameTime);
@@ -277,6 +308,8 @@ public class GameMap {
 
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
+                float player2X = Math.round(getPlayer().getX());
+                float player2Y = Math.round(getPlayer().getY());
 
                 float bombX = Math.round(bomb.getX());
                 float bombY = Math.round(bomb.getY());
@@ -285,6 +318,10 @@ public class GameMap {
                 if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
+                if ((player2X != bombX || player2Y != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
+                    bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
+                }
+
 
                 /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
                 ///to trigger the destroy() method for each of them.
@@ -516,5 +553,13 @@ public class GameMap {
 
     public ArrayList<SpeedPowerUp> getSpeedIncreasePowerUps() {
         return speedIncreasePowerUps;
+    }
+
+    public Player2 getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(Player2 player2) {
+        this.player2 = player2;
     }
 }

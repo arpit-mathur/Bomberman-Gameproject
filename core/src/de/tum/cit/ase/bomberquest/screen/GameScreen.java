@@ -208,11 +208,27 @@ public class GameScreen implements Screen {
 
         draw(spriteBatch, map.getExit());
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
-            float bombX = Math.round(map.getPlayer().getX());
-            float bombY = Math.round(map.getPlayer().getY());
-            map.plantBomb(bombX,bombY);
+        if(game.isMultiPlayerSelected()){
+
+            if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
+                float bombX = Math.round(map.getPlayer().getX());
+                float bombY = Math.round(map.getPlayer().getY());
+                map.plantBomb(bombX,bombY);
+
+            } else if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
+                float bombX = Math.round(map.getPlayer2().getX());
+                float bombY = Math.round(map.getPlayer2().getY());
+                map.plantBomb(bombX,bombY);
+            }
+        } else {
+
+            if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()) {
+                float bombX = Math.round(map.getPlayer().getX());
+                float bombY = Math.round(map.getPlayer().getY());
+                map.plantBomb(bombX, bombY);
+            }
         }
+
 
         for(Enemy enemy : map.getEnemies()){
             if(enemy != null){
@@ -221,9 +237,15 @@ public class GameScreen implements Screen {
         }
         if(map.getPlayer().isDeathAnimationFinished()){
             game.goToLostScreen();
-
+            ///We need a different Screen if player 1 dies
         } else {
-            draw(spriteBatch, map.getPlayer());
+            if(game.isMultiPlayerSelected()){
+                draw(spriteBatch, map.getPlayer());
+                draw(spriteBatch, map.getPlayer2());
+            } else {
+                draw(spriteBatch, map.getPlayer());
+            }
+
         }
 
 
