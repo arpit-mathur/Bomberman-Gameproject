@@ -84,7 +84,7 @@ Taking this powerUp will help the player to run faster, away from the bombs and 
 We make use of the CollisionDetector Class, to detect whether the enemy and player have come into contact, and as a consequence set the isDead attribute to true. This class uses the ContactListener Interface.
 
 #### Enemy
-Here lies the Enemy and all the information regarding. Player Stay away from him !!!!
+Here lies the Enemy and all the information regarding. Enemies could place Bomb when they are within certain distance from the player. Player Stay away from him !!!!
 
 #### Flower
 Flower represents the floor or the colorful ground of the dungeon, maybe it can turn iceCold with some icy enemies, or hot as a lava with others.
