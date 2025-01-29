@@ -63,6 +63,7 @@ public class PauseScreen implements Screen {
                 Bomb.setCurrentBombRadius(1);
                 game.goToMenu();
             }
+
         });
 
 
