@@ -437,9 +437,8 @@ public class BomberQuestGame extends Game {
                 ///which will give us the hashmap with the coordinatesAndObjects, and the end result of doYourMagic,
                 ///will determine, what happens on when your file is selected, in our case we want the user to go the selected map in the game,
                 ///So the end result should bring us to the selected map in the game.
-                doYourMagic(linesOfText);
+                parseToHashMap(linesOfText);
             }
-
             ///We can do something like show a new screen on cancellation, which is kinda easy lets see.
             @Override
             public void onCancellation() {
@@ -462,11 +461,11 @@ public class BomberQuestGame extends Game {
      * The constructor will parse, the HashMap into Game Map, creating the objects in the Map.
      * @param linesOfText
      */
-    public void doYourMagic(String[] linesOfText) {
+    public void parseToHashMap(String[] linesOfText) {
 
-        /// VVI to clear the previous objects.
         coordinatesAndObjects.clear();
         Bomb.setActiveBombs(0);
+
         Bomb.setMaxConcurrentBombs(1);
         for (String line : linesOfText) {
             line = line.trim();
