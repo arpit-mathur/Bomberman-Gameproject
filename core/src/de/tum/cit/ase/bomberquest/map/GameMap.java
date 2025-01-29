@@ -63,7 +63,7 @@ public class GameMap {
     private ArrayList<ConcurrentBombPowerUp> concurrentBombPowerUps;
     private ArrayList<BombBlastPowerUp> bombBlastPowerUp;
     private ArrayList<SpeedPowerUp> speedIncreasePowerUps;
-    private ArrayList<DestructibleWall> availableDestructibleWalls;
+    private ArrayList<TimePowerUp> timerPowerUps;
 
 
 
@@ -75,21 +75,28 @@ public class GameMap {
 
 
     /**
-     *
+     *This constructor, initializes every single, attribute, and object declared in this class,
+     * It initializes the Array lists of Bomb, bombsByEnemy, timerPowerUp, indestructibleWalls, destructibleWalls,
+     * concurrentBombPowerUps, bombBlastPowerUP, speedIncreasePowerups, the list of enemies, and
+     * it sets up the flowers according, to the area of the map.
+     * This Constructor takes in the HashMap of the coordinates and values, and invokes the parseKeyValuesToBuild(),
+     * which builds the objects on the coordinates specified in the HashMap.
+     * placeExitRandomly() will place the exit randomly, beneath a destructible wall.
+     * randomlyPlacedPowerups() will place the powerUps randomly beneath a destructible Wall.
      * @param game
      * @param coordinatesAndObjects
      */
     public GameMap(BomberQuestGame game, HashMap<String, String> coordinatesAndObjects) {
+
         this.game = game;
         this.world = new World(Vector2.Zero, true);
         this.collisionDetecter = new CollisionDetecter();
         this.world.setContactListener(collisionDetecter);
         this.bombs = new ArrayList<>();
         this.bombsByEnemy = new ArrayList<>();
-
+        this.timerPowerUps = new ArrayList<>();
         this.mapMaxX = 0;
         this.mapMaxY =0;
-
         //Initialized the walls, chests and Breakable walls, and flowers
         this.indestructibleWalls = new ArrayList<>();
         this.destructibleWalls = new ArrayList<>();
@@ -97,11 +104,9 @@ public class GameMap {
         this.bombBlastPowerUp = new ArrayList<>();
         this.speedIncreasePowerUps = new ArrayList<>();
         this.enemies = new ArrayList<>();
-        this.availableDestructibleWalls = new ArrayList<>();
         parseKeyValueToBuild(coordinatesAndObjects);
-        this.availableDestructibleWalls.addAll(destructibleWalls);
 
-        /// +1 as an account for Index
+        // +1 as an account for Index
         this.flowers = new Flowers[getMapMaxX()+1][getMapMaxY()+1];
         for (int i = 0; i < flowers.length; i++) {
             for (int j = 0; j < flowers[i].length; j++) {
@@ -112,6 +117,7 @@ public class GameMap {
         this.mapHeight = flowers[0].length * TILE_SIZE_PX * SCALE;
         placeExitRandomly();
         randomlyPlacePowerUps();
+
     }
 
     /**
@@ -190,7 +196,7 @@ public class GameMap {
 
     /**
      * This method follows the same approach as above, will place the powerups randomly
-     * at the same coordinates as the destructible wall
+     * at the same coordinates as the destructible wall.
      */
     public void randomlyPlacePowerUps(){
 
@@ -213,7 +219,7 @@ public class GameMap {
                 for(int i = 0; i < destructibleWalls.size(); i++){
                     Random random1 = new Random();
                     int number = random1.nextInt(destructibleWalls.size());
-                    float floatIndex = i + 14 * number/5 ;
+                    float floatIndex = i + 19 * number/5 ;
 
                     int indexOfWall = Math.round(floatIndex);
                     if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
@@ -228,7 +234,7 @@ public class GameMap {
                 for(int i = 0; i < destructibleWalls.size(); i++){
                     Random random1 = new Random();
                     int number = random1.nextInt(destructibleWalls.size());
-                    float floatIndex = i + 12 * number/2 ;
+                    float floatIndex = i + 17* number/2 ;
 
                     int indexOfWall = Math.round(floatIndex);
 
@@ -240,6 +246,22 @@ public class GameMap {
                     }
                 }
             }
+            if(timerPowerUps.isEmpty()){
+                for(int i = 0; i < destructibleWalls.size(); i++){
+                    Random random1 = new Random();
+                    int number = random1.nextInt(destructibleWalls.size());
+                    float floatIndex = i + 16 * number/2 ;
+
+                    int indexOfWall = Math.round(floatIndex);
+
+                    if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
+                        DestructibleWall wall1=  destructibleWalls.get(indexOfWall);
+                        float CBowerUpX = wall1.getX();
+                        float CBPowerUpY = wall1.getY();
+                        this.timerPowerUps.add(new TimePowerUp(world, CBowerUpX, CBPowerUpY));
+                    }
+                }
+            }
         }
     }
 
@@ -247,6 +269,7 @@ public class GameMap {
      * Updates the game state. This is called once per frame.
      * Every dynamic object in the game should update its state here.
      * @param frameTime the time that has passed since the last update
+     * it calls, the helper methods, to update the powerUps and the exits.
      */
     public void tick(float frameTime) {
 
@@ -309,6 +332,8 @@ public class GameMap {
         updateSpeedPowerUp();
 
         updateSpeedPowerUp();
+
+        updateTimerPowerUP();
 
         checkExit();
 
@@ -512,8 +537,45 @@ public class GameMap {
     }
 
     /**
+     * This method updates the state of the timerPowerUP, with the same logic as the above powerUps.
+     */
+    public void updateTimerPowerUP(){
+        if(game.isMultiPlayerSelected()){
+            getTimerPowerUps().forEach(power -> {
+                        float player_X = Math.round(getPlayer().getX());
+                        float player_Y = Math.round(getPlayer().getY());
+                        float player2X = Math.round(getPlayer2().getX());
+                        float player2Y = Math.round(getPlayer2().getY());
+                        if((power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()) ||
+                                power.getX() == player2X && power.getY() == player2Y && !power.isPowerTaken()){
+                            MusicTrack.POWERUP_TAKEN.play();
+                            power.setPowerTaken(true);
+                            power.destroy();
+                           game.getHud().addTime(5);
+                        }
+                    }
+            );
+        } else {
+
+            getTimerPowerUps().forEach(power -> {
+                        float player_X = Math.round(getPlayer().getX());
+                        float player_Y = Math.round(getPlayer().getY());
+                        if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
+                            MusicTrack.POWERUP_TAKEN.play();
+                            power.setPowerTaken(true);
+                            power.destroy();
+                            game.getHud().addTime(5);
+                        }
+                    }
+            );
+        }
+
+    }
+
+    /**
      * This method, checks the exit, and executes the corresponding actions, in case of multilevel games.
      * If a single level game is played, once if the player enters the victory screen will be displayed.
+     * The exit will only be activated if all the enemies are destroyed.
      */
     public void checkExit(){
 
@@ -832,4 +894,7 @@ public class GameMap {
         this.player2 = player2;
     }
 
+    public ArrayList<TimePowerUp> getTimerPowerUps() {
+        return timerPowerUps;
+    }
 }

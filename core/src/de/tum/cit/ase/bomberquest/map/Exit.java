@@ -5,9 +5,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-/**
- * A chest is a static object with a hitbox, so the player cannot walk through it.
- */
+
+
 public class Exit implements Drawable {
 
     // We would normally get the position from the hitbox, but since we don't need to move the chest, we can store the position directly.

@@ -4,20 +4,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
-public class ConcurrentBombPowerUp extends Exit {
+/**
+ * This PowerUp will increase the time the player has.
+ */
+public class TimePowerUp extends Exit{
 
-
+    /**
+     * Attribute to manage if power is taken or not.
+     */
     private boolean powerTaken;
 
-    public ConcurrentBombPowerUp(World world, float x, float y){
-        super(world,x,y);
+
+    public TimePowerUp(World world, float x, float y) {
+        super(world, x, y);
         this.powerTaken = false;
     }
 
     @Override
     public TextureRegion getCurrentAppearance() {
         if(!isPowerTaken()) {
-            return Textures.CB_POWERUP;
+            return Textures.TIMER_POWER_UP;
         }
         else{
             return null;
@@ -31,4 +37,6 @@ public class ConcurrentBombPowerUp extends Exit {
     public void setPowerTaken(boolean powerTaken) {
         this.powerTaken = powerTaken;
     }
+
 }
+

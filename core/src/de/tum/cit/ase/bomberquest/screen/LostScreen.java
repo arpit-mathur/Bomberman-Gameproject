@@ -102,8 +102,8 @@ public class LostScreen implements Screen{
         });
 
         /// Exit button to Quit whole application
-        TextButton exitButton = new TextButton("Time to Go Cry!", game.getSkin());
-        table.add(exitButton).padTop(100).width(350).row();
+        TextButton exitButton = new TextButton("I want to Quit!", game.getSkin());
+        table.add(exitButton).width(350).row();
 
         exitButton.addListener(new ChangeListener() {
             @Override

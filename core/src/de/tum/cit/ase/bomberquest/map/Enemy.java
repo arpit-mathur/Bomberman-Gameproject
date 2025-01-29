@@ -71,11 +71,13 @@ public class Enemy implements Drawable {
     /**
      * This doesn't actually move the player, but it tells the physics engine how the player should move next frame.
      * @param frameTime the time since the last frame.
+     * This method is used to influence the movement of the enemy, in the direction of the player once the x or y axes of the player
+     * is almost as the same as the player. Otherwise, the enemies move randomly.
+     *
      */
 
     public void tick(float x, float y, float frameTime) {
         this.elapsedTime += frameTime;
-        ///This code is responsible for the movement of the enemy.
 
         float speed = BomberQuestGame.level==2 ? 2.7f
                 : BomberQuestGame.level==3 ? 3.2f
@@ -85,7 +87,6 @@ public class Enemy implements Drawable {
             yVelocity = 0;
         }
         else if(Math.round(y) == Math.round(this.getY())){
-            ///We are kind of setting direction in it
             if(x <= this.getX()) {
                 xVelocity = -speed;
                 yVelocity = 0;
@@ -95,7 +96,6 @@ public class Enemy implements Drawable {
             }
         }
         else if(Math.round(x) == Math.round(this.getX())){
-            ///We are kind of setting direction in it
             if(y <= this.getY()) {
                 xVelocity = 0;
                 yVelocity = -speed;
@@ -112,6 +112,15 @@ public class Enemy implements Drawable {
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
 
+    /**
+     * This method is used for tracking the two players in the Multiplayer game, if either of the players axes,
+     * match the enemies axes, the enemy will start following the player. Otherwise it will move randomly.
+     * @param x is the x position of player1
+     * @param y is the y position of player1
+     * @param x2 is the x position of player2
+     * @param y2 is the y position of player2
+     * @param frameTime is
+     */
     public void tick(float x, float y, float x2, float y2, float frameTime) {
         this.elapsedTime += frameTime;
         ///This code is responsible for the movement of the enemy.
@@ -155,6 +164,17 @@ public class Enemy implements Drawable {
         this.hitbox.setLinearVelocity(xVelocity, yVelocity);
     }
 
+    /**
+     * This is the method which determines the current appearance of the enemy, if the isDestroyed is true,
+     * then it will trigger enemy demise, and depending upon the levels, used in MultiLevelMadness, it will give out
+     * the respective appearance, if it is level 2, it will give you the appearance of the blue enemy, if level is 1, it
+     * will give us the appearance of the red enemy, in level three it will give you the appearance of purple lantern enemies.
+     * First it will check, if its destroyed, if yes, the death animation will be returned, else
+     * it will check if xVelocity greater than 0, then it will give the animation of enemy moving right , else
+     * it will return the animation of moving left.
+     *
+     * @return
+     */
     @Override
     public TextureRegion getCurrentAppearance() {
         if (isDestroyed) {
@@ -218,8 +238,8 @@ public class Enemy implements Drawable {
     public void destroy() {
         if(!isDestroyed) {
             isDestroyed = true;
-            hitbox.setActive(false); /// Deactivate the wall's hitbox when it's destroyed.
-            this.elapsedTime = 0; ///resets the elapsed time such that animation starts from 0th frame
+            hitbox.setActive(false);    /// Deactivate the enemies hitbox when it's destroyed.
+            this.elapsedTime = 0;       ///resets the elapsed time such that animation starts from 0th frame
         }
     }
     public boolean isDestroyed() {

@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.texture.Textures;
 
+/**
+ * This power will increase the speed of the player. Apart from that works like the usual powerUps.
+ */
 public class SpeedPowerUp extends ConcurrentBombPowerUp{
 
     private boolean isPowerUpTaken;

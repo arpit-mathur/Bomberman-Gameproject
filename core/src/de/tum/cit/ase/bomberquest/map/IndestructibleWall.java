@@ -16,7 +16,7 @@ public class IndestructibleWall implements Drawable {
     private final float y;
 
     /**
-     * Create a chest at the given position.
+     * Create an Indestructible wall at the given position.
      * @param world The Box2D world to add the chest's hitbox to.
      * @param x The X position.
      * @param y The Y position.

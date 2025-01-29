@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
@@ -174,7 +175,13 @@ public class GameScreen implements Screen {
             }
         }
 
+        for(TimePowerUp timePowerUp : map.getTimerPowerUps()){
+            if(timePowerUp != null){
+                draw(spriteBatch, timePowerUp);
+            }
+        }
 
+        draw(spriteBatch, map.getExit());
 
         if(!map.getBombs().isEmpty()) {
             for(Bomb bomb : map.getBombs()){
@@ -251,7 +258,6 @@ public class GameScreen implements Screen {
                 draw(spriteBatch, map.getPlayer());
             }
         }
-        draw(spriteBatch, map.getExit());
 
         // Finish drawing, i.e. send the drawn items to the graphics card
         spriteBatch.end();

@@ -12,6 +12,10 @@ import de.tum.cit.ase.bomberquest.texture.Textures;
 
 public class DestructibleWall implements Drawable {
 
+    /**
+     * Attributes for DestructibleWall
+     * isDestroyed is used to manage if the wall is destroyed or not.
+     */
     private final float x;
     private final float y;
     private boolean isDestroyed;
@@ -33,6 +37,13 @@ public class DestructibleWall implements Drawable {
         this.elapsedTime =0;
     }
 
+    /**
+     *
+     * @param world is used to create a body of the Destructible wall
+     * @param x is the x position
+     * @param y is the y positon
+     * @returns the object of type Body
+     */
     private Body createHitbox(World world,float x, float y) {
         // BodyDef is like a blueprint for the movement properties of the body.
         BodyDef bodyDef = new BodyDef();
@@ -62,16 +73,21 @@ public class DestructibleWall implements Drawable {
         }
     }
 
+    /**
+     * This method is crucial to determine the appearance and the removal of hitbox of wall upon destruction,
+     * if it is destroyed, then it will trigger the DESTROY_WALL animation.
+     * @return
+     */
     @Override
     public TextureRegion getCurrentAppearance() {
         if (isDestroyed) {
-            /// Play the destruction animation
+            //Play the destruction animation
             TextureRegion destroyWall = Animations.DESTROY_WALL.getKeyFrame(this.elapsedTime, false);
 
-            /// Check if the animation has finished
+            //Check if the animation has finished
             if (Animations.DESTROY_WALL.isAnimationFinished(this.elapsedTime)) {
-                hitbox.setActive(false); /// /// Deactivate the wall's hitbox when it's destroyed.
-                return null; ///return null as wall is destroyed
+                hitbox.setActive(false);    ///Deactivate the wall's hitbox when it's destroyed.
+                return null;                ///return null as wall is destroyed
             }
             return destroyWall;
 
@@ -83,6 +99,10 @@ public class DestructibleWall implements Drawable {
             return Textures.DESTRUCTIBLEWALL;
         }
     }
+
+    /**
+     * destroy method to set the destroy to true, and resetting the elapsed time
+     */
 
     @Override
     public void destroy() {

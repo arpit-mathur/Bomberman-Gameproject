@@ -11,6 +11,10 @@ import de.tum.cit.ase.bomberquest.screen.GameScreen;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.SpriteSheet;
 
+/**
+ * This Class inherits everything from Player, while overriding some methods.
+ * It was created to facilitate Multiplayer mode.
+ */
 public class Player2 extends Player{
 
     public Player2(World world, float x, float y) {
@@ -20,6 +24,10 @@ public class Player2 extends Player{
         this.playerSpeed = 3.2f;
     }
 
+    /**
+     * Here the player speed will be increased in the direction in which the input was given.
+     * @param frameTime the time since the last frame.
+     */
     @Override
     public void tick(float frameTime) {
         this.elapsedTime += frameTime;
@@ -47,7 +55,10 @@ public class Player2 extends Player{
     }
 
 
-
+    /**
+     * This method works, the same as the superclass method, but it will show the player move, with the help of A, W, S, and D,
+     * instead of arrow keys.
+     */
     @Override
     public TextureRegion getCurrentAppearance() {
 

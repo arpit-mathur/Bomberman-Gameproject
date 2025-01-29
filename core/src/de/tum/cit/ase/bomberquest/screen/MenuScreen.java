@@ -49,7 +49,7 @@ public class MenuScreen implements Screen {
         stage.addActor(table); // Add the table to the stage
 
         // Add a label as a title
-        Label titleLabel = new Label("Bomber_Quest", game.getSkin(), "title");
+        Label titleLabel = new Label("Bomber Quest", game.getSkin(), "title");
         titleLabel.setFontScale(1.3f);
         table.add(titleLabel).padBottom(80).row();
 
@@ -146,7 +146,7 @@ public class MenuScreen implements Screen {
         });
 
 
-        Label challengeLabel = new Label("No Turning Back! Press ENTER!", game.getSkin());
+        Label challengeLabel = new Label("Press ENTER to take on a mini Challenge!", game.getSkin());
         challengeLabel.setFontScale(1.2f);
         table.add(challengeLabel).padTop(40).row();
 

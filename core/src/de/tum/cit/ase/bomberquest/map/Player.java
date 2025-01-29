@@ -59,7 +59,7 @@ public class Player implements Drawable {
         circle.setRadius(0.49f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
-         body.createFixture(circle, 1.0f).setSensor(true);
+         body.createFixture(circle, 1.0f).setSensor(false);
         // We're done with the shape, so we should dispose of it to free up memory.
         circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.
@@ -99,7 +99,12 @@ public class Player implements Drawable {
     }
 
 
-
+    /**
+     * This method will return, the appearance of the player, if the player is not dead, it will trigger the following animations,
+     * Depending on the inputs given by the user, the player will move up, down, right or left, and the respective animation will be shown.
+     * if player is dead is set to true,  the death animation will be triggered and the hitbox will be set to inactive.
+     * @return
+     */
     @Override
     public TextureRegion getCurrentAppearance() {
 
@@ -215,6 +220,7 @@ public class Player implements Drawable {
     public void setDeathAnimationFinished(boolean deathAnimationFinished) {
         isDeathAnimationFinished = deathAnimationFinished;
     }
+
     public void setSensor(boolean isSensor) {
         for (Fixture fixture : hitbox.getFixtureList()) {
             fixture.setSensor(isSensor);

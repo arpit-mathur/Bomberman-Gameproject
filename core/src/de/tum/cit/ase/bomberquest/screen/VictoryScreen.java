@@ -97,7 +97,7 @@ public class VictoryScreen implements Screen{
 
         /// Exit button to Quit whole application
         TextButton exitButton = new TextButton("Bella Ciao!", game.getSkin());
-        table.add(exitButton).padTop(80).width(300).row();
+        table.add(exitButton).width(300).row();
 
         exitButton.addListener(new ChangeListener() {
             @Override

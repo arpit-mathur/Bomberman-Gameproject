@@ -38,5 +38,7 @@ public class Textures {
 
     public static final TextureRegion BlUE_INDESTRUCTIBLE_WALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1, 1);
 
+    public static final TextureRegion TIMER_POWER_UP = SpriteSheet.ACTUAL_BASIC_TILES.at(4, 4);
+
 }
 

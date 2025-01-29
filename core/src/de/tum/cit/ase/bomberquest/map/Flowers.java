@@ -16,6 +16,12 @@ public class Flowers implements Drawable {
     private final int x;
     private final int y;
 
+    /**
+     * Instantiates the flower object, with its x and y coordinates.
+     * @param x is the x coordinate position
+     * @param y is the y coordinate position
+     * Exit will be placed randomly, in the GameMap Class.
+     */
     public Flowers(int x, int y) {
         this.x = x;
         this.y = y;
@@ -30,9 +36,9 @@ public class Flowers implements Drawable {
         }
         return Textures.FLOWERS;
 
-
     }
-    
+
+
     @Override
     public float getX() {
         return x;

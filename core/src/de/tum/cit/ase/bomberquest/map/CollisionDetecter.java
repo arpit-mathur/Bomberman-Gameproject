@@ -6,6 +6,7 @@ public class CollisionDetecter  implements ContactListener {
 
 
     /**
+     * This is the Collision Detector class, which we use to handle the contact between, the enemy and player.
      * beginContact is automatically triggered, when box2d detects a contact between two objects,
      * then we are storing the fixtures of the objects involved in Collision,
      * then we check whether the objects are of class enemy and player and then
