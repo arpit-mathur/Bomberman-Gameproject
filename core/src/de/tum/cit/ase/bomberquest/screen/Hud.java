@@ -67,6 +67,9 @@ public class Hud {
         if(game.getLevel()>0) {
             font.draw(spriteBatch, "LEVEL- " + game.getLevel(), Gdx.graphics.getWidth() / 2f - 80, Gdx.graphics.getHeight() - 10);
         }
+
+        font.draw(spriteBatch, "SCORE- " + getScoreCount(), Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 30);
+
         font.setColor(Color.WHITE);
         font.draw(spriteBatch, "Press Esc to Pause!", 10, 30);
 
@@ -161,8 +164,17 @@ public class Hud {
         return timerPaused;
     }
 
+    public void resetTimer() {
+        this.elapsedTime = 0;
+        Hud.setRemainingTime(TOTAL_TIME); // This ensures the remaining time is reset to the total time
+    }
+
     public static void setTimerPaused(boolean timerpaused) {
         Hud.timerPaused = timerpaused;
+    }
+
+    public static void addToScore(int score){
+        scoreCount+= score;
     }
 
     public static int getScoreCount(){

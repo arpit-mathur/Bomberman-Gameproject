@@ -1,8 +1,10 @@
 package de.tum.cit.ase.bomberquest.map;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
+import de.tum.cit.ase.bomberquest.screen.Hud;
 import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 
@@ -22,11 +24,14 @@ public class Enemy implements Drawable {
     private float xVelocity;
     private float yVelocity;
 
+    private boolean plantedBomb;
+
     public Enemy(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
         this.isDestroyed = false;
         this.xVelocity=0;
         this.yVelocity=0;
+        this.plantedBomb = false;
     }
 
     /**
@@ -72,7 +77,9 @@ public class Enemy implements Drawable {
         this.elapsedTime += frameTime;
         ///This code is responsible for the movement of the enemy.
 
-        float speed = 2.3f;
+        float speed = BomberQuestGame.level==2 ? 2.7f
+                : BomberQuestGame.level==3 ? 3.2f
+                :2.3f;
         if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
             xVelocity = 0;
             yVelocity = 0;
@@ -109,7 +116,7 @@ public class Enemy implements Drawable {
         this.elapsedTime += frameTime;
         ///This code is responsible for the movement of the enemy.
 
-        float speed = 2.0f;
+        float speed = 2.4f;
         ///Once they are dead
         if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
             xVelocity = 0;
@@ -151,47 +158,48 @@ public class Enemy implements Drawable {
     @Override
     public TextureRegion getCurrentAppearance() {
         if (isDestroyed) {
-
-            if(BomberQuestGame.level == 2){
-                return Animations.BLUE_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
-
-            } else if(BomberQuestGame.level == 1) {
-                return Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
-
-            } else if (BomberQuestGame.level == 3) {
-                return Animations.RED_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
-
-            } else if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
-                return null; ///return null as wall is destroyed
-            } else {
-                return Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+            TextureRegion enemyDemise;
+            if(BomberQuestGame.level == 2) {
+                enemyDemise = Animations.BLUE_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
             }
-
-        }else {
+            else if (BomberQuestGame.level == 3) {
+                enemyDemise = Animations.RED_ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+            }
+            else{
+                enemyDemise = Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
+            }
+            if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
+                return null; ///return null as enemy is destroyed
+            }
+            return enemyDemise;
+        }
+        else {
             if(xVelocity >= 0) {
-                if(BomberQuestGame.level == 1){
-                    return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
-
-                } else if(BomberQuestGame.level == 2){
+                if(BomberQuestGame.level == 2){
                     return Animations.BLUE_ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
 
-                } else if(BomberQuestGame.level == 3){
+                }
+                else if(BomberQuestGame.level == 3){
                     return Animations.RED_ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
 
-                } return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+                }
+                else {
+                    return Animations.ENEMY_MOVING_RIGHT.getKeyFrame(this.elapsedTime, true);
+                }
+            }
 
-            } else{
-                if(BomberQuestGame.level == 1){
-                    return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
-                } else if (BomberQuestGame.level == 2) {
+            else{
+                if (BomberQuestGame.level == 2) {
                     return Animations.BLUE_ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
 
                 } else if(BomberQuestGame.level == 3){
                     return Animations.RED_ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
                 }
+                else{
+                    return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+                }
             }
-            ///I Dont think we are gonna reach this statement
-        } return Animations.ENEMY_MOVING_LEFT.getKeyFrame(this.elapsedTime, true);
+        }
     }
 
     @Override
@@ -232,5 +240,13 @@ public class Enemy implements Drawable {
 
     public void setDestroyed(boolean destroyed) {
         isDestroyed = destroyed;
+    }
+
+    public boolean isPlantedBomb() {
+        return plantedBomb;
+    }
+
+    public void setPlantedBomb(boolean plantedBomb) {
+        this.plantedBomb = plantedBomb;
     }
 }

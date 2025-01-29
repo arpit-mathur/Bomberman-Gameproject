@@ -367,20 +367,19 @@ public class GameMap {
                     MusicTrack.Level_THEME2.stop();
                     MusicTrack.ENEMIES_CLEAR.play();
                     MusicTrack.Level_THEME3.play();
-                    game.resetHud();
+                    game.getHud().resetTimer();
                     game.loadDefaultMap();
 
                 }
             } else if (game.isMulitLevelMadness()) {
                 if(BomberQuestGame.level == 1){
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                        game.resetHud();
                         MusicTrack.Level_THEME.stop();
                         MusicTrack.Level_THEME2.play();
                         MusicTrack.Level_THEME3.stop();
                         BomberQuestGame.level = 2;
+                        game.getHud().resetTimer();
                         game.level2Map();
-
                     }
                 } else if(BomberQuestGame.level == 2){
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
@@ -408,16 +407,17 @@ public class GameMap {
 
 
         getEnemies().forEach(enemy -> {
-            if(!enemy.isDestroyed()) {
+            if(!enemy.isDestroyed() && !enemy.isPlantedBomb()) {
                 Vector2 playerPosition = new Vector2(player.getX(), player.getY());
                 Vector2 enemyPosition = new Vector2(enemy.getX(), enemy.getY());
-                if (Math.abs(playerPosition.dst(enemyPosition)) <= 2) {
-                    plantBombForEnemies(Math.round(enemy.getX()), Math.round(enemy.getY()));
+                if(Math.random() < 0.4f) {
+                    if (Math.abs(playerPosition.dst(enemyPosition)) <= 3) {
+                        plantBombForEnemies(Math.round(enemy.getX()), Math.round(enemy.getY()));
+                        enemy.setPlantedBomb(true);
+                    }
                 }
             }
         });
-
-
 
         /// Manual timer logic for the bomb
         for(Bomb bomb : getBombs()){
@@ -552,6 +552,7 @@ public class GameMap {
         // Destroy enemies
         getEnemies().forEach(enemy -> {
             if (Math.round(enemy.getX()) == x && Math.round(enemy.getY()) == y && !enemy.isDestroyed()) {
+                Hud.addToScore(100);
                 enemy.destroy();
             }
         });
@@ -567,7 +568,6 @@ public class GameMap {
         } else{
             if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
                 getPlayer().setDead(true);
-
             }
         }
 
@@ -632,7 +632,7 @@ public class GameMap {
      * @param y New Bomb's Y-coordinate
      */
     public void plantBombForEnemies(float x, float y) {
-        if (Bomb.getActiveBombsForEnemies() <= 1) {
+        if (Bomb.getActiveBombsForEnemies() < 1) {
             MusicTrack.BOMB_PLANT.play();
             // Create a new bomb at the specified position
             Bomb bomb = new Bomb(world,x,y);
