@@ -174,7 +174,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        draw(spriteBatch, map.getExit());
+
 
         if(!map.getBombs().isEmpty()) {
             for(Bomb bomb : map.getBombs()){
@@ -251,6 +251,7 @@ public class GameScreen implements Screen {
                 draw(spriteBatch, map.getPlayer());
             }
         }
+        draw(spriteBatch, map.getExit());
 
         // Finish drawing, i.e. send the drawn items to the graphics card
         spriteBatch.end();

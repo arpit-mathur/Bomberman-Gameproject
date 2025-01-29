@@ -39,13 +39,25 @@ public class LostScreen implements Screen{
         // Add a label as a title
         table.add(new Label("Game Over", game.getSkin(), "title")).padBottom(80).row();
 
-        Label message = new Label("Oops, Did You Just Lose?", game.getSkin());
-        message.setFontScale(1.3f);
-        table.add(message).padBottom(30).row();
-
         Label score = new Label("Your Score: " + Hud.getScoreCount(), game.getSkin());
         score.setFontScale(1.3f);
         table.add(score).padBottom(40).row();
+
+        if(Hud.getScoreCount() > 2000) {
+            Label message = new Label("You Were So Close, Just One More Bomb!", game.getSkin());
+            message.setFontScale(1.5f);
+            table.add(message).padBottom(40).row();
+        }
+        else if(Hud.getScoreCount() < 700){
+            Label message = new Label("That's a Noob's Score TBH ;)", game.getSkin());
+            message.setFontScale(1.3f);
+            table.add(message).padBottom(30).row();
+        }
+        else{
+            Label message = new Label("Oops, Did You Just Lose?", game.getSkin());
+            message.setFontScale(1.3f);
+            table.add(message).padBottom(30).row();
+        }
 
         TextButton comebackButton = new TextButton("Comeback Time!", game.getSkin());
         table.add(comebackButton).width(350).row();
