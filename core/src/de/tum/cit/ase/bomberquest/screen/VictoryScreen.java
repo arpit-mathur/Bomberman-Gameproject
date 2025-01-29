@@ -35,11 +35,22 @@ public class VictoryScreen implements Screen{
         table.setFillParent(true); // Make the table fill the stage
         stage.addActor(table); // Add the table to the stage
 
-        // Add a label as a title
         table.add(new Label("You WON :)", game.getSkin(), "title")).padBottom(80).row();
-        Label message = new Label("I Think You are the Chosen One!", game.getSkin());
-        message.setFontScale(1.5f);
-        table.add(message).padBottom(40).row();
+        if(Hud.getScoreCount() > 4000) {
+            Label message = new Label("YOU’RE OFFICIALLY IN THE RECORD BOOKS!", game.getSkin());
+            message.setFontScale(1.5f);
+            table.add(message).padBottom(40).row();
+        }
+        else if(Hud.getScoreCount() > 2000){
+            Label message = new Label("I Think You are the Chosen One!", game.getSkin());
+            message.setFontScale(1.5f);
+            table.add(message).padBottom(40).row();
+        }
+        else{
+            Label message = new Label("YOU ARE THE BEST!", game.getSkin());
+            message.setFontScale(1.5f);
+            table.add(message).padBottom(40).row();
+        }
 
         Label score = new Label("Your Score: " + Hud.getScoreCount(), game.getSkin());
         score.setFontScale(1.3f);
