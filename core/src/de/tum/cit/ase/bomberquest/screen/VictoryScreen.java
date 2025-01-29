@@ -17,13 +17,23 @@ import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
 
+/**
+ * Represents the screen shown when the player wins the game.
+ * Displays the final score, with suitable message according to the score,
+ * and provides options for the player to restart or exit.
+ */
 public class VictoryScreen implements Screen{
 
     private final BomberQuestGame game;
 
     private final Stage stage;
 
-
+    /**
+     * Constructor to create the LostScreen instance.
+     * Sets up the stage, UI elements, and event listeners.
+     *
+     * @param game The game instance used to access all the other objects in the world
+     */
     public VictoryScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
@@ -36,23 +46,23 @@ public class VictoryScreen implements Screen{
         stage.addActor(table); // Add the table to the stage
 
         table.add(new Label("You WON :)", game.getSkin(), "title")).padBottom(80).row();
-        if(Hud.getScoreCount() >= 4000) {
+        if(Hud.getFinalScoreCount() >= 4000) {
             Label message = new Label("YOU’RE OFFICIALLY IN THE RECORD BOOKS!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();
         }
-        else if(Hud.getScoreCount() >= 2000){
+        else if(Hud.getFinalScoreCount() >= 2000){
             Label message = new Label("I Think You are the Chosen One!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();
         }
         else{
-            Label message = new Label("YOU ARE THE BEST!", game.getSkin());
+            Label message = new Label("YOU ARE UNSTOPPABLE!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();
         }
 
-        Label score = new Label("Your Score: " + Hud.getScoreCount(), game.getSkin());
+        Label score = new Label("Your Score: " + Hud.getFinalScoreCount(), game.getSkin());
         score.setFontScale(1.3f);
         table.add(score).padBottom(40).row();
 

@@ -170,6 +170,7 @@ public class Hud {
     }
 
     public void resetTimer() {
+        setEnemyClearSoundPlayed(false);
         this.elapsedTime = 0;
         Hud.setRemainingTime(TOTAL_TIME); // This ensures the remaining time is reset to the total time
     }
@@ -184,6 +185,10 @@ public class Hud {
 
     public static int getScoreCount(){
         return scoreCount;
+    }
+
+    public static int getFinalScoreCount(){
+        return scoreCount + getRemainingTime();
     }
 
     public void addTime(int secondsToAdd) {

@@ -114,7 +114,7 @@ public class MenuScreen implements Screen {
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
-                MusicTrack.Level_THEME.play();
+
                 game.LoadFileChooser();
             }
         });

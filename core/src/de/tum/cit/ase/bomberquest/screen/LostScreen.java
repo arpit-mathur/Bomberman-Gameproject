@@ -18,13 +18,23 @@ import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
 
+/**
+ * Represents the screen shown when the player loses the game.
+ * Displays the final score, with suitable message according to the score,
+ * and provides options for the player to restart or exit.
+ */
 public class LostScreen implements Screen{
 
     private final BomberQuestGame game;
 
     private final Stage stage;
 
-
+    /**
+     * Constructor to create the LostScreen instance.
+     * Sets up the stage, UI elements, and event listeners.
+     *
+     * @param game The game instance used to access all the other objects in the world
+     */
     public LostScreen(BomberQuestGame game) {
         this.game = game;
         var camera = new OrthographicCamera();
@@ -113,12 +123,21 @@ public class LostScreen implements Screen{
         });
     }
 
+    /**
+     * Called when this screen becomes the current screen for a game.
+     * Sets the input processor to handle UI interactions.
+     */
     @Override
     public void show() {
         // Set the input processor so the stage can receive input events
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Renders the LostScreen elements and updates the stage.
+     *
+     * @param deltaTime Time in seconds since the last frame was rendered.
+     */
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
@@ -130,6 +149,11 @@ public class LostScreen implements Screen{
         stage.draw(); // Draw the stage
     }
 
+    /**
+     * Resets the game state and loads the appropriate game mode based on the previous selection.
+     *
+     * @param game The game instance used to reset and load game maps.
+     */
     static void resetMethod(BomberQuestGame game) {
         game.resetHud();
         MusicTrack.GAME_OVER.stop();
@@ -153,6 +177,12 @@ public class LostScreen implements Screen{
         }
     }
 
+    /**
+     * Called when the game window is resized.
+     *
+     * @param width  The new width of the game window.
+     * @param height The new height of the game window.
+     */
     @Override
     public void resize(int width, int height) {
 
@@ -173,10 +203,12 @@ public class LostScreen implements Screen{
 
     }
 
+    /**
+     * Cleans up resources used by the LostScreen.
+     * Disposes of the stage and other disposable resources.
+     */
     @Override
     public void dispose() {
         stage.dispose();
     }
-
-
 }
