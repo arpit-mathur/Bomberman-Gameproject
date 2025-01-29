@@ -98,10 +98,17 @@ public class Bomb implements Drawable {
         return Animations.BOMB_TICKING.getKeyFrame(this.bombTimer, true);
     }
 
+    /**
+     *
+     * @return The Current Bomb Radius
+     */
     public static int getCurrentBombRadius() {
         return currentBombRadius;
     }
 
+    /**
+     * Increases the Current Bomb Radius by 1 each time a BR_powerup is taken
+     */
     public static void incrementCurrentBombRadius(){
         if(currentBombRadius < MAX_BOMB_RADIUS){
             currentBombRadius++;
@@ -112,7 +119,9 @@ public class Bomb implements Drawable {
         Bomb.currentBombRadius = currentBombRadius;
     }
 
-    /// Methods to monitor the active Bombs
+    /**
+     * Methods to monitor the active Bombs at a time
+     */
     public static void incrementActiveBombs() {
         activeBombs++;
     }

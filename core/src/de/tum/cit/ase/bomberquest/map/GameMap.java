@@ -675,11 +675,24 @@ public class GameMap {
     }
 
 
+    /**
+     * Checks if an indestructible wall exists at the given coordinates.
+     *
+     * @param x The X-coordinate of the segment to check.
+     * @param y The Y-coordinate of the segment to check.
+     * @return true if an indestructible wall is present at the specified coordinates; false otherwise.
+     */
     private boolean isIndestructibleWallAt(float x, float y) {
         return indestructibleWalls.stream().anyMatch(w -> w.getX() == x && w.getY() == y);
     }
 
-
+    /**
+     * Destroys destructible walls, enemies, and the player(s) at the given coordinates.
+     * Also adds points to the player's score and bonus time based on the game level if an enemy is destroyed.
+     *
+     * @param x The X-coordinate of the segment to destroy.
+     * @param y The Y-coordinate of the segment to destroy.
+     */
     private void destroySegmentObjects(float x, float y) {
         //Destroy all the destructible walls
         getDestructibleWalls()
