@@ -20,6 +20,8 @@ public enum SpriteSheet {
     /** The basic tiles spritesheet, which has a grid size of 16x16. */
     BASIC_TILES("Bomberman - Sprites.png", 16, 16),
 
+    ENEMY_SCORE("original-bomberman.png", 16, 8),
+
     ACTUAL_BASIC_TILES("basictiles.png", 16, 16);
 
     private final Texture spritesheet;

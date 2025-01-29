@@ -34,6 +34,8 @@ public class Hud {
 
     private static final int TOTAL_TIME = 200; // Total time in seconds
 
+    private static int scoreCount;
+
     public Hud(SpriteBatch spriteBatch, BitmapFont font,BomberQuestGame game) {
         this.spriteBatch = spriteBatch;
         this.font = font;
@@ -42,6 +44,7 @@ public class Hud {
         this.enemyClearSoundPlayed = false;
         this.elapsedTime =0;
         timerPaused = false;
+        scoreCount = 0;
     }
 
     /**
@@ -156,5 +159,9 @@ public class Hud {
 
     public static void setTimerPaused(boolean timerpaused) {
         Hud.timerPaused = timerpaused;
+    }
+
+    public static int getScoreCount(){
+        return scoreCount;
     }
 }

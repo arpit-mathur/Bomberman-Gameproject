@@ -288,6 +288,7 @@ public class BomberQuestGame extends Game {
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
+        MusicTrack.Level_THEME3.stop();
         MusicTrack.MENU_BGM.play();
         this.setScreen(new MenuScreen(this)); // Set the current screen to MenuScreen
     }
@@ -305,6 +306,7 @@ public class BomberQuestGame extends Game {
     public void goToPauseScreen(){
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
+        MusicTrack.Level_THEME3.stop();
         Hud.setTimerPaused(true);
         this.setScreen(new PauseScreen(this));
     }
@@ -313,6 +315,7 @@ public class BomberQuestGame extends Game {
         Hud.setTimerPaused(true);
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
+        MusicTrack.Level_THEME3.stop();
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.GAME_OVER.play();
@@ -323,6 +326,7 @@ public class BomberQuestGame extends Game {
         Hud.setTimerPaused(true);
         MusicTrack.Level_THEME.stop();
         MusicTrack.Level_THEME2.stop();
+        MusicTrack.Level_THEME3.stop();
         MusicTrack.PLAYER_MOVE1.stop();
         MusicTrack.PLAYER_MOVE2.stop();
         MusicTrack.LEVEL_COMPLETED.play();

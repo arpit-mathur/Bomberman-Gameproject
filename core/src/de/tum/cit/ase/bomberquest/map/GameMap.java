@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.screen.GameScreen;
+import de.tum.cit.ase.bomberquest.screen.Hud;
 
 import java.util.*;
 import static de.tum.cit.ase.bomberquest.screen.GameScreen.*;
@@ -354,11 +355,12 @@ public class GameMap {
         if(getRemainingEnemies() > 0) {
             if (game.isMultiLevelSelected()) {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                    game.resetHud();
+                    Hud.setTimerPaused(true);
                     MusicTrack.Level_THEME.stop();
                     MusicTrack.Level_THEME2.stop();
                     MusicTrack.ENEMIES_CLEAR.play();
                     MusicTrack.Level_THEME3.play();
+                    game.resetHud();
                     game.loadDefaultMap();
 
                 }

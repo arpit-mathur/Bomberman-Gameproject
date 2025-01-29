@@ -17,8 +17,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
-import de.tum.cit.ase.bomberquest.map.GameMap;
-import de.tum.cit.ase.bomberquest.map.Player;
 
 public class LostScreen implements Screen{
 
@@ -46,9 +44,9 @@ public class LostScreen implements Screen{
         table.add(message).padBottom(30).row();
 
 
-        TextButton resumeButton = new TextButton("Comeback Time!", game.getSkin());
-        table.add(resumeButton).width(350).row();
-        resumeButton.addListener(new ChangeListener() {
+        TextButton comebackButton = new TextButton("Comeback Time!", game.getSkin());
+        table.add(comebackButton).width(350).row();
+        comebackButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.resetHud();
@@ -123,6 +121,8 @@ public class LostScreen implements Screen{
             } else if (game.isPersonalMapSelected()) {
                 game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
+            } else if(game.isMulitLevelMadness()){
+                game.multiLevelMaps();
             } else {
                 game.loadDefaultMap();
             }

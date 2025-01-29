@@ -161,7 +161,7 @@ public class Animations {
     );
 
     /// Added animation of breaking the wall (Aryan)
-    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.07f,
+    public static final Animation<TextureRegion> DESTROY_WALL = new Animation<>(0.08f,
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 6),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(4, 8),
@@ -174,7 +174,7 @@ public class Animations {
     /**
      * The animation for the enemy's demise.
      */
-    public static final Animation<TextureRegion> ENEMY_DEMISE = new Animation<>(0.25f,
+    public static final Animation<TextureRegion> ENEMY_DEMISE = new Animation<>(0.2f,
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 7),
@@ -185,7 +185,10 @@ public class Animations {
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 9),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 10),
             SpriteSheet.ORIGINAL_OBJECTS.at(16, 11),
-            SpriteSheet.ORIGINAL_OBJECTS.at(16, 12)
+            SpriteSheet.ENEMY_SCORE.at(43, 8),
+            SpriteSheet.ENEMY_SCORE.at(43, 8),
+            SpriteSheet.ENEMY_SCORE.at(43, 12)
+
     );
 
     public static final Animation<TextureRegion> ENEMY_MOVING_RIGHT = new Animation<>(0.11f,
@@ -234,7 +237,7 @@ public class Animations {
 
     );
 
-    public static final Animation<TextureRegion> RED_ENEMY_DEMISE = new Animation<>(0.25f,
+    public static final Animation<TextureRegion> RED_ENEMY_DEMISE = new Animation<>(0.2f,
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 7),
@@ -245,12 +248,15 @@ public class Animations {
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 9),
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 10),
             SpriteSheet.ORIGINAL_OBJECTS.at(18, 11),
-            SpriteSheet.ORIGINAL_OBJECTS.at(18, 12)
+            SpriteSheet.ORIGINAL_OBJECTS.at(18, 12),
+            SpriteSheet.ENEMY_SCORE.at(45, 8),
+            SpriteSheet.ENEMY_SCORE.at(45, 8),
+            SpriteSheet.ENEMY_SCORE.at(43, 12)
     );
 
 
 
-    public static final Animation<TextureRegion> BLUE_ENEMY_DEMISE = new Animation<>(0.25f,
+    public static final Animation<TextureRegion> BLUE_ENEMY_DEMISE = new Animation<>(0.2f,
             SpriteSheet.ORIGINAL_OBJECTS.at(17, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(17, 7),
             SpriteSheet.ORIGINAL_OBJECTS.at(17, 7),
@@ -261,7 +267,10 @@ public class Animations {
             SpriteSheet.ORIGINAL_OBJECTS.at(19, 9),
             SpriteSheet.ORIGINAL_OBJECTS.at(19, 10),
             SpriteSheet.ORIGINAL_OBJECTS.at(19, 11),
-            SpriteSheet.ORIGINAL_OBJECTS.at(19, 12)
+            SpriteSheet.ORIGINAL_OBJECTS.at(19, 12),
+            SpriteSheet.ENEMY_SCORE.at(44, 8),
+            SpriteSheet.ENEMY_SCORE.at(44, 8),
+            SpriteSheet.ENEMY_SCORE.at(43, 12)
     );
 
 
