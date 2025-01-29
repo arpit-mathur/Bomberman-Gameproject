@@ -26,7 +26,7 @@ public class Textures {
 
     public static final TextureRegion SPEEDPOWERUP = SpriteSheet.ORIGINAL_OBJECTS.at(15, 4);
 
-    public static final TextureRegion BLUEFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(3, 6);
+    public static final TextureRegion BLUEFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(2, 6);
 
     public static final TextureRegion REDFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(10, 3);
 
@@ -34,7 +34,6 @@ public class Textures {
 
     public static final TextureRegion BLUEWALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1, 2);
 
-//    public static final TextureRegion
     public static final TextureRegion REDINDESTRUCTIBLEWALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1,5);
 
     public static final TextureRegion BlUE_INDESTRUCTIBLE_WALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1, 1);

@@ -77,6 +77,7 @@ public class LostScreen implements Screen{
         goToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                BomberQuestGame.level = 0;
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);
                 Bomb.setCurrentBombRadius(1);
@@ -106,31 +107,35 @@ public class LostScreen implements Screen{
     @Override
     public void render(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.resetHud();
-            MusicTrack.GAME_OVER.stop();
-            MusicTrack.Level_THEME.play();
-            Bomb.setActiveBombs(0);
-            Bomb.setMaxConcurrentBombs(1);
-            Bomb.setCurrentBombRadius(1);
-            if(game.isMultiLevelSelected()){
-                game.loadChallenge();
-
-            } else if (game.isMultiPlayerSelected()) {
-                game.loadMultiplayer();
-
-            } else if (game.isPersonalMapSelected()) {
-                game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
-
-            } else if(game.isMulitLevelMadness()){
-                game.multiLevelMaps();
-            } else {
-                game.loadDefaultMap();
-            }
+            resetMethod(game);
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);
         stage.act(frameTime); // Update the stage
         stage.draw(); // Draw the stage
+    }
+
+    static void resetMethod(BomberQuestGame game) {
+        game.resetHud();
+        MusicTrack.GAME_OVER.stop();
+        MusicTrack.Level_THEME.play();
+        Bomb.setActiveBombs(0);
+        Bomb.setMaxConcurrentBombs(1);
+        Bomb.setCurrentBombRadius(1);
+        if(game.isMultiLevelSelected()){
+            game.loadChallenge();
+
+        } else if (game.isMultiPlayerSelected()) {
+            game.loadMultiplayer();
+
+        } else if (game.isPersonalMapSelected()) {
+            game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
+
+        } else if(game.isMulitLevelMadness()){
+            game.multiLevelMaps();
+        } else {
+            game.loadDefaultMap();
+        }
     }
 
     @Override

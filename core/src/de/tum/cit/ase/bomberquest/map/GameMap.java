@@ -370,6 +370,7 @@ public class GameMap {
                         game.resetHud();
                         MusicTrack.Level_THEME.stop();
                         MusicTrack.Level_THEME2.play();
+                        MusicTrack.Level_THEME3.stop();
                         BomberQuestGame.level = 2;
                         game.level2Map();
 
@@ -378,27 +379,21 @@ public class GameMap {
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                         game.resetHud();
                         MusicTrack.Level_THEME.stop();
-                        MusicTrack.Level_THEME2.play();
+                        MusicTrack.Level_THEME2.stop();
+                        MusicTrack.Level_THEME3.play();
                         BomberQuestGame.level = 3;
                         game.level3Map();
 
                     }
                 } else if(BomberQuestGame.level == 3){
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                        game.resetHud();
-                        MusicTrack.Level_THEME.stop();
-                        MusicTrack.Level_THEME2.play();
-                        BomberQuestGame.level = 3;
+                        GameScreen.setGameWon(true);
                         game.goToVictoryScreen();
-
                     }
                 }
-
             } else {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                     GameScreen.setGameWon(true);
-                    MusicTrack.PLAYER_MOVE1.stop();
-                    MusicTrack.PLAYER_MOVE2.stop();
                     game.goToVictoryScreen();
                 }
             }

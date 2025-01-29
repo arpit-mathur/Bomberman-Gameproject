@@ -111,6 +111,10 @@ public class MenuScreen implements Screen {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
                 game.resetHud();
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
+                MusicTrack.Level_THEME.play();
                 game.LoadFileChooser();
             }
         });
@@ -123,6 +127,10 @@ public class MenuScreen implements Screen {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 ///This method will open the filechooser window
                 game.resetHud();
+                Bomb.setActiveBombs(0);
+                Bomb.setMaxConcurrentBombs(1);
+                Bomb.setCurrentBombRadius(1);
+                MusicTrack.Level_THEME.play();
                 game.multiLevelMaps();
             }
         });

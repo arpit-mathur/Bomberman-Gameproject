@@ -59,7 +59,7 @@ public class Player implements Drawable {
         circle.setRadius(0.49f);
         // Attach the shape to the body as a fixture.
         // Bodies can have multiple fixtures, but we only need one for the player.
-         body.createFixture(circle, 1.0f).setSensor(false);
+         body.createFixture(circle, 1.0f).setSensor(true);
         // We're done with the shape, so we should dispose of it to free up memory.
         circle.dispose();
         // Set the player as the user data of the body so we can look up the player from the body later.

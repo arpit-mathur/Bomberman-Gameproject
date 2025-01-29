@@ -56,6 +56,7 @@ public class PauseScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.resetHud();
+                BomberQuestGame.level = 0;
                 MusicTrack.GAME_OVER.stop();
                 Bomb.setActiveBombs(0);
                 Bomb.setMaxConcurrentBombs(1);

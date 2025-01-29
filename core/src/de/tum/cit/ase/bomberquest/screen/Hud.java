@@ -63,6 +63,10 @@ public class Hud {
         // Start drawing
         spriteBatch.begin();
         // Draw the HUD elements
+        font.setColor(Color.YELLOW);
+        if(game.getLevel()>0) {
+            font.draw(spriteBatch, "LEVEL- " + game.getLevel(), Gdx.graphics.getWidth() / 2f - 80, Gdx.graphics.getHeight() - 10);
+        }
         font.setColor(Color.WHITE);
         font.draw(spriteBatch, "Press Esc to Pause!", 10, 30);
 
@@ -116,7 +120,7 @@ public class Hud {
         } else if (remainingTime == 0) {
             game.goToLostScreen();
         }
-        font.draw(spriteBatch, "Remaining Time: " + remainingTime, Gdx.graphics.getWidth() / 2f - 170, Gdx.graphics.getHeight() - 10);
+        font.draw(spriteBatch, "Remaining Time: " + remainingTime, Gdx.graphics.getWidth() / 2f - 170, Gdx.graphics.getHeight() - 40);
 
         if (remainingTime <= 0) {
             game.goToLostScreen();

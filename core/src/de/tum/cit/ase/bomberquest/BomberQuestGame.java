@@ -419,12 +419,7 @@ public class BomberQuestGame extends Game {
         //Directory, most important attribute, without it the window won't show up
         configuration.directory = Gdx.files.getFileHandle("maps/", Files.FileType.Internal);
         //The name filter to filter it out by the suffixes
-        configuration.nameFilter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".properties");
-            }
-        };
+
         /**(Aryan)
          * This is another very important parameter, this will decide what happens upon, choosing the file, cancelling the process,
          * or if there is an Error:

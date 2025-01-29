@@ -16,8 +16,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.tum.cit.ase.bomberquest.BomberQuestGame;
 import de.tum.cit.ase.bomberquest.audio.MusicTrack;
 import de.tum.cit.ase.bomberquest.map.Bomb;
-import de.tum.cit.ase.bomberquest.map.GameMap;
-import de.tum.cit.ase.bomberquest.map.Player;
 
 public class VictoryScreen implements Screen{
 
@@ -65,6 +63,8 @@ public class VictoryScreen implements Screen{
                 } else if (game.isPersonalMapSelected()) {
                     game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
+                } else if(game.isMulitLevelMadness()){
+                    game.multiLevelMaps();
                 } else {
                     game.loadDefaultMap();
                 }
@@ -105,22 +105,7 @@ public class VictoryScreen implements Screen{
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             MusicTrack.LEVEL_COMPLETED.stop();
             GameScreen.setGameWon(false);
-            MusicTrack.Level_THEME.play();
-            Bomb.setActiveBombs(0);
-            Bomb.setMaxConcurrentBombs(1);
-            Bomb.setCurrentBombRadius(1);
-            if(game.isMultiLevelSelected()){
-                game.loadChallenge();
-
-            } else if (game.isMultiPlayerSelected()) {
-                game.loadMultiplayer();
-
-            } else if (game.isPersonalMapSelected()) {
-                game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
-
-            } else {
-                game.loadDefaultMap();
-            }
+            LostScreen.resetMethod(game);
         }
         float frameTime = Math.min(deltaTime, 0.250f); // Cap frame time to 250ms to prevent spiral of death        ScreenUtils.clear(Color.BLACK);
         ScreenUtils.clear(Color.BLACK);
