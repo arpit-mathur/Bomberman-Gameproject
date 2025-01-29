@@ -28,9 +28,9 @@ public class Textures {
 
     public static final TextureRegion BLUEFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(2, 6);
 
-    public static final TextureRegion REDFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(10, 3);
+    public static final TextureRegion REDFLOWERS = SpriteSheet.ACTUAL_BASIC_TILES.at(2, 7);
 
-    public static final TextureRegion REDWALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1, 6);
+    public static final TextureRegion REDWALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(10, 1);
 
     public static final TextureRegion BLUEWALLS = SpriteSheet.ACTUAL_BASIC_TILES.at(1, 2);
 
