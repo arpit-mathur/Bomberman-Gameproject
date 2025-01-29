@@ -98,7 +98,6 @@ public class BomberQuestGame extends Game {
      */
     public void loadDefaultMap() {
 
-        /// By the same logic as in doYourMagic()
         isMultiLevelSelected = false;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = false;
