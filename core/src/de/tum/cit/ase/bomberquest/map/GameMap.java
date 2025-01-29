@@ -453,6 +453,14 @@ public class GameMap {
         doPhysicsStep(frameTime);
     }
 
+    /**
+     *
+     * @param x The X-coordinate of the Bomb which is about to explode
+     * @param y The Y-coordinate of the Bomb which is about to explode
+     * @param radius Current Bomb's explosion radius
+     * @return List of explosion Segments created in each direction,
+     * used to create the bomb's explosion animation and destruction of objects in each segment
+     */
     private List<ExplosionSegment> segmentsOfExplosion(float x, float y, float radius) {
         List<ExplosionSegment> newSegments = new ArrayList<>();
         newSegments.add(new ExplosionSegment(Math.round(x), Math.round(y), 0, 0, false));
@@ -565,6 +573,11 @@ public class GameMap {
         return bombs;
     }
 
+    /**
+     *
+     * @param x New Bomb's X-coordinate
+     * @param y New Bomb's Y-coordinate
+     */
     public void plantBomb(float x, float y) {
         if (Bomb.getActiveBombs() <= Bomb.getMaxConcurrentBombs()) {
             MusicTrack.BOMB_PLANT.play();
