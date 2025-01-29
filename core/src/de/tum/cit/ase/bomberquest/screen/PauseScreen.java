@@ -68,7 +68,7 @@ public class PauseScreen implements Screen {
 
         /// Exit button to Quit whole application
         TextButton exitButton = new TextButton("Retreat!", game.getSkin());
-        table.add(exitButton).padTop(150).width(250).row();
+        table.add(exitButton).width(250).row();
 
         exitButton.addListener(new ChangeListener() {
             @Override
