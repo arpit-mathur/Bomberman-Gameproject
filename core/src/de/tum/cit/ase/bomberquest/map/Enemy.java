@@ -163,6 +163,8 @@ public class Enemy implements Drawable {
 
             } else if (Animations.ENEMY_DEMISE.isAnimationFinished(this.elapsedTime)) {
                 return null; ///return null as wall is destroyed
+            } else {
+                return Animations.ENEMY_DEMISE.getKeyFrame(this.elapsedTime, false);
             }
 
         }else {

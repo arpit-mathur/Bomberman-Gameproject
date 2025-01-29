@@ -433,9 +433,7 @@ public class GameMap {
                 bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
             }
 
-
-
-
+            
                 /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
                 ///to trigger the destroy() method for each of them.
 
