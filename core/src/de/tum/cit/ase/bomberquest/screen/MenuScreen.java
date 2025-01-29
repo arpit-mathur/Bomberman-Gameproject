@@ -119,6 +119,9 @@ public class MenuScreen implements Screen {
             }
         });
 
+        /**
+         * A button for our special Multilevel game. Clicking on this will take you to the game.
+         */
         TextButton multiLevelMaps = new TextButton("Enter Multilevel Madness", game.getSkin());
         table.add(multiLevelMaps).width(470).row();
         multiLevelMaps.addListener(new ChangeListener() {
@@ -135,6 +138,10 @@ public class MenuScreen implements Screen {
             }
         });
 
+        /**
+         * A button to exit the game.
+         */
+
         TextButton exitButton = new TextButton("Mission Abort", game.getSkin());
         table.add(exitButton).width(470).row();
 
@@ -146,7 +153,7 @@ public class MenuScreen implements Screen {
         });
 
 
-        Label challengeLabel = new Label("Press ENTER to take on a mini Challenge!", game.getSkin());
+        Label challengeLabel = new Label("Press ENTER to take on a Mini Challenge!", game.getSkin());
         challengeLabel.setFontScale(1.2f);
         table.add(challengeLabel).padTop(40).row();
 

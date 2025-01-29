@@ -138,6 +138,10 @@ public class GameScreen implements Screen {
         mapCamera.update(); // This is necessary to apply the changes
     }
 
+    /**
+     * This method configures the spriteBatch and draw every single drawable, on the map between spriteBatch.begin() and
+     * spriteBatch.end().
+     */
     private void renderMap() {
         // This configures the spriteBatch to use the camera's perspective when rendering
         spriteBatch.setProjectionMatrix(mapCamera.combined);

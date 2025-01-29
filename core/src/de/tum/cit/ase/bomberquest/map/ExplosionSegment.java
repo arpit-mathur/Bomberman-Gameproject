@@ -5,9 +5,7 @@ import de.tum.cit.ase.bomberquest.texture.Animations;
 import de.tum.cit.ase.bomberquest.texture.Drawable;
 
 /**
- * Flowers are a static object without any special properties.
- * They do not have a hitbox, so the player does not collide with them.
- * They are purely decorative and serve as a nice floor decoration.
+ * This Class is used to facilitate the explosion animation of the bomb, depending on its surrounding.
  */
 public class ExplosionSegment implements Drawable {
 

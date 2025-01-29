@@ -674,9 +674,11 @@ public class GameMap {
         return newSegments;
     }
 
+
     private boolean isIndestructibleWallAt(float x, float y) {
         return indestructibleWalls.stream().anyMatch(w -> w.getX() == x && w.getY() == y);
     }
+
 
     private void destroySegmentObjects(float x, float y) {
         //Destroy all the destructible walls

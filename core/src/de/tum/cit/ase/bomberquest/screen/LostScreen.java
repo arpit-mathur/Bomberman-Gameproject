@@ -49,7 +49,7 @@ public class LostScreen implements Screen{
             table.add(message).padBottom(40).row();
         }
         else if(Hud.getScoreCount() < 700){
-            Label message = new Label("That's a Noob's Score TBH ;)", game.getSkin());
+            Label message = new Label("You could do better, come on! ;)", game.getSkin());
             message.setFontScale(1.3f);
             table.add(message).padBottom(30).row();
         }

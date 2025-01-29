@@ -1,13 +1,13 @@
 # Bomber Quest
 
 
-Enter into the world of wacky, bomb wielding ninja to destroy the enemies around, and seal the victory! In order to make that possible and make it enjoyable and understandable for all the newcomers as well as the professional mouse wielding, keyboard smashing programmers, we have created this ReadMe file to find your way around how things work in this world on Screen, in the Game, and in the Code.
+Enter into the world of wacky, bomb wielding ninjas to destroy the enemies around, and seal the victory! In order to make that possible and make it enjoyable and understandable for all the newcomers as well as the professional mouse wielding, keyboard smashing programmers, we have created this ReadMe file to find your way around how things work in this world on Screen, in the Game, and in the Code.
 So tie your seat belts, get your bombs, because we are about start our quest of traversing the deep dungeons (allbeit beatiful), lines of codes, while discovering what makes this game, unique, the codes so beautiful and the logic in which the world of dungeon works.
 
 ### How do you run and use the Game? 
 You can clone this repository and then paste it into your IDE, and import LibGdX. Once you have no errors, you can simply run the game by clicking on the run button. 
 
-## Project Structure and Class Heirarchy:
+## Project Structure and Class Hierarchy:
 
 First of all we will start with the one of the Core classes, in our Project, BomberQuestGame, GameScreen, and the GameMap.
 These Aforementioned classes, are the holy trinity of our Game and the culmination of all the building blocks of codes, which have been set up in the other classes.
@@ -62,6 +62,9 @@ This is the wall, that cannot be destroyed by explosions, and on every new level
 This is the wall, that can be destroyed by explosion, and can get different colors in different levels, in our MultiLevelMadness. We made good use of the getCurrentAppearance() method to achieve this! Same goes for the Indestructible wall.
 
 #### Bomb
+Where there is weapon, there is the way, by destroying through the walls, we manage the Bomb class with the following notable attributes:  BOMB_EXPLOSION_TIME, maxConcurrentBombs, currentBombRadius, and limiting the max bomb radius to 8 with MAX_BOMB_RADIUS. We keep track of the bombs, with the help of incrementActiveBombs and other helper method. 
+
+The setSensor() method, will help us solidify the bomb, after planting the bomb. The actual ticking timer of the bomb runs in the tick() method of the GameMap, resulting in the explosion.And to take care of the explosion, we make use of the Helper Class ExplosionSegment.  
 
 #### Exit
 We made sure that the player is always trapped in the dungeon, but we are not that cruel, we place and exit, somewhere in the Map. Randomly!  Well yeah that is a bit cruel
@@ -81,12 +84,13 @@ Taking this powerUp will help the player to run faster, away from the bombs and 
 We make use of the CollisionDetector Class, to detect whether the enemy and player have come into contact, and as a consequence set the isDead attribute to true. This class uses the ContactListener Interface.
 
 #### Enemy
-Here lies the Enemy and all the information regarding.
+Here lies the Enemy and all the information regarding. Player Stay away from him !!!!
 
 #### Flower
 Flower represents the floor or the colorful ground of the dungeon, maybe it can turn iceCold with some icy enemies, or hot as a lava with others.
 
 #### ExplosionSegment
+Since we are surrounding by different kinds of obstacles, from breakable, to unbreakable walls, special, care needs to be taken while implementing the animation of Bomb, and for this we make use of the ExplosionSegment helper Class. 
 
 ### The screen package:
 
@@ -119,7 +123,7 @@ We have this enum where we used all of our sound effects. From small sound effec
 
 1. We have our enemies, which are bit smart, so they will move towards the player when the player is within a certain radius. We execute that out in the tick() of the Enemy Class.
 2. Enemies are evil, ours even worse, they can also now place bombs
-3. We have extra PowerUp for running faster
+3. We have extra PowerUp for running faster, and for additional time, plus scattered them randomly each time. 
 4. We have Multiplayer mode, which helps two people to play against each other. We carry most of this out with loadMultiplayer()
 5. We also have a Dynamic timer, where the timer increases, if you kill the enemy.
 6. Our MultiLevelMadness is an interesting game mode, where players directly pass to new map after beating one, and top of that have cool new visual aesthetic plus increased difficulty and more the number of enemies to defeat.
