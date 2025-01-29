@@ -68,6 +68,7 @@ public class GameMap {
 
 
     private final ArrayList<Bomb> bombs;
+    private final ArrayList<Bomb> bombsByEnemy;
     // Tracks elapsed time since the bomb was planted
     // Indicates if the bomb is being monitored
     private CollisionDetecter collisionDetecter;
@@ -84,6 +85,7 @@ public class GameMap {
         this.collisionDetecter = new CollisionDetecter();
         this.world.setContactListener(collisionDetecter);
         this.bombs = new ArrayList<>();
+        this.bombsByEnemy = new ArrayList<>();
 //        this.player = getPlayer();
 //        this.player2 = getPlayer2();
 
@@ -274,8 +276,10 @@ public class GameMap {
             if ((playerX != player2X || playerY != player2Y)){
                 this.player.setSensor(false);
             }
-
         }
+        getDestructibleWalls()
+                .parallelStream()
+                .forEach(wall -> wall.tick(0.017f));
 
         if(this.player2 != null){
             this.player2.tick(frameTime);
@@ -303,7 +307,10 @@ public class GameMap {
 
         if(!this.bombs.isEmpty()) {
             getBombs()
-                    .parallelStream()
+                    .forEach(bomb -> bomb.tick(0.017f));
+        }
+        if(!this.bombsByEnemy.isEmpty()) {
+            getBombsByEnemy()
                     .forEach(bomb -> bomb.tick(0.017f));
         }
         if(!this.segments.isEmpty()) {
@@ -321,13 +328,13 @@ public class GameMap {
                 power.destroy();
                 Bomb.incrementMaxConcurrentBombs();
             }
-        }
+                }
         );
 
         getBombBlastPowerUp().forEach(power -> {
-                    float player_X = Math.round(getPlayer().getX());
-                    float player_Y = Math.round(getPlayer().getY());
-                    if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
+            float player_X = Math.round(getPlayer().getX());
+            float player_Y = Math.round(getPlayer().getY());
+            if(power.getX() == player_X && power.getY() == player_Y && !power.isPowerTaken()){
                         MusicTrack.POWERUP_TAKEN.play();
                         power.setPowerTaken(true);
                         power.destroy();
@@ -337,14 +344,14 @@ public class GameMap {
         );
 
         getSpeedIncreasePowerUps().forEach(speedpower -> {
-                    float player_X = Math.round(getPlayer().getX());
-                    float player_Y = Math.round(getPlayer().getY());
-                    if(speedpower.getX() == player_X && speedpower.getY() == player_Y && !speedpower.isPowerTaken()){
+            float player_X = Math.round(getPlayer().getX());
+            float player_Y = Math.round(getPlayer().getY());
+            if(speedpower.getX() == player_X && speedpower.getY() == player_Y && !speedpower.isPowerTaken()){
                         MusicTrack.POWERUP_TAKEN.play();
                         speedpower.setPowerTaken(true);
                         speedpower.destroy();
                         if(player.getPlayerSpeed() < 5.0f){
-                        player.setPlayerSpeed(player.getPlayerSpeed() + 0.3f);
+                            player.setPlayerSpeed(player.getPlayerSpeed() + 0.3f);
                         }
                     }
                 }
@@ -400,9 +407,17 @@ public class GameMap {
         }
 
 
-        getDestructibleWalls()
-                .parallelStream()
-                .forEach(wall -> wall.tick(0.017f));
+        getEnemies().forEach(enemy -> {
+            if(!enemy.isDestroyed()) {
+                Vector2 playerPosition = new Vector2(player.getX(), player.getY());
+                Vector2 enemyPosition = new Vector2(enemy.getX(), enemy.getY());
+                if (Math.abs(playerPosition.dst(enemyPosition)) <= 2) {
+                    plantBombForEnemies(Math.round(enemy.getX()), Math.round(enemy.getY()));
+                }
+            }
+        });
+
+
 
         /// Manual timer logic for the bomb
         for(Bomb bomb : getBombs()){
@@ -411,18 +426,17 @@ public class GameMap {
                 float playerX = Math.round(getPlayer().getX());
                 float playerY = Math.round(getPlayer().getY());
 
-                float player2X = Math.round(getPlayer().getX());
-                float player2Y = Math.round(getPlayer().getY());
-
                 float bombX = Math.round(bomb.getX());
                 float bombY = Math.round(bomb.getY());
 
                 /// Check if the player has moved away from the bomb
             if(game.isMultiPlayerSelected()){
+                float player2X = Math.round(getPlayer2().getX());
+                float player2Y = Math.round(getPlayer2().getY());
                 if ((playerX != bombX || playerY != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
-                if ((player2X != bombX || player2Y != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
+                else if ((player2X != bombX || player2Y != bombY) && bomb.getBombTimer() > 0.7f && bomb.getBombTimer() < Bomb.BOMB_EXPLOSION_TIME) {
                     bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
                 }
 
@@ -430,7 +444,7 @@ public class GameMap {
                 bomb.setSensor(false); // Disable the sensor, making the bomb a solid hitbox
             }
 
-            
+
                 /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
                 ///to trigger the destroy() method for each of them.
 
@@ -447,6 +461,28 @@ public class GameMap {
                     bomb.setBombActive(false);
                     bomb.destroy();
                     Bomb.decrementActiveBombs();
+                    Bomb.decrementActiveBombsForEnemies();
+                }
+            }
+        }
+
+        for(Bomb bomb : getBombsByEnemy()){
+            if (bomb.isBombActive()) {
+                /// Putting all the nearby objects that are affected by the bomb explosion in the new Hashmap,
+                ///to trigger the destroy() method for each of them.
+                if (bomb.getBombTimer() >= Bomb.BOMB_EXPLOSION_TIME) {
+                    /// Defined explosion radius
+                    MusicTrack.BOMB_EXPLOSION.play();
+                    float explosionRadius = Bomb.getCurrentBombRadius();
+                    int bombX = Math.round(bomb.getX());
+                    int bombY = Math.round(bomb.getY());
+                    /// Creates the explosion animation for each segment of the bomb
+                    ///and destroys the destroyable objects in that segment
+                    List<ExplosionSegment> newSegments = segmentsOfExplosion(bombX, bombY, explosionRadius);
+                    segments.addAll(newSegments);
+                    bomb.setBombActive(false);
+                    bomb.destroy();
+                    Bomb.decrementActiveBombsForEnemies();
                 }
             }
         }
@@ -573,6 +609,10 @@ public class GameMap {
         return bombs;
     }
 
+    public ArrayList<Bomb> getBombsByEnemy() {
+        return bombsByEnemy;
+    }
+
     /**
      *
      * @param x New Bomb's X-coordinate
@@ -585,7 +625,21 @@ public class GameMap {
             Bomb bomb =new Bomb(world,x,y);
             this.bombs.add(bomb);
             Bomb.incrementActiveBombs();
-            }
+        }
+    }
+    /**
+     *
+     * @param x New Bomb's X-coordinate
+     * @param y New Bomb's Y-coordinate
+     */
+    public void plantBombForEnemies(float x, float y) {
+        if (Bomb.getActiveBombsForEnemies() <= 1) {
+            MusicTrack.BOMB_PLANT.play();
+            // Create a new bomb at the specified position
+            Bomb bomb = new Bomb(world,x,y);
+            this.bombsByEnemy.add(bomb);
+            Bomb.incrementActiveBombsForEnemies();
+        }
     }
 
     public ArrayList<ConcurrentBombPowerUp> getConcurrentBombPowerUps() {

@@ -182,6 +182,13 @@ public class GameScreen implements Screen {
                 }
             }
         }
+        if(!map.getBombsByEnemy().isEmpty()) {
+            for(Bomb bomb : map.getBombsByEnemy()){
+                if(bomb!= null){
+                    draw(spriteBatch, bomb);
+                }
+            }
+        }
 
         for(IndestructibleWall indestructibleWall : map.getIndestructibleWalls()){
             if(indestructibleWall != null){

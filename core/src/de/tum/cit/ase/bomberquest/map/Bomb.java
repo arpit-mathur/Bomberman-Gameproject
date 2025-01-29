@@ -22,13 +22,14 @@ public class Bomb implements Drawable {
     /// Initially only one bomb at a time
     private static int maxConcurrentBombs = 1;
 
-
     private static int currentBombRadius = 1;
     /// Initially only one bomb at a time
     private static final int MAX_BOMB_RADIUS = 8;
 
-    private boolean bombActive ;
+    private boolean bombActive;
 
+    /// Active bombs for Enemies -
+    private static int activeBombsForEnemies = 0;
 
 
     /**
@@ -123,7 +124,23 @@ public class Bomb implements Drawable {
     }
     public static void setActiveBombs(int n) {
         activeBombs = n;
+        setActiveBombsForEnemies(n);
     }
+
+    public static void incrementActiveBombsForEnemies() {
+        activeBombsForEnemies++;
+    }
+    public static void decrementActiveBombsForEnemies() {
+        activeBombsForEnemies--;
+    }
+    public static int getActiveBombsForEnemies() {
+        return activeBombsForEnemies;
+    }
+
+    public static void setActiveBombsForEnemies(int activeBombsForEnemies) {
+        Bomb.activeBombsForEnemies = activeBombsForEnemies;
+    }
+
     public static void setMaxConcurrentBombs(int n) {
         maxConcurrentBombs = n;
     }
