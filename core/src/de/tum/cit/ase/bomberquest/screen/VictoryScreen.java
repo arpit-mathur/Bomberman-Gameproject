@@ -41,6 +41,9 @@ public class VictoryScreen implements Screen{
         message.setFontScale(1.5f);
         table.add(message).padBottom(40).row();
 
+        Label score = new Label("Your Score: " + Hud.getScoreCount(), game.getSkin());
+        score.setFontScale(1.3f);
+        table.add(score).padBottom(40).row();
 
         TextButton resumeButton = new TextButton("One More!", game.getSkin());
         table.add(resumeButton).width(250).row();

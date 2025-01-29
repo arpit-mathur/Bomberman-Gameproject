@@ -43,6 +43,9 @@ public class LostScreen implements Screen{
         message.setFontScale(1.3f);
         table.add(message).padBottom(30).row();
 
+        Label score = new Label("Your Score: " + Hud.getScoreCount(), game.getSkin());
+        score.setFontScale(1.3f);
+        table.add(score).padBottom(40).row();
 
         TextButton comebackButton = new TextButton("Comeback Time!", game.getSkin());
         table.add(comebackButton).width(350).row();

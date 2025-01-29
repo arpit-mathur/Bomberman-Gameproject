@@ -32,7 +32,7 @@ public class Hud {
 
     private float elapsedTime;
 
-    private static final int TOTAL_TIME = 200; // Total time in seconds
+    private static final int TOTAL_TIME = 180; // Total time in seconds
 
     private static int scoreCount;
 
@@ -68,7 +68,10 @@ public class Hud {
             font.draw(spriteBatch, "LEVEL- " + game.getLevel(), Gdx.graphics.getWidth() / 2f - 80, Gdx.graphics.getHeight() - 10);
         }
 
-        font.draw(spriteBatch, "SCORE- " + getScoreCount(), Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 30);
+        if(getScoreCount() >= 1000) {
+            font.setColor(Color.GREEN);
+        }
+            font.draw(spriteBatch, "SCORE- " + getScoreCount(), Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 30);
 
         font.setColor(Color.WHITE);
         font.draw(spriteBatch, "Press Esc to Pause!", 10, 30);
@@ -179,5 +182,8 @@ public class Hud {
 
     public static int getScoreCount(){
         return scoreCount;
+    }
+    public static void addTime(int timeToAdd) {
+        remainingTime += timeToAdd;
     }
 }

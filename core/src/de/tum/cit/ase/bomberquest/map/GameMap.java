@@ -312,11 +312,13 @@ public class GameMap {
 
         checkExit();
 
-
+        /// Logic of Enemies planting bomb with probability of 40% when the player is within certain range
+        /// Each enemy can place bomb only once.
         getEnemies().forEach(enemy -> {
             if(!enemy.isDestroyed() && !enemy.isPlantedBomb()) {
                 Vector2 playerPosition = new Vector2(player.getX(), player.getY());
                 Vector2 enemyPosition = new Vector2(enemy.getX(), enemy.getY());
+                /// Ensures that the probability of this code executing is 40%
                 if(Math.random() < 0.4f) {
                     if (Math.abs(playerPosition.dst(enemyPosition)) <= 3) {
                         plantBombForEnemies(Math.round(enemy.getX()), Math.round(enemy.getY()));
@@ -541,11 +543,11 @@ public class GameMap {
                     }
                 } else if(BomberQuestGame.level == 2){
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                        game.resetHud();
                         MusicTrack.Level_THEME.stop();
                         MusicTrack.Level_THEME2.stop();
                         MusicTrack.Level_THEME3.play();
                         BomberQuestGame.level = 3;
+                        game.getHud().resetTimer();
                         game.level3Map();
 
                     }
@@ -628,7 +630,12 @@ public class GameMap {
         // Destroy enemies
         getEnemies().forEach(enemy -> {
             if (Math.round(enemy.getX()) == x && Math.round(enemy.getY()) == y && !enemy.isDestroyed()) {
-                Hud.addToScore(100);
+                Hud.addToScore(
+                        BomberQuestGame.level == 2 ? 200
+                                : BomberQuestGame.level == 3 ? 400
+                                : 100
+                );
+                Hud.addTime(50);
                 enemy.destroy();
             }
         });
