@@ -239,7 +239,6 @@ public class GameScreen implements Screen {
                 game.goToLostScreen();
 
             } else {
-                ///Idk how I am not getting null pointer after one player dies, but it works, soo
                     draw(spriteBatch, map.getPlayer());
                     draw(spriteBatch, map.getPlayer2());
             }
