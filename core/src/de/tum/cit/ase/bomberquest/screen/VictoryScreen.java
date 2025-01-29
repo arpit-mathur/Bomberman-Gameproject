@@ -77,7 +77,7 @@ public class VictoryScreen implements Screen{
                 } else if (game.isPersonalMapSelected()) {
                     game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
-                } else if(game.isMulitLevelMadness()){
+                } else if(game.isMultiLevelMadness()){
                     game.multiLevelMaps();
                 } else {
                     game.loadDefaultMap();

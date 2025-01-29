@@ -592,7 +592,7 @@ public class GameMap {
                     game.loadDefaultMap();
 
                 }
-            } else if (game.isMulitLevelMadness()) {
+            } else if (game.isMultiLevelMadness()) {
                 if(BomberQuestGame.level == 1){
                     if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
                         MusicTrack.Level_THEME.stop();

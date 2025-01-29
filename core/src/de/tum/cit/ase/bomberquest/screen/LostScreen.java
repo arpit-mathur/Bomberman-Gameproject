@@ -79,7 +79,7 @@ public class LostScreen implements Screen{
                 } else if (game.isPersonalMapSelected()) {
                   game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
-                } else if(game.isMulitLevelMadness()){
+                } else if(game.isMultiLevelMadness()){
                     game.multiLevelMaps();
                 } else {
                     game.loadDefaultMap();
@@ -146,7 +146,7 @@ public class LostScreen implements Screen{
         } else if (game.isPersonalMapSelected()) {
             game.loadTheSelectedMapAgain(game.getCoordinatesAndObjects());
 
-        } else if(game.isMulitLevelMadness()){
+        } else if(game.isMultiLevelMadness()){
             game.multiLevelMaps();
         } else {
             game.loadDefaultMap();

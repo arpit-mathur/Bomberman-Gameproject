@@ -15,8 +15,6 @@ import games.spooky.gdx.nativefilechooser.NativeFileChooser;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserCallback;
 import games.spooky.gdx.nativefilechooser.NativeFileChooserConfiguration;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.HashMap;
 
 /**
@@ -40,7 +38,7 @@ public class BomberQuestGame extends Game {
 
    private boolean isPersonalMapSelected = false;
 
-    private boolean isMulitLevelMadness = false;
+    private boolean isMultiLevelMadness = false;
 
     public static int level;
     /**
@@ -92,10 +90,6 @@ public class BomberQuestGame extends Game {
 
         this.isMultiPlayerSelected = true;
 
-//        // Load default map from "map-1.properties"
-//        loadDefaultMap();
-
-        // Navigate to the menu screen
         goToMenu();
     }
 
@@ -129,9 +123,13 @@ public class BomberQuestGame extends Game {
 
     }
 
+    /**
+     * This method will load the second Map, and then if you win this level, you might go on to the second one,
+     * which is the first given map.
+     */
+
     public void loadChallenge() {
 
-        /// By the same logic as in doYourMagic()
         isMultiLevelSelected = true;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = false;
@@ -156,13 +154,13 @@ public class BomberQuestGame extends Game {
         this.setScreen(new GameScreen(this));
     }
 
+    /**
+     * this method will load the first Map of Multilevel Madness.
+     */
     public void multiLevelMaps(){
 
-
-        /// By the same logic as in doYourMagic()
         isMultiLevelSelected = false;
-        isMulitLevelMadness = true;
-//            coordinatesAndObjects.clear();
+        isMultiLevelMadness = true;
         isMultiPlayerSelected = false;
         this.level = 1;
         FileHandle defaultMapFile = Gdx.files.internal("maps/map_G.properties");
@@ -185,10 +183,12 @@ public class BomberQuestGame extends Game {
         this.setScreen(new GameScreen(this));
     }
 
+    /**
+     * This Method will load the level 2 blue, Map, in the MultilevelMadness.
+     */
     public void level2Map(){
 
-        /// By the same logic as in doYourMagic()
-        isMulitLevelMadness = true;
+        isMultiLevelMadness = true;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = false;
         this.level = 2;
@@ -212,10 +212,12 @@ public class BomberQuestGame extends Game {
         this.setScreen(new GameScreen(this));
     }
 
+    /**
+     * This Method will load the level3 Map in the Multilevel madness. The final Map.
+     */
     public void level3Map(){
 
-        /// By the same logic as in doYourMagic()
-        isMulitLevelMadness = true;
+        isMultiLevelMadness = true;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = false;
         this.level = 3;
@@ -241,11 +243,10 @@ public class BomberQuestGame extends Game {
 
     public void loadMultiplayer() {
 
-        /// By the same logic as in doYourMagic()
         isMultiLevelSelected = false;
         coordinatesAndObjects.clear();
         isMultiPlayerSelected = true;
-        isMulitLevelMadness = false;
+        isMultiLevelMadness = false;
         FileHandle defaultMapFile = Gdx.files.internal("maps/map-1.properties");
         String mapContent = defaultMapFile.readString();
         String[] linesOfText = mapContent.split("\n");
@@ -505,12 +506,12 @@ public class BomberQuestGame extends Game {
     public void setMap(GameMap map) {
         this.map = map;
     }
-    public boolean isMulitLevelMadness() {
-        return isMulitLevelMadness;
+    public boolean isMultiLevelMadness() {
+        return isMultiLevelMadness;
     }
 
-    public void setMulitLevelMadness(boolean mulitLevelMadness) {
-        isMulitLevelMadness = mulitLevelMadness;
+    public void setMultiLevelMadness(boolean multiLevelMadness) {
+        isMultiLevelMadness = multiLevelMadness;
     }
 
     public int getLevel() {
