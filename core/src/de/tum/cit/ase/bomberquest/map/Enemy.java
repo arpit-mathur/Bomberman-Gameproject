@@ -80,7 +80,7 @@ public class Enemy implements Drawable {
         this.elapsedTime += frameTime;
 
         float speed = BomberQuestGame.level==2 ? 2.7f
-                : BomberQuestGame.level==3 ? 3.2f
+                : BomberQuestGame.level==3 ? 3f
                 :2.3f;
         if (Math.round(x) == Math.round(this.getX()) && Math.round(y) == Math.round(this.getY())) {
             xVelocity = 0;

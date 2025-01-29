@@ -28,7 +28,7 @@ public class Player implements Drawable {
 
     protected TextureRegion facing;
 
-    protected float playerSpeed = 3.2f;
+    protected float playerSpeed = 3.5f;
 
     public Player(World world, float x, float y) {
         this.hitbox = createHitbox(world, x, y);
