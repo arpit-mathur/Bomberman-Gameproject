@@ -461,7 +461,6 @@ public class GameMap {
                     bomb.setBombActive(false);
                     bomb.destroy();
                     Bomb.decrementActiveBombs();
-                    Bomb.decrementActiveBombsForEnemies();
                 }
             }
         }
