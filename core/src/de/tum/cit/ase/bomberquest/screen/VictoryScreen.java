@@ -36,12 +36,12 @@ public class VictoryScreen implements Screen{
         stage.addActor(table); // Add the table to the stage
 
         table.add(new Label("You WON :)", game.getSkin(), "title")).padBottom(80).row();
-        if(Hud.getScoreCount() > 4000) {
+        if(Hud.getScoreCount() >= 4000) {
             Label message = new Label("YOU’RE OFFICIALLY IN THE RECORD BOOKS!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();
         }
-        else if(Hud.getScoreCount() > 2000){
+        else if(Hud.getScoreCount() >= 2000){
             Label message = new Label("I Think You are the Chosen One!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();

@@ -68,7 +68,7 @@ public class MenuScreen implements Screen {
             }
         });
 
-        TextButton loadAChallenge = new TextButton("Challenge", game.getSkin());
+        TextButton loadAChallenge = new TextButton("Quick-Challenge", game.getSkin());
         table.add(loadAChallenge).width(470).row();
         loadAChallenge.addListener(new ChangeListener() {
             @Override

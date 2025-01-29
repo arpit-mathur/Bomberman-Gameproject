@@ -32,7 +32,7 @@ public class Hud {
 
     private float elapsedTime;
 
-    private static final int TOTAL_TIME = 180; // Total time in seconds
+    private static final int TOTAL_TIME = 150; // Total time in seconds
 
     private static int scoreCount;
 
@@ -42,7 +42,7 @@ public class Hud {
         this.camera = new OrthographicCamera();
         this.game = game;
         this.enemyClearSoundPlayed = false;
-        this.elapsedTime =0;
+        this.elapsedTime = 0;
         timerPaused = false;
         scoreCount = 0;
     }
@@ -68,13 +68,15 @@ public class Hud {
             font.draw(spriteBatch, "LEVEL- " + game.getLevel(), Gdx.graphics.getWidth() / 2f - 80, Gdx.graphics.getHeight() - 10);
         }
 
-        if(getScoreCount() >= 1000) {
+        if(getScoreCount() >= 4000) {
+            font.setColor(Color.RED);
+        }else if(getScoreCount() >= 2000){
             font.setColor(Color.GREEN);
         }
-            font.draw(spriteBatch, "SCORE- " + getScoreCount(), Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 30);
+        font.draw(spriteBatch, "SCORE- " + getScoreCount(), Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 30);
 
         font.setColor(Color.WHITE);
-        font.draw(spriteBatch, "Press Esc to Pause!", 10, 30);
+        font.draw(spriteBatch, "Press Esc to Pause!", 20, 30);
 
         /// Bomb Radius
         if (Bomb.getCurrentBombRadius() == 8) {
@@ -82,7 +84,7 @@ public class Hud {
         } else {
             font.setColor(Color.YELLOW);
         }
-        font.draw(spriteBatch, "Bomb Blast Radius: "+ Bomb.getCurrentBombRadius(), 10, Gdx.graphics.getHeight() - 10);
+        font.draw(spriteBatch, "Bomb Blast Radius: "+ Bomb.getCurrentBombRadius(), 20, Gdx.graphics.getHeight() - 10);
 
         /// Concurrent Bombs
         if (Bomb.getMaxConcurrentBombs() == 8) {
@@ -90,7 +92,7 @@ public class Hud {
         } else {
             font.setColor(Color.YELLOW);
         }
-        font.draw(spriteBatch, "Max Concurrent Bombs: "+ Bomb.getMaxConcurrentBombs(),10, Gdx.graphics.getHeight() - 45);
+        font.draw(spriteBatch, "Max Concurrent Bombs: "+ Bomb.getMaxConcurrentBombs(),20, Gdx.graphics.getHeight() - 45);
 
         /// Remaining Enemies
         if (game.getMap().getRemainingEnemies() == 0) {
@@ -98,7 +100,7 @@ public class Hud {
         } else {
             font.setColor(Color.YELLOW);
         }
-        font.draw(spriteBatch, "Remaining Enemies: "+ game.getMap().getRemainingEnemies(),10, Gdx.graphics.getHeight() - 80);
+        font.draw(spriteBatch, "Remaining Enemies: "+ game.getMap().getRemainingEnemies(),20, Gdx.graphics.getHeight() - 80);
 
         ///Player Speed
         if (game.getMap().getPlayer().getPlayerSpeed() == 5.0f) {
@@ -106,7 +108,7 @@ public class Hud {
         } else {
             font.setColor(Color.YELLOW);
         }
-        font.draw(spriteBatch, "Current Speed: "+ game.getMap().getPlayer().getPlayerSpeed(),10, Gdx.graphics.getHeight() - 115);
+        font.draw(spriteBatch, "Current Speed: "+ game.getMap().getPlayer().getPlayerSpeed(),20, Gdx.graphics.getHeight() - 115);
 
         if(game.getMap().getRemainingEnemies()==0 && !isEnemyClearSoundPlayed()){
             MusicTrack.ENEMIES_CLEAR.play();
@@ -183,7 +185,9 @@ public class Hud {
     public static int getScoreCount(){
         return scoreCount;
     }
-    public static void addTime(int timeToAdd) {
-        remainingTime += timeToAdd;
+
+    public void addTime(int secondsToAdd) {
+        this.elapsedTime -= secondsToAdd; // Decrease elapsed time to add more time
+        if (this.elapsedTime < 0) this.elapsedTime = 0; // Prevent negative elapsed time
     }
 }

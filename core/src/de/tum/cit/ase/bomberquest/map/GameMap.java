@@ -519,10 +519,9 @@ public class GameMap {
 
         float player_X1 = Math.round(getPlayer().getX());
         float player_Y1 = Math.round(getPlayer().getY());
-        if(getRemainingEnemies() > 0) {
+        if(getRemainingEnemies() == 0) {
             if (game.isMultiLevelSelected()) {
                 if (getExit().getX() == player_X1 && getExit().getY() == player_Y1) {
-                    Hud.setTimerPaused(true);
                     MusicTrack.Level_THEME.stop();
                     MusicTrack.Level_THEME2.stop();
                     MusicTrack.ENEMIES_CLEAR.play();
@@ -635,7 +634,9 @@ public class GameMap {
                                 : BomberQuestGame.level == 3 ? 400
                                 : 100
                 );
-                Hud.addTime(50);
+                game.getHud().addTime(BomberQuestGame.level == 2 ? 7
+                        : BomberQuestGame.level == 3 ? 10
+                        : 4);
                 enemy.destroy();
             }
         });
