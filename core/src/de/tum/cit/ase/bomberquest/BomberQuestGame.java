@@ -270,7 +270,6 @@ public class BomberQuestGame extends Game {
     public void loadTheSelectedMapAgain(HashMap<String, String> coordinatesAndObjects){
 
             isMultiLevelSelected = false;
-//            this.coordinatesAndObjects.clear();
             isMultiPlayerSelected = false;
             // Initialize the GameMap object with default map
             this.map = new GameMap(this, coordinatesAndObjects);
