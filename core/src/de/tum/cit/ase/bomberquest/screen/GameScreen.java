@@ -223,7 +223,7 @@ public class GameScreen implements Screen {
                 float bombY = Math.round(map.getPlayer().getY());
                 map.plantBomb(bombX,bombY);
 
-            } else if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
+            } else if(Gdx.input.isKeyJustPressed(Input.Keys.X) && !map.getPlayer2().isDead() && Bomb.getActiveBombs() < Bomb.getMaxConcurrentBombs()){
                 float bombX = Math.round(map.getPlayer2().getX());
                 float bombY = Math.round(map.getPlayer2().getY());
                 map.plantBomb(bombX,bombY);

@@ -53,7 +53,7 @@ public class LostScreen implements Screen{
         score.setFontScale(1.3f);
         table.add(score).padBottom(40).row();
 
-        if(Hud.getScoreCount() > 2000) {
+      if(Hud.getScoreCount() > 2000) {
             Label message = new Label("You Were So Close, Just One More Bomb!", game.getSkin());
             message.setFontScale(1.5f);
             table.add(message).padBottom(40).row();
@@ -185,7 +185,7 @@ public class LostScreen implements Screen{
      */
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true); // Update the stage viewport on resize
     }
 
     @Override

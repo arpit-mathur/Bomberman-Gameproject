@@ -100,7 +100,7 @@ public class PauseScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true); // Update the stage viewport on resize
     }
 
     @Override

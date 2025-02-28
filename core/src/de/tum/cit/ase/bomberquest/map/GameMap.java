@@ -147,7 +147,7 @@ public class GameMap {
                     case "1" -> this.destructibleWalls.add(new DestructibleWall(world, x, y));
                     case "2" -> {
                         if(game.isMultiPlayerSelected()){
-                            this.player = new Player(world, x, y+1);
+                            this.player = new Player(world, x, y);
                             this.player2 = new Player2(world, x, y-1);
                         } else {
                             this.player = new Player(world, x, y);
@@ -204,7 +204,7 @@ public class GameMap {
             for(int i = 0; i < destructibleWalls.size(); i++){
                 Random random1 = new Random();
                 int wall3 = random1.nextInt(destructibleWalls.size());
-                float floatIndex = i + 17 * wall3/3;
+                float floatIndex = i + 17 * wall3/3f;
 
                 int indexOfWall = Math.round(floatIndex);
 
@@ -219,7 +219,7 @@ public class GameMap {
                 for(int i = 0; i < destructibleWalls.size(); i++){
                     Random random1 = new Random();
                     int number = random1.nextInt(destructibleWalls.size());
-                    float floatIndex = i + 19 * number/5 ;
+                    float floatIndex = i + 19 * number/5f ;
 
                     int indexOfWall = Math.round(floatIndex);
                     if(indexOfWall < destructibleWalls.size() && indexOfWall >= 0){
@@ -234,7 +234,7 @@ public class GameMap {
                 for(int i = 0; i < destructibleWalls.size(); i++){
                     Random random1 = new Random();
                     int number = random1.nextInt(destructibleWalls.size());
-                    float floatIndex = i + 17* number/2 ;
+                    float floatIndex = i + 17* number/2f ;
 
                     int indexOfWall = Math.round(floatIndex);
 
@@ -250,7 +250,7 @@ public class GameMap {
                 for(int i = 0; i < destructibleWalls.size(); i++){
                     Random random1 = new Random();
                     int number = random1.nextInt(destructibleWalls.size());
-                    float floatIndex = i + 16 * number/2 ;
+                    float floatIndex = i + 16 * number/2f ;
 
                     int indexOfWall = Math.round(floatIndex);
 
@@ -722,8 +722,9 @@ public class GameMap {
         if(game.isMultiPlayerSelected()){
             if (Math.round(getPlayer().getX()) == x && Math.round(getPlayer().getY()) == y && !getPlayer().isDead()) {
                 getPlayer().setDead(true);
-
+                getPlayer2().setDead(true);
             } else if((Math.round(getPlayer2().getX()) == x && Math.round(getPlayer2().getY()) == y && !getPlayer2().isDead())) {
+                getPlayer().setDead(true);
                 getPlayer2().setDead(true);
             }
         } else{
